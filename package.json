@@ -1,5 +1,5 @@
 {
-  "name": "@swimlane/ngx-datatable",
+  "name": "lvaskys/ngx-datatable",
   "version": "4.1.0",
   "description": "ngx-datatable is a Angular2+ table grid component for presenting large and complex data.",
   "main": "release/index.js",
@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/swimlane/ngx-datatable.git"
+    "url": "git+https://github.com/lvaskys/ngx-datatable.git"
   },
   "keywords": [
     "angularjs",
