@@ -4,7 +4,7 @@
  * @return {int} width
  */
 export function getScrollBarWidth() {
-  let outer = document.createElement('div');
+  /*let outer = document.createElement('div');
   outer.style.visibility = 'hidden';
   outer.style.width = '100px';
   outer.style.msOverflowStyle = 'scrollbar';
@@ -20,7 +20,8 @@ export function getScrollBarWidth() {
   let widthWithScroll = inner.offsetWidth;
   outer.parentNode.removeChild(outer);
 
-  return widthNoScroll - widthWithScroll;
+  return widthNoScroll - widthWithScroll;*/
+  return 0;
 };
 
 export const scrollbarWidth = getScrollBarWidth();
