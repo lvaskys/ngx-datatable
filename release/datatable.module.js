@@ -1,6 +1,7 @@
 "use strict";
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
+//import { UniversalModule } from 'angular2-universal';
 var components_1 = require('./components');
 var directives_1 = require('./directives');
 var NgxDatatableModule = (function () {
@@ -9,7 +10,7 @@ var NgxDatatableModule = (function () {
     NgxDatatableModule.decorators = [
         { type: core_1.NgModule, args: [{
                     imports: [
-                        common_1.CommonModule
+                        common_1.CommonModule //,
                     ],
                     declarations: [
                         directives_1.VisibilityDirective,

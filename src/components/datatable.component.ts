@@ -11,6 +11,7 @@ import { DataTableBodyComponent } from './body';
 import { DataTableColumnDirective } from './columns';
 import { DatatableRowDetailDirective } from './row-detail';
 import { scrollbarWidth, setColumnDefaults, throttleable, translateTemplates } from '../utils';
+import { isBrowser, isNode } from 'angular2-universal';
 
 
 import { global } from '@angular/core/src/facade/lang';
@@ -826,16 +827,18 @@ export class DatatableComponent implements OnInit, AfterViewInit, DoCheck {
    * @memberOf DatatableComponent
    */
   recalculateDims(): void {
-    let { height, width } = this.element.getBoundingClientRect();
-    this.innerWidth = Math.floor(width);
+	if(isBrowser) {
+		let { height, width } = this.element.getBoundingClientRect();
+		this.innerWidth = Math.floor(width);
 
-    if (this.scrollbarV) {
-      if (this.headerHeight) height = height - this.headerHeight;
-      if (this.footerHeight) height = height - this.footerHeight;
-      this.bodyHeight = height;
-    }
+		if (this.scrollbarV) {
+		  if (this.headerHeight) height = height - this.headerHeight;
+		  if (this.footerHeight) height = height - this.footerHeight;
+		  this.bodyHeight = height;
+		}
 
-    this.recalculatePages();
+		this.recalculatePages();
+	}
   }
 
   /**

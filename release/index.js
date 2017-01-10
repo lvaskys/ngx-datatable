@@ -5,14 +5,14 @@
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("@angular/core"), require("rxjs/Rx"), require("@angular/common"));
+		module.exports = factory(require("@angular/core"), require("@angular/platform-browser"), require("rxjs/Rx"), require("@angular/common"), require("@angular/platform-browser-dynamic"));
 	else if(typeof define === 'function' && define.amd)
-		define("angular2-data-table", ["@angular/core", "rxjs/Rx", "@angular/common"], factory);
+		define("angular2-data-table", ["@angular/core", "@angular/platform-browser", "rxjs/Rx", "@angular/common", "@angular/platform-browser-dynamic"], factory);
 	else if(typeof exports === 'object')
-		exports["angular2-data-table"] = factory(require("@angular/core"), require("rxjs/Rx"), require("@angular/common"));
+		exports["angular2-data-table"] = factory(require("@angular/core"), require("@angular/platform-browser"), require("rxjs/Rx"), require("@angular/common"), require("@angular/platform-browser-dynamic"));
 	else
-		root["angular2-data-table"] = factory(root["@angular/core"], root["rxjs/Rx"], root["@angular/common"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__) {
+		root["angular2-data-table"] = factory(root["@angular/core"], root["@angular/platform-browser"], root["rxjs/Rx"], root["@angular/common"], root["@angular/platform-browser-dynamic"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_0__, __WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -312,6 +312,4066 @@ function escapeRegExp(s) {
 }
 //# sourceMappingURL=lang.js.map
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/index.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseContentType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_index__ = __webpack_require__("./node_modules/@angular/http/src/index.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "BrowserXhr", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "JSONPBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "JSONPConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "CookieXSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["e"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "XHRBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["f"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "XHRConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["g"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "BaseRequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["h"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "RequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["i"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "BaseResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["j"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["k"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "ReadyState", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["l"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "RequestMethod", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["m"]; });
+Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["n"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Headers", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["o"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Http", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["p"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Jsonp", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["q"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "HttpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["r"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "JsonpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["s"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Connection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["t"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "ConnectionBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["u"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "XSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["v"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Request", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["w"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "Response", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["x"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "QueryEncoder", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["y"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "URLSearchParams", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["z"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "VERSION", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["A"]; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * @module
+ * @description
+ * Entry point for all public APIs of the http package.
+ */
+
+//# sourceMappingURL=index.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/backends/browser_jsonp.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* unused harmony export JSONP_HOME */
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BrowserJsonp; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+var /** @type {?} */ _nextRequestId = 0;
+var /** @type {?} */ JSONP_HOME = '__ng_jsonp__';
+var /** @type {?} */ _jsonpConnections = null;
+/**
+ * @return {?}
+ */
+function _getJsonpConnections() {
+    var /** @type {?} */ w = typeof window == 'object' ? window : {};
+    if (_jsonpConnections === null) {
+        _jsonpConnections = w[JSONP_HOME] = {};
+    }
+    return _jsonpConnections;
+}
+// Make sure not to evaluate this in a non-browser environment!
+var BrowserJsonp = (function () {
+    function BrowserJsonp() {
+    }
+    /**
+     * @param {?} url
+     * @return {?}
+     */
+    BrowserJsonp.prototype.build = function (url) {
+        var /** @type {?} */ node = document.createElement('script');
+        node.src = url;
+        return node;
+    };
+    /**
+     * @return {?}
+     */
+    BrowserJsonp.prototype.nextRequestID = function () { return "__req" + _nextRequestId++; };
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    BrowserJsonp.prototype.requestCallback = function (id) { return JSONP_HOME + "." + id + ".finished"; };
+    /**
+     * @param {?} id
+     * @param {?} connection
+     * @return {?}
+     */
+    BrowserJsonp.prototype.exposeConnection = function (id, connection) {
+        var /** @type {?} */ connections = _getJsonpConnections();
+        connections[id] = connection;
+    };
+    /**
+     * @param {?} id
+     * @return {?}
+     */
+    BrowserJsonp.prototype.removeConnection = function (id) {
+        var /** @type {?} */ connections = _getJsonpConnections();
+        connections[id] = null;
+    };
+    /**
+     * @param {?} node
+     * @return {?}
+     */
+    BrowserJsonp.prototype.send = function (node) { document.body.appendChild(/** @type {?} */ ((node))); };
+    /**
+     * @param {?} node
+     * @return {?}
+     */
+    BrowserJsonp.prototype.cleanup = function (node) {
+        if (node.parentNode) {
+            node.parentNode.removeChild(/** @type {?} */ ((node)));
+        }
+    };
+    BrowserJsonp.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    BrowserJsonp.ctorParameters = function () { return []; };
+    return BrowserJsonp;
+}());
+function BrowserJsonp_tsickle_Closure_declarations() {
+    /** @type {?} */
+    BrowserJsonp.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    BrowserJsonp.ctorParameters;
+}
+//# sourceMappingURL=browser_jsonp.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/backends/browser_xhr.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BrowserXhr; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ *  A backend for http that uses the `XMLHttpRequest` browser API.
+  * *
+  * Take care not to evaluate this in non-browser contexts.
+  * *
+ */
+var BrowserXhr = (function () {
+    function BrowserXhr() {
+    }
+    /**
+     * @return {?}
+     */
+    BrowserXhr.prototype.build = function () { return ((new XMLHttpRequest())); };
+    BrowserXhr.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    BrowserXhr.ctorParameters = function () { return []; };
+    return BrowserXhr;
+}());
+function BrowserXhr_tsickle_Closure_declarations() {
+    /** @type {?} */
+    BrowserXhr.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    BrowserXhr.ctorParameters;
+}
+//# sourceMappingURL=browser_xhr.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/backends/jsonp_backend.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__browser_jsonp__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_jsonp.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return JSONPConnection; });
+/* unused harmony export JSONPConnection_ */
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return JSONPBackend; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return JSONPBackend_; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+
+
+
+
+
+var /** @type {?} */ JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
+var /** @type {?} */ JSONP_ERR_WRONG_METHOD = 'JSONP requests must use GET request method.';
+/**
+ *  Abstract base class for an in-flight JSONP request.
+  * *
+ * @abstract
+ */
+var JSONPConnection = (function () {
+    function JSONPConnection() {
+    }
+    /**
+     *  Callback called when the JSONP request completes, to notify the application
+      * of the new data.
+     * @abstract
+     * @param {?=} data
+     * @return {?}
+     */
+    JSONPConnection.prototype.finished = function (data) { };
+    return JSONPConnection;
+}());
+function JSONPConnection_tsickle_Closure_declarations() {
+    /**
+     * The {@link ReadyState} of this request.
+     * @type {?}
+     */
+    JSONPConnection.prototype.readyState;
+    /**
+     * The outgoing HTTP request.
+     * @type {?}
+     */
+    JSONPConnection.prototype.request;
+    /**
+     * An observable that completes with the response, when the request is finished.
+     * @type {?}
+     */
+    JSONPConnection.prototype.response;
+}
+var JSONPConnection_ = (function (_super) {
+    __extends(JSONPConnection_, _super);
+    /**
+     * @param {?} req
+     * @param {?} _dom
+     * @param {?=} baseResponseOptions
+     */
+    function JSONPConnection_(req, _dom, baseResponseOptions) {
+        var _this = this;
+        _super.call(this);
+        this._dom = _dom;
+        this.baseResponseOptions = baseResponseOptions;
+        this._finished = false;
+        if (req.method !== __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Get) {
+            throw new TypeError(JSONP_ERR_WRONG_METHOD);
+        }
+        this.request = req;
+        this.response = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["Observable"](function (responseObserver) {
+            _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Loading;
+            var id = _this._id = _dom.nextRequestID();
+            _dom.exposeConnection(id, _this);
+            // Workaround Dart
+            // url = url.replace(/=JSONP_CALLBACK(&|$)/, `generated method`);
+            var callback = _dom.requestCallback(_this._id);
+            var url = req.url;
+            if (url.indexOf('=JSONP_CALLBACK&') > -1) {
+                url = url.replace('=JSONP_CALLBACK&', "=" + callback + "&");
+            }
+            else if (url.lastIndexOf('=JSONP_CALLBACK') === url.length - '=JSONP_CALLBACK'.length) {
+                url = url.substring(0, url.length - '=JSONP_CALLBACK'.length) + ("=" + callback);
+            }
+            var script = _this._script = _dom.build(url);
+            var onLoad = function (event) {
+                if (_this.readyState === __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Cancelled)
+                    return;
+                _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Done;
+                _dom.cleanup(script);
+                if (!_this._finished) {
+                    var responseOptions_1 = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: JSONP_ERR_NO_CALLBACK, type: __WEBPACK_IMPORTED_MODULE_3__enums__["d" /* ResponseType */].Error, url: url });
+                    if (baseResponseOptions) {
+                        responseOptions_1 = baseResponseOptions.merge(responseOptions_1);
+                    }
+                    responseObserver.error(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions_1));
+                    return;
+                }
+                var responseOptions = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: _this._responseData, url: url });
+                if (_this.baseResponseOptions) {
+                    responseOptions = _this.baseResponseOptions.merge(responseOptions);
+                }
+                responseObserver.next(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions));
+                responseObserver.complete();
+            };
+            var onError = function (error) {
+                if (_this.readyState === __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Cancelled)
+                    return;
+                _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Done;
+                _dom.cleanup(script);
+                var responseOptions = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: error.message, type: __WEBPACK_IMPORTED_MODULE_3__enums__["d" /* ResponseType */].Error });
+                if (baseResponseOptions) {
+                    responseOptions = baseResponseOptions.merge(responseOptions);
+                }
+                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions));
+            };
+            script.addEventListener('load', onLoad);
+            script.addEventListener('error', onError);
+            _dom.send(script);
+            return function () {
+                _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Cancelled;
+                script.removeEventListener('load', onLoad);
+                script.removeEventListener('error', onError);
+                _this._dom.cleanup(script);
+            };
+        });
+    }
+    /**
+     * @param {?=} data
+     * @return {?}
+     */
+    JSONPConnection_.prototype.finished = function (data) {
+        // Don't leak connections
+        this._finished = true;
+        this._dom.removeConnection(this._id);
+        if (this.readyState === __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Cancelled)
+            return;
+        this._responseData = data;
+    };
+    return JSONPConnection_;
+}(JSONPConnection));
+function JSONPConnection__tsickle_Closure_declarations() {
+    /** @type {?} */
+    JSONPConnection_.prototype._id;
+    /** @type {?} */
+    JSONPConnection_.prototype._script;
+    /** @type {?} */
+    JSONPConnection_.prototype._responseData;
+    /** @type {?} */
+    JSONPConnection_.prototype._finished;
+    /** @type {?} */
+    JSONPConnection_.prototype._dom;
+    /** @type {?} */
+    JSONPConnection_.prototype.baseResponseOptions;
+}
+/**
+ *  A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
+  * *
+ * @abstract
+ */
+var JSONPBackend = (function (_super) {
+    __extends(JSONPBackend, _super);
+    function JSONPBackend() {
+        _super.apply(this, arguments);
+    }
+    return JSONPBackend;
+}(__WEBPACK_IMPORTED_MODULE_4__interfaces__["b" /* ConnectionBackend */]));
+var JSONPBackend_ = (function (_super) {
+    __extends(JSONPBackend_, _super);
+    /**
+     * @param {?} _browserJSONP
+     * @param {?} _baseResponseOptions
+     */
+    function JSONPBackend_(_browserJSONP, _baseResponseOptions) {
+        _super.call(this);
+        this._browserJSONP = _browserJSONP;
+        this._baseResponseOptions = _baseResponseOptions;
+    }
+    /**
+     * @param {?} request
+     * @return {?}
+     */
+    JSONPBackend_.prototype.createConnection = function (request) {
+        return new JSONPConnection_(request, this._browserJSONP, this._baseResponseOptions);
+    };
+    JSONPBackend_.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    JSONPBackend_.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_6__browser_jsonp__["a" /* BrowserJsonp */], },
+        { type: __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */], },
+    ]; };
+    return JSONPBackend_;
+}(JSONPBackend));
+function JSONPBackend__tsickle_Closure_declarations() {
+    /** @type {?} */
+    JSONPBackend_.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    JSONPBackend_.ctorParameters;
+    /** @type {?} */
+    JSONPBackend_.prototype._browserJSONP;
+    /** @type {?} */
+    JSONPBackend_.prototype._baseResponseOptions;
+}
+//# sourceMappingURL=jsonp_backend.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/backends/xhr_backend.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return XHRConnection; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CookieXSRFStrategy; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return XHRBackend; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+
+
+
+
+
+
+
+
+
+var /** @type {?} */ XSSI_PREFIX = /^\)\]\}',?\n/;
+/**
+ *  Creates connections using `XMLHttpRequest`. Given a fully-qualified
+  * request, an `XHRConnection` will immediately create an `XMLHttpRequest` object and send the
+  * request.
+  * *
+  * This class would typically not be created or interacted with directly inside applications, though
+  * the {@link MockConnection} may be interacted with in tests.
+  * *
+ */
+var XHRConnection = (function () {
+    /**
+     * @param {?} req
+     * @param {?} browserXHR
+     * @param {?=} baseResponseOptions
+     */
+    function XHRConnection(req, browserXHR, baseResponseOptions) {
+        var _this = this;
+        this.request = req;
+        this.response = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"](function (responseObserver) {
+            var _xhr = browserXHR.build();
+            _xhr.open(__WEBPACK_IMPORTED_MODULE_4__enums__["b" /* RequestMethod */][req.method].toUpperCase(), req.url);
+            if (req.withCredentials != null) {
+                _xhr.withCredentials = req.withCredentials;
+            }
+            // load event handler
+            var onLoad = function () {
+                // normalize IE9 bug (http://bugs.jquery.com/ticket/1450)
+                var status = _xhr.status === 1223 ? 204 : _xhr.status;
+                var body = null;
+                // HTTP 204 means no content
+                if (status !== 204) {
+                    // responseText is the old-school way of retrieving response (supported by IE8 & 9)
+                    // response/responseType properties were introduced in ResourceLoader Level2 spec
+                    // (supported by IE10)
+                    body = (typeof _xhr.response === 'undefined') ? _xhr.responseText : _xhr.response;
+                    // Implicitly strip a potential XSSI prefix.
+                    if (typeof body === 'string') {
+                        body = body.replace(XSSI_PREFIX, '');
+                    }
+                }
+                // fix status code when it is 0 (0 status is undocumented).
+                // Occurs when accessing file resources or on Android 4.1 stock browser
+                // while retrieving files from application cache.
+                if (status === 0) {
+                    status = body ? 200 : 0;
+                }
+                var headers = __WEBPACK_IMPORTED_MODULE_5__headers__["a" /* Headers */].fromResponseHeaderString(_xhr.getAllResponseHeaders());
+                // IE 9 does not provide the way to get URL of response
+                var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__http_utils__["c" /* getResponseURL */])(_xhr) || req.url;
+                var statusText = _xhr.statusText || 'OK';
+                var responseOptions = new __WEBPACK_IMPORTED_MODULE_3__base_response_options__["b" /* ResponseOptions */]({ body: body, status: status, headers: headers, statusText: statusText, url: url });
+                if (baseResponseOptions != null) {
+                    responseOptions = baseResponseOptions.merge(responseOptions);
+                }
+                var response = new __WEBPACK_IMPORTED_MODULE_8__static_response__["a" /* Response */](responseOptions);
+                response.ok = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__http_utils__["d" /* isSuccess */])(status);
+                if (response.ok) {
+                    responseObserver.next(response);
+                    // TODO(gdi2290): defer complete if array buffer until done
+                    responseObserver.complete();
+                    return;
+                }
+                responseObserver.error(response);
+            };
+            // error event handler
+            var onError = function (err) {
+                var responseOptions = new __WEBPACK_IMPORTED_MODULE_3__base_response_options__["b" /* ResponseOptions */]({
+                    body: err,
+                    type: __WEBPACK_IMPORTED_MODULE_4__enums__["d" /* ResponseType */].Error,
+                    status: _xhr.status,
+                    statusText: _xhr.statusText,
+                });
+                if (baseResponseOptions != null) {
+                    responseOptions = baseResponseOptions.merge(responseOptions);
+                }
+                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_8__static_response__["a" /* Response */](responseOptions));
+            };
+            _this.setDetectedContentType(req, _xhr);
+            if (req.headers == null) {
+                req.headers = new __WEBPACK_IMPORTED_MODULE_5__headers__["a" /* Headers */]();
+            }
+            if (!req.headers.has('Accept')) {
+                req.headers.append('Accept', 'application/json, text/plain, */*');
+            }
+            req.headers.forEach(function (values, name) { return _xhr.setRequestHeader(name, values.join(',')); });
+            // Select the correct buffer type to store the response
+            if (req.responseType != null && _xhr.responseType != null) {
+                switch (req.responseType) {
+                    case __WEBPACK_IMPORTED_MODULE_4__enums__["c" /* ResponseContentType */].ArrayBuffer:
+                        _xhr.responseType = 'arraybuffer';
+                        break;
+                    case __WEBPACK_IMPORTED_MODULE_4__enums__["c" /* ResponseContentType */].Json:
+                        _xhr.responseType = 'json';
+                        break;
+                    case __WEBPACK_IMPORTED_MODULE_4__enums__["c" /* ResponseContentType */].Text:
+                        _xhr.responseType = 'text';
+                        break;
+                    case __WEBPACK_IMPORTED_MODULE_4__enums__["c" /* ResponseContentType */].Blob:
+                        _xhr.responseType = 'blob';
+                        break;
+                    default:
+                        throw new Error('The selected responseType is not supported');
+                }
+            }
+            _xhr.addEventListener('load', onLoad);
+            _xhr.addEventListener('error', onError);
+            _xhr.send(_this.request.getBody());
+            return function () {
+                _xhr.removeEventListener('load', onLoad);
+                _xhr.removeEventListener('error', onError);
+                _xhr.abort();
+            };
+        });
+    }
+    /**
+     * @param {?} req
+     * @param {?} _xhr
+     * @return {?}
+     */
+    XHRConnection.prototype.setDetectedContentType = function (req /** TODO Request */, _xhr /** XMLHttpRequest */) {
+        // Skip if a custom Content-Type header is provided
+        if (req.headers != null && req.headers.get('Content-Type') != null) {
+            return;
+        }
+        // Set the detected content type
+        switch (req.contentType) {
+            case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].NONE:
+                break;
+            case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].JSON:
+                _xhr.setRequestHeader('content-type', 'application/json');
+                break;
+            case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].FORM:
+                _xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                break;
+            case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].TEXT:
+                _xhr.setRequestHeader('content-type', 'text/plain');
+                break;
+            case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].BLOB:
+                var /** @type {?} */ blob = req.blob();
+                if (blob.type) {
+                    _xhr.setRequestHeader('content-type', blob.type);
+                }
+                break;
+        }
+    };
+    return XHRConnection;
+}());
+function XHRConnection_tsickle_Closure_declarations() {
+    /** @type {?} */
+    XHRConnection.prototype.request;
+    /**
+     * Response {@link EventEmitter} which emits a single {@link Response} value on load event of
+     * `XMLHttpRequest`.
+     * @type {?}
+     */
+    XHRConnection.prototype.response;
+    /** @type {?} */
+    XHRConnection.prototype.readyState;
+}
+/**
+ *  `XSRFConfiguration` sets up Cross Site Request Forgery (XSRF) protection for the application
+  * using a cookie. See {@link https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)}
+  * for more information on XSRF.
+  * *
+  * Applications can configure custom cookie and header names by binding an instance of this class
+  * with different `cookieName` and `headerName` values. See the main HTTP documentation for more
+  * details.
+  * *
+ */
+var CookieXSRFStrategy = (function () {
+    /**
+     * @param {?=} _cookieName
+     * @param {?=} _headerName
+     */
+    function CookieXSRFStrategy(_cookieName, _headerName) {
+        if (_cookieName === void 0) { _cookieName = 'XSRF-TOKEN'; }
+        if (_headerName === void 0) { _headerName = 'X-XSRF-TOKEN'; }
+        this._cookieName = _cookieName;
+        this._headerName = _headerName;
+    }
+    /**
+     * @param {?} req
+     * @return {?}
+     */
+    CookieXSRFStrategy.prototype.configureRequest = function (req) {
+        var /** @type {?} */ xsrfToken = __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["__platform_browser_private__"].getDOM().getCookie(this._cookieName);
+        if (xsrfToken) {
+            req.headers.set(this._headerName, xsrfToken);
+        }
+    };
+    return CookieXSRFStrategy;
+}());
+function CookieXSRFStrategy_tsickle_Closure_declarations() {
+    /** @type {?} */
+    CookieXSRFStrategy.prototype._cookieName;
+    /** @type {?} */
+    CookieXSRFStrategy.prototype._headerName;
+}
+/**
+ *  Creates {@link XHRConnection} instances.
+  * *
+  * This class would typically not be used by end users, but could be
+  * overridden if a different backend implementation should be used,
+  * such as in a node backend.
+  * *
+  * ### Example
+  * *
+  * ```
+  * import {Http, MyNodeBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
+  * viewProviders: [
+  * HTTP_PROVIDERS,
+  * {provide: Http, useFactory: (backend, options) => {
+  * return new Http(backend, options);
+  * }, deps: [MyNodeBackend, BaseRequestOptions]}]
+  * })
+  * class MyComponent {
+  * constructor(http:Http) {
+  * http.request('people.json').subscribe(res => this.people = res.json());
+  * }
+  * }
+  * ```
+ */
+var XHRBackend = (function () {
+    /**
+     * @param {?} _browserXHR
+     * @param {?} _baseResponseOptions
+     * @param {?} _xsrfStrategy
+     */
+    function XHRBackend(_browserXHR, _baseResponseOptions, _xsrfStrategy) {
+        this._browserXHR = _browserXHR;
+        this._baseResponseOptions = _baseResponseOptions;
+        this._xsrfStrategy = _xsrfStrategy;
+    }
+    /**
+     * @param {?} request
+     * @return {?}
+     */
+    XHRBackend.prototype.createConnection = function (request) {
+        this._xsrfStrategy.configureRequest(request);
+        return new XHRConnection(request, this._browserXHR, this._baseResponseOptions);
+    };
+    XHRBackend.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    XHRBackend.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_9__browser_xhr__["a" /* BrowserXhr */], },
+        { type: __WEBPACK_IMPORTED_MODULE_3__base_response_options__["b" /* ResponseOptions */], },
+        { type: __WEBPACK_IMPORTED_MODULE_7__interfaces__["c" /* XSRFStrategy */], },
+    ]; };
+    return XHRBackend;
+}());
+function XHRBackend_tsickle_Closure_declarations() {
+    /** @type {?} */
+    XHRBackend.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    XHRBackend.ctorParameters;
+    /** @type {?} */
+    XHRBackend.prototype._browserXHR;
+    /** @type {?} */
+    XHRBackend.prototype._baseResponseOptions;
+    /** @type {?} */
+    XHRBackend.prototype._xsrfStrategy;
+}
+//# sourceMappingURL=xhr_backend.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/base_request_options.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return RequestOptions; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BaseRequestOptions; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+
+
+
+/**
+ *  Creates a request options object to be optionally provided when instantiating a
+  * {@link Request}.
+  * *
+  * This class is based on the `RequestInit` description in the [Fetch
+  * Spec](https://fetch.spec.whatwg.org/#requestinit).
+  * *
+  * All values are null by default. Typical defaults can be found in the {@link BaseRequestOptions}
+  * class, which sub-classes `RequestOptions`.
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
+  * *
+  * ```typescript
+  * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+  * *
+  * var options = new RequestOptions({
+  * method: RequestMethod.Post,
+  * url: 'https://google.com'
+  * });
+  * var req = new Request(options);
+  * console.log('req.method:', RequestMethod[req.method]); // Post
+  * console.log('options.url:', options.url); // https://google.com
+  * ```
+  * *
+ */
+var RequestOptions = (function () {
+    /**
+     * @param {?=} __0
+     */
+    function RequestOptions(_a) {
+        var _b = _a === void 0 ? {} : _a, method = _b.method, headers = _b.headers, body = _b.body, url = _b.url, search = _b.search, withCredentials = _b.withCredentials, responseType = _b.responseType;
+        this.method = method != null ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__http_utils__["b" /* normalizeMethodName */])(method) : null;
+        this.headers = headers != null ? headers : null;
+        this.body = body != null ? body : null;
+        this.url = url != null ? url : null;
+        this.search =
+            search != null ? (typeof search === 'string' ? new __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */](search) : search) : null;
+        this.withCredentials = withCredentials != null ? withCredentials : null;
+        this.responseType = responseType != null ? responseType : null;
+    }
+    /**
+     *  Creates a copy of the `RequestOptions` instance, using the optional input as values to override
+      * existing values. This method will not change the values of the instance on which it is being
+      * called.
+      * *
+      * Note that `headers` and `search` will override existing values completely if present in
+      * the `options` object. If these values should be merged, it should be done prior to calling
+      * `merge` on the `RequestOptions` instance.
+      * *
+      * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
+      * *
+      * ```typescript
+      * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+      * *
+      * var options = new RequestOptions({
+      * method: RequestMethod.Post
+      * });
+      * var req = new Request(options.merge({
+      * url: 'https://google.com'
+      * }));
+      * console.log('req.method:', RequestMethod[req.method]); // Post
+      * console.log('options.url:', options.url); // null
+      * console.log('req.url:', req.url); // https://google.com
+      * ```
+     * @param {?=} options
+     * @return {?}
+     */
+    RequestOptions.prototype.merge = function (options) {
+        return new RequestOptions({
+            method: options && options.method != null ? options.method : this.method,
+            headers: options && options.headers != null ? options.headers : new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */](this.headers),
+            body: options && options.body != null ? options.body : this.body,
+            url: options && options.url != null ? options.url : this.url,
+            search: options && options.search != null ?
+                (typeof options.search === 'string' ? new __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */](options.search) :
+                    options.search.clone()) :
+                this.search,
+            withCredentials: options && options.withCredentials != null ? options.withCredentials :
+                this.withCredentials,
+            responseType: options && options.responseType != null ? options.responseType :
+                this.responseType
+        });
+    };
+    return RequestOptions;
+}());
+function RequestOptions_tsickle_Closure_declarations() {
+    /**
+     * Http method with which to execute a {@link Request}.
+     * Acceptable methods are defined in the {@link RequestMethod} enum.
+     * @type {?}
+     */
+    RequestOptions.prototype.method;
+    /**
+     * {@link Headers} to be attached to a {@link Request}.
+     * @type {?}
+     */
+    RequestOptions.prototype.headers;
+    /**
+     * Body to be used when creating a {@link Request}.
+     * @type {?}
+     */
+    RequestOptions.prototype.body;
+    /**
+     * Url with which to perform a {@link Request}.
+     * @type {?}
+     */
+    RequestOptions.prototype.url;
+    /**
+     * Search parameters to be included in a {@link Request}.
+     * @type {?}
+     */
+    RequestOptions.prototype.search;
+    /**
+     * Enable use credentials for a {@link Request}.
+     * @type {?}
+     */
+    RequestOptions.prototype.withCredentials;
+    /** @type {?} */
+    RequestOptions.prototype.responseType;
+}
+/**
+ *  Subclass of {@link RequestOptions}, with default values.
+  * *
+  * Default values:
+  * * method: {@link RequestMethod RequestMethod.Get}
+  * * headers: empty {@link Headers} object
+  * *
+  * This class could be extended and bound to the {@link RequestOptions} class
+  * when configuring an {@link Injector}, in order to override the default options
+  * used by {@link Http} to create and send {@link Request Requests}.
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
+  * *
+  * ```typescript
+  * import {provide} from '@angular/core';
+  * import {bootstrap} from '@angular/platform-browser/browser';
+  * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
+  * import {App} from './myapp';
+  * *
+  * class MyOptions extends BaseRequestOptions {
+  * search: string = 'coreTeam=true';
+  * }
+  * *
+  * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
+  * ```
+  * *
+  * The options could also be extended when manually creating a {@link Request}
+  * object.
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
+  * *
+  * ```
+  * import {BaseRequestOptions, Request, RequestMethod} from '@angular/http';
+  * *
+  * var options = new BaseRequestOptions();
+  * var req = new Request(options.merge({
+  * method: RequestMethod.Post,
+  * url: 'https://google.com'
+  * }));
+  * console.log('req.method:', RequestMethod[req.method]); // Post
+  * console.log('options.url:', options.url); // null
+  * console.log('req.url:', req.url); // https://google.com
+  * ```
+  * *
+ */
+var BaseRequestOptions = (function (_super) {
+    __extends(BaseRequestOptions, _super);
+    function BaseRequestOptions() {
+        _super.call(this, { method: __WEBPACK_IMPORTED_MODULE_1__enums__["b" /* RequestMethod */].Get, headers: new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */]() });
+    }
+    BaseRequestOptions.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    BaseRequestOptions.ctorParameters = function () { return []; };
+    return BaseRequestOptions;
+}(RequestOptions));
+function BaseRequestOptions_tsickle_Closure_declarations() {
+    /** @type {?} */
+    BaseRequestOptions.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    BaseRequestOptions.ctorParameters;
+}
+//# sourceMappingURL=base_request_options.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/base_response_options.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return ResponseOptions; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BaseResponseOptions; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+
+/**
+ *  Creates a response options object to be optionally provided when instantiating a
+  * {@link Response}.
+  * *
+  * This class is based on the `ResponseInit` description in the [Fetch
+  * Spec](https://fetch.spec.whatwg.org/#responseinit).
+  * *
+  * All values are null by default. Typical defaults can be found in the
+  * {@link BaseResponseOptions} class, which sub-classes `ResponseOptions`.
+  * *
+  * This class may be used in tests to build {@link Response Responses} for
+  * mock responses (see {@link MockBackend}).
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/P9Jkk8e8cz6NVzbcxEsD?p=preview))
+  * *
+  * ```typescript
+  * import {ResponseOptions, Response} from '@angular/http';
+  * *
+  * var options = new ResponseOptions({
+  * body: '{"name":"Jeff"}'
+  * });
+  * var res = new Response(options);
+  * *
+  * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+  * ```
+  * *
+ */
+var ResponseOptions = (function () {
+    /**
+     * @param {?=} __0
+     */
+    function ResponseOptions(_a) {
+        var _b = _a === void 0 ? {} : _a, body = _b.body, status = _b.status, headers = _b.headers, statusText = _b.statusText, type = _b.type, url = _b.url;
+        this.body = body != null ? body : null;
+        this.status = status != null ? status : null;
+        this.headers = headers != null ? headers : null;
+        this.statusText = statusText != null ? statusText : null;
+        this.type = type != null ? type : null;
+        this.url = url != null ? url : null;
+    }
+    /**
+     *  Creates a copy of the `ResponseOptions` instance, using the optional input as values to
+      * override
+      * existing values. This method will not change the values of the instance on which it is being
+      * called.
+      * *
+      * This may be useful when sharing a base `ResponseOptions` object inside tests,
+      * where certain properties may change from test to test.
+      * *
+      * ### Example ([live demo](http://plnkr.co/edit/1lXquqFfgduTFBWjNoRE?p=preview))
+      * *
+      * ```typescript
+      * import {ResponseOptions, Response} from '@angular/http';
+      * *
+      * var options = new ResponseOptions({
+      * body: {name: 'Jeff'}
+      * });
+      * var res = new Response(options.merge({
+      * url: 'https://google.com'
+      * }));
+      * console.log('options.url:', options.url); // null
+      * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+      * console.log('res.url:', res.url); // https://google.com
+      * ```
+     * @param {?=} options
+     * @return {?}
+     */
+    ResponseOptions.prototype.merge = function (options) {
+        return new ResponseOptions({
+            body: options && options.body != null ? options.body : this.body,
+            status: options && options.status != null ? options.status : this.status,
+            headers: options && options.headers != null ? options.headers : this.headers,
+            statusText: options && options.statusText != null ? options.statusText : this.statusText,
+            type: options && options.type != null ? options.type : this.type,
+            url: options && options.url != null ? options.url : this.url,
+        });
+    };
+    return ResponseOptions;
+}());
+function ResponseOptions_tsickle_Closure_declarations() {
+    /**
+     * String, Object, ArrayBuffer or Blob representing the body of the {@link Response}.
+     * @type {?}
+     */
+    ResponseOptions.prototype.body;
+    /**
+     * Http {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html status code}
+     * associated with the response.
+     * @type {?}
+     */
+    ResponseOptions.prototype.status;
+    /**
+     * Response {@link Headers headers}
+     * @type {?}
+     */
+    ResponseOptions.prototype.headers;
+    /** @type {?} */
+    ResponseOptions.prototype.statusText;
+    /** @type {?} */
+    ResponseOptions.prototype.type;
+    /** @type {?} */
+    ResponseOptions.prototype.url;
+}
+/**
+ *  Subclass of {@link ResponseOptions}, with default values.
+  * *
+  * Default values:
+  * * status: 200
+  * * headers: empty {@link Headers} object
+  * *
+  * This class could be extended and bound to the {@link ResponseOptions} class
+  * when configuring an {@link Injector}, in order to override the default options
+  * used by {@link Http} to create {@link Response Responses}.
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/qv8DLT?p=preview))
+  * *
+  * ```typescript
+  * import {provide} from '@angular/core';
+  * import {bootstrap} from '@angular/platform-browser/browser';
+  * import {HTTP_PROVIDERS, Headers, Http, BaseResponseOptions, ResponseOptions} from
+  * '@angular/http';
+  * import {App} from './myapp';
+  * *
+  * class MyOptions extends BaseResponseOptions {
+  * headers:Headers = new Headers({network: 'github'});
+  * }
+  * *
+  * bootstrap(App, [HTTP_PROVIDERS, {provide: ResponseOptions, useClass: MyOptions}]);
+  * ```
+  * *
+  * The options could also be extended when manually creating a {@link Response}
+  * object.
+  * *
+  * ### Example ([live demo](http://plnkr.co/edit/VngosOWiaExEtbstDoix?p=preview))
+  * *
+  * ```
+  * import {BaseResponseOptions, Response} from '@angular/http';
+  * *
+  * var options = new BaseResponseOptions();
+  * var res = new Response(options.merge({
+  * body: 'Angular',
+  * headers: new Headers({framework: 'angular'})
+  * }));
+  * console.log('res.headers.get("framework"):', res.headers.get('framework')); // angular
+  * console.log('res.text():', res.text()); // Angular;
+  * ```
+  * *
+ */
+var BaseResponseOptions = (function (_super) {
+    __extends(BaseResponseOptions, _super);
+    function BaseResponseOptions() {
+        _super.call(this, { status: 200, statusText: 'Ok', type: __WEBPACK_IMPORTED_MODULE_1__enums__["d" /* ResponseType */].Default, headers: new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */]() });
+    }
+    BaseResponseOptions.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    BaseResponseOptions.ctorParameters = function () { return []; };
+    return BaseResponseOptions;
+}(ResponseOptions));
+function BaseResponseOptions_tsickle_Closure_declarations() {
+    /** @type {?} */
+    BaseResponseOptions.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    BaseResponseOptions.ctorParameters;
+}
+//# sourceMappingURL=base_response_options.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/body.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Body; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+
+/**
+ *  HTTP request body used by both {@link Request} and {@link Response}
+  * https://fetch.spec.whatwg.org/#body
+ * @abstract
+ */
+var Body = (function () {
+    function Body() {
+    }
+    /**
+     *  Attempts to return body as parsed `JSON` object, or raises an exception.
+     * @return {?}
+     */
+    Body.prototype.json = function () {
+        if (typeof this._body === 'string') {
+            return JSON.parse(/** @type {?} */ (this._body));
+        }
+        if (this._body instanceof ArrayBuffer) {
+            return JSON.parse(this.text());
+        }
+        return this._body;
+    };
+    /**
+     *  Returns the body as a string, presuming `toString()` can be called on the response body.
+     * @return {?}
+     */
+    Body.prototype.text = function () {
+        if (this._body instanceof __WEBPACK_IMPORTED_MODULE_1__url_search_params__["b" /* URLSearchParams */]) {
+            return this._body.toString();
+        }
+        if (this._body instanceof ArrayBuffer) {
+            return String.fromCharCode.apply(null, new Uint16Array(/** @type {?} */ (this._body)));
+        }
+        if (this._body == null) {
+            return '';
+        }
+        if (typeof this._body === 'object') {
+            return JSON.stringify(this._body, null, 2);
+        }
+        return this._body.toString();
+    };
+    /**
+     *  Return the body as an ArrayBuffer
+     * @return {?}
+     */
+    Body.prototype.arrayBuffer = function () {
+        if (this._body instanceof ArrayBuffer) {
+            return (this._body);
+        }
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__http_utils__["a" /* stringToArrayBuffer */])(this.text());
+    };
+    /**
+     *  Returns the request's body as a Blob, assuming that body exists.
+     * @return {?}
+     */
+    Body.prototype.blob = function () {
+        if (this._body instanceof Blob) {
+            return (this._body);
+        }
+        if (this._body instanceof ArrayBuffer) {
+            return new Blob([this._body]);
+        }
+        throw new Error('The request body isn\'t either a blob or an array buffer');
+    };
+    return Body;
+}());
+function Body_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Body.prototype._body;
+}
+//# sourceMappingURL=body.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/enums.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return RequestMethod; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return ReadyState; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return ResponseType; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return ContentType; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return ResponseContentType; });
+var RequestMethod = {};
+RequestMethod.Get = 0;
+RequestMethod.Post = 1;
+RequestMethod.Put = 2;
+RequestMethod.Delete = 3;
+RequestMethod.Options = 4;
+RequestMethod.Head = 5;
+RequestMethod.Patch = 6;
+RequestMethod[RequestMethod.Get] = "Get";
+RequestMethod[RequestMethod.Post] = "Post";
+RequestMethod[RequestMethod.Put] = "Put";
+RequestMethod[RequestMethod.Delete] = "Delete";
+RequestMethod[RequestMethod.Options] = "Options";
+RequestMethod[RequestMethod.Head] = "Head";
+RequestMethod[RequestMethod.Patch] = "Patch";
+var ReadyState = {};
+ReadyState.Unsent = 0;
+ReadyState.Open = 1;
+ReadyState.HeadersReceived = 2;
+ReadyState.Loading = 3;
+ReadyState.Done = 4;
+ReadyState.Cancelled = 5;
+ReadyState[ReadyState.Unsent] = "Unsent";
+ReadyState[ReadyState.Open] = "Open";
+ReadyState[ReadyState.HeadersReceived] = "HeadersReceived";
+ReadyState[ReadyState.Loading] = "Loading";
+ReadyState[ReadyState.Done] = "Done";
+ReadyState[ReadyState.Cancelled] = "Cancelled";
+var ResponseType = {};
+ResponseType.Basic = 0;
+ResponseType.Cors = 1;
+ResponseType.Default = 2;
+ResponseType.Error = 3;
+ResponseType.Opaque = 4;
+ResponseType[ResponseType.Basic] = "Basic";
+ResponseType[ResponseType.Cors] = "Cors";
+ResponseType[ResponseType.Default] = "Default";
+ResponseType[ResponseType.Error] = "Error";
+ResponseType[ResponseType.Opaque] = "Opaque";
+var ContentType = {};
+ContentType.NONE = 0;
+ContentType.JSON = 1;
+ContentType.FORM = 2;
+ContentType.FORM_DATA = 3;
+ContentType.TEXT = 4;
+ContentType.BLOB = 5;
+ContentType.ARRAY_BUFFER = 6;
+ContentType[ContentType.NONE] = "NONE";
+ContentType[ContentType.JSON] = "JSON";
+ContentType[ContentType.FORM] = "FORM";
+ContentType[ContentType.FORM_DATA] = "FORM_DATA";
+ContentType[ContentType.TEXT] = "TEXT";
+ContentType[ContentType.BLOB] = "BLOB";
+ContentType[ContentType.ARRAY_BUFFER] = "ARRAY_BUFFER";
+var ResponseContentType = {};
+ResponseContentType.Text = 0;
+ResponseContentType.Json = 1;
+ResponseContentType.ArrayBuffer = 2;
+ResponseContentType.Blob = 3;
+ResponseContentType[ResponseContentType.Text] = "Text";
+ResponseContentType[ResponseContentType.Json] = "Json";
+ResponseContentType[ResponseContentType.ArrayBuffer] = "ArrayBuffer";
+ResponseContentType[ResponseContentType.Blob] = "Blob";
+//# sourceMappingURL=enums.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/headers.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Headers; });
+/**
+ *  Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
+  * specified in the [Fetch Spec](https://fetch.spec.whatwg.org/#headers-class).
+  * *
+  * The only known difference between this `Headers` implementation and the spec is the
+  * lack of an `entries` method.
+  * *
+  * ### Example
+  * *
+  * ```
+  * import {Headers} from '@angular/http';
+  * *
+  * var firstHeaders = new Headers();
+  * firstHeaders.append('Content-Type', 'image/jpeg');
+  * console.log(firstHeaders.get('Content-Type')) //'image/jpeg'
+  * *
+  * // Create headers from Plain Old JavaScript Object
+  * var secondHeaders = new Headers({
+  * 'X-My-Custom-Header': 'Angular'
+  * });
+  * console.log(secondHeaders.get('X-My-Custom-Header')); //'Angular'
+  * *
+  * var thirdHeaders = new Headers(secondHeaders);
+  * console.log(thirdHeaders.get('X-My-Custom-Header')); //'Angular'
+  * ```
+  * *
+ */
+var Headers = (function () {
+    /**
+     * @param {?=} headers
+     */
+    function Headers(headers) {
+        var _this = this;
+        /** @internal header names are lower case */
+        this._headers = new Map();
+        /** @internal map lower case names to actual names */
+        this._normalizedNames = new Map();
+        if (!headers) {
+            return;
+        }
+        if (headers instanceof Headers) {
+            headers.forEach(function (values, name) {
+                values.forEach(function (value) { return _this.append(name, value); });
+            });
+            return;
+        }
+        Object.keys(headers).forEach(function (name) {
+            var values = Array.isArray(headers[name]) ? headers[name] : [headers[name]];
+            _this.delete(name);
+            values.forEach(function (value) { return _this.append(name, value); });
+        });
+    }
+    /**
+     *  Returns a new Headers instance from the given DOMString of Response Headers
+     * @param {?} headersString
+     * @return {?}
+     */
+    Headers.fromResponseHeaderString = function (headersString) {
+        var /** @type {?} */ headers = new Headers();
+        headersString.split('\n').forEach(function (line) {
+            var /** @type {?} */ index = line.indexOf(':');
+            if (index > 0) {
+                var /** @type {?} */ name_1 = line.slice(0, index);
+                var /** @type {?} */ value = line.slice(index + 1).trim();
+                headers.set(name_1, value);
+            }
+        });
+        return headers;
+    };
+    /**
+     *  Appends a header to existing list of header values for a given header name.
+     * @param {?} name
+     * @param {?} value
+     * @return {?}
+     */
+    Headers.prototype.append = function (name, value) {
+        var /** @type {?} */ values = this.getAll(name);
+        if (values === null) {
+            this.set(name, value);
+        }
+        else {
+            values.push(value);
+        }
+    };
+    /**
+     *  Deletes all header values for the given name.
+     * @param {?} name
+     * @return {?}
+     */
+    Headers.prototype.delete = function (name) {
+        var /** @type {?} */ lcName = name.toLowerCase();
+        this._normalizedNames.delete(lcName);
+        this._headers.delete(lcName);
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    Headers.prototype.forEach = function (fn) {
+        var _this = this;
+        this._headers.forEach(function (values, lcName) { return fn(values, _this._normalizedNames.get(lcName), _this._headers); });
+    };
+    /**
+     *  Returns first header that matches given name.
+     * @param {?} name
+     * @return {?}
+     */
+    Headers.prototype.get = function (name) {
+        var /** @type {?} */ values = this.getAll(name);
+        if (values === null) {
+            return null;
+        }
+        return values.length > 0 ? values[0] : null;
+    };
+    /**
+     *  Checks for existence of header by given name.
+     * @param {?} name
+     * @return {?}
+     */
+    Headers.prototype.has = function (name) { return this._headers.has(name.toLowerCase()); };
+    /**
+     *  Returns the names of the headers
+     * @return {?}
+     */
+    Headers.prototype.keys = function () { return Array.from(this._normalizedNames.values()); };
+    /**
+     *  Sets or overrides header value for given name.
+     * @param {?} name
+     * @param {?} value
+     * @return {?}
+     */
+    Headers.prototype.set = function (name, value) {
+        if (Array.isArray(value)) {
+            if (value.length) {
+                this._headers.set(name.toLowerCase(), [value.join(',')]);
+            }
+        }
+        else {
+            this._headers.set(name.toLowerCase(), [value]);
+        }
+        this.mayBeSetNormalizedName(name);
+    };
+    /**
+     *  Returns values of all headers.
+     * @return {?}
+     */
+    Headers.prototype.values = function () { return Array.from(this._headers.values()); };
+    /**
+     * @return {?}
+     */
+    Headers.prototype.toJSON = function () {
+        var _this = this;
+        var /** @type {?} */ serialized = {};
+        this._headers.forEach(function (values, name) {
+            var /** @type {?} */ split = [];
+            values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
+            serialized[_this._normalizedNames.get(name)] = split;
+        });
+        return serialized;
+    };
+    /**
+     *  Returns list of header values for a given name.
+     * @param {?} name
+     * @return {?}
+     */
+    Headers.prototype.getAll = function (name) {
+        return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
+    };
+    /**
+     *  This method is not implemented.
+     * @return {?}
+     */
+    Headers.prototype.entries = function () { throw new Error('"entries" method is not implemented on Headers class'); };
+    /**
+     * @param {?} name
+     * @return {?}
+     */
+    Headers.prototype.mayBeSetNormalizedName = function (name) {
+        var /** @type {?} */ lcName = name.toLowerCase();
+        if (!this._normalizedNames.has(lcName)) {
+            this._normalizedNames.set(lcName, name);
+        }
+    };
+    return Headers;
+}());
+function Headers_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Headers.prototype._headers;
+    /** @type {?} */
+    Headers.prototype._normalizedNames;
+}
+//# sourceMappingURL=headers.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/http.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__static_request__ = __webpack_require__("./node_modules/@angular/http/src/static_request.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return Http; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Jsonp; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+
+
+
+/**
+ * @param {?} backend
+ * @param {?} request
+ * @return {?}
+ */
+function httpRequest(backend, request) {
+    return backend.createConnection(request).response;
+}
+/**
+ * @param {?} defaultOpts
+ * @param {?} providedOpts
+ * @param {?} method
+ * @param {?} url
+ * @return {?}
+ */
+function mergeOptions(defaultOpts, providedOpts, method, url) {
+    var /** @type {?} */ newOptions = defaultOpts;
+    if (providedOpts) {
+        // Hack so Dart can used named parameters
+        return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({
+            method: providedOpts.method || method,
+            url: providedOpts.url || url,
+            search: providedOpts.search,
+            headers: providedOpts.headers,
+            body: providedOpts.body,
+            withCredentials: providedOpts.withCredentials,
+            responseType: providedOpts.responseType
+        }));
+    }
+    return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ method: method, url: url }));
+}
+/**
+ *  Performs http requests using `XMLHttpRequest` as the default backend.
+  * *
+  * `Http` is available as an injectable class, with methods to perform http requests. Calling
+  * `request` returns an `Observable` which will emit a single {@link Response} when a
+  * response is received.
+  * *
+  * ### Example
+  * *
+  * ```typescript
+  * import {Http, HTTP_PROVIDERS} from '@angular/http';
+  * import 'rxjs/add/operator/map'
+  * selector: 'http-app',
+  * viewProviders: [HTTP_PROVIDERS],
+  * templateUrl: 'people.html'
+  * })
+  * class PeopleComponent {
+  * constructor(http: Http) {
+  * http.get('people.json')
+  * // Call map on the response observable to get the parsed people object
+  * .map(res => res.json())
+  * // Subscribe to the observable to get the parsed people object and attach it to the
+  * // component
+  * .subscribe(people => this.people = people);
+  * }
+  * }
+  * ```
+  * *
+  * *
+  * ### Example
+  * *
+  * ```
+  * http.get('people.json').subscribe((res:Response) => this.people = res.json());
+  * ```
+  * *
+  * The default construct used to perform requests, `XMLHttpRequest`, is abstracted as a "Backend" (
+  * {@link XHRBackend} in this case), which could be mocked with dependency injection by replacing
+  * the {@link XHRBackend} provider, as in the following example:
+  * *
+  * ### Example
+  * *
+  * ```typescript
+  * import {BaseRequestOptions, Http} from '@angular/http';
+  * import {MockBackend} from '@angular/http/testing';
+  * var injector = Injector.resolveAndCreate([
+  * BaseRequestOptions,
+  * MockBackend,
+  * {provide: Http, useFactory:
+  * function(backend, defaultOptions) {
+  * return new Http(backend, defaultOptions);
+  * },
+  * deps: [MockBackend, BaseRequestOptions]}
+  * ]);
+  * var http = injector.get(Http);
+  * http.get('request-from-mock-backend.json').subscribe((res:Response) => doSomething(res));
+  * ```
+  * *
+ */
+var Http = (function () {
+    /**
+     * @param {?} _backend
+     * @param {?} _defaultOptions
+     */
+    function Http(_backend, _defaultOptions) {
+        this._backend = _backend;
+        this._defaultOptions = _defaultOptions;
+    }
+    /**
+     *  Performs any type of http request. First argument is required, and can either be a url or
+      * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+      * object can be provided as the 2nd argument. The options object will be merged with the values
+      * of {@link BaseRequestOptions} before performing the request.
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.request = function (url, options) {
+        var /** @type {?} */ responseObservable;
+        if (typeof url === 'string') {
+            responseObservable = httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, /** @type {?} */ (url))));
+        }
+        else if (url instanceof __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */]) {
+            responseObservable = httpRequest(this._backend, url);
+        }
+        else {
+            throw new Error('First argument must be a url string or Request instance.');
+        }
+        return responseObservable;
+    };
+    /**
+     *  Performs a request with `get` http method.
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.get = function (url, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, url)));
+    };
+    /**
+     *  Performs a request with `post` http method.
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.post = function (url, body, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Post, url)));
+    };
+    /**
+     *  Performs a request with `put` http method.
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.put = function (url, body, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Put, url)));
+    };
+    /**
+     *  Performs a request with `delete` http method.
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.delete = function (url, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Delete, url)));
+    };
+    /**
+     *  Performs a request with `patch` http method.
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.patch = function (url, body, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Patch, url)));
+    };
+    /**
+     *  Performs a request with `head` http method.
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.head = function (url, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Head, url)));
+    };
+    /**
+     *  Performs a request with `options` http method.
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Http.prototype.options = function (url, options) {
+        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Options, url)));
+    };
+    Http.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    Http.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_3__interfaces__["b" /* ConnectionBackend */], },
+        { type: __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */], },
+    ]; };
+    return Http;
+}());
+function Http_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Http.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    Http.ctorParameters;
+    /** @type {?} */
+    Http.prototype._backend;
+    /** @type {?} */
+    Http.prototype._defaultOptions;
+}
+/**
+ * @experimental
+ */
+var Jsonp = (function (_super) {
+    __extends(Jsonp, _super);
+    /**
+     * @param {?} backend
+     * @param {?} defaultOptions
+     */
+    function Jsonp(backend, defaultOptions) {
+        _super.call(this, backend, defaultOptions);
+    }
+    /**
+     *  Performs any type of http request. First argument is required, and can either be a url or
+      * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+      * object can be provided as the 2nd argument. The options object will be merged with the values
+      * of {@link BaseRequestOptions} before performing the request.
+      * *
+      * supported by all current browsers. Because JSONP creates a `<script>` element with
+      * contents retrieved from a remote source, attacker-controlled data introduced by an untrusted
+      * source could expose your application to XSS risks. Data exposed by JSONP may also be
+      * readable by malicious third-party websites. In addition, JSONP introduces potential risk for
+      * future security issues (e.g. content sniffing).  For more detail, see the
+      * [Security Guide](http://g.co/ng/security).
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    Jsonp.prototype.request = function (url, options) {
+        var /** @type {?} */ responseObservable;
+        if (typeof url === 'string') {
+            url =
+                new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, /** @type {?} */ (url)));
+        }
+        if (url instanceof __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */]) {
+            if (url.method !== __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get) {
+                throw new Error('JSONP requests must use GET request method.');
+            }
+            responseObservable = httpRequest(this._backend, url);
+        }
+        else {
+            throw new Error('First argument must be a url string or Request instance.');
+        }
+        return responseObservable;
+    };
+    Jsonp.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
+    ];
+    /** @nocollapse */
+    Jsonp.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_3__interfaces__["b" /* ConnectionBackend */], },
+        { type: __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */], },
+    ]; };
+    return Jsonp;
+}(Http));
+function Jsonp_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Jsonp.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    Jsonp.ctorParameters;
+}
+//# sourceMappingURL=http.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/http_module.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__backends_browser_jsonp__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_jsonp.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backends_browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/jsonp_backend.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/xhr_backend.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__http__ = __webpack_require__("./node_modules/@angular/http/src/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* unused harmony export _createDefaultCookieXSRFStrategy */
+/* unused harmony export httpFactory */
+/* unused harmony export jsonpFactory */
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return HttpModule; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return JsonpModule; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+
+
+
+
+
+
+
+
+/**
+ * @return {?}
+ */
+function _createDefaultCookieXSRFStrategy() {
+    return new __WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["a" /* CookieXSRFStrategy */]();
+}
+/**
+ * @param {?} xhrBackend
+ * @param {?} requestOptions
+ * @return {?}
+ */
+function httpFactory(xhrBackend, requestOptions) {
+    return new __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Http */](xhrBackend, requestOptions);
+}
+/**
+ * @param {?} jsonpBackend
+ * @param {?} requestOptions
+ * @return {?}
+ */
+function jsonpFactory(jsonpBackend, requestOptions) {
+    return new __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Jsonp */](jsonpBackend, requestOptions);
+}
+/**
+ *  The module that includes http's providers
+  * *
+ */
+var HttpModule = (function () {
+    function HttpModule() {
+    }
+    HttpModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                    providers: [
+                        // TODO(pascal): use factory type annotations once supported in DI
+                        // issue: https://github.com/angular/angular/issues/3183
+                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Http */], useFactory: httpFactory, deps: [__WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["b" /* XHRBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
+                        __WEBPACK_IMPORTED_MODULE_2__backends_browser_xhr__["a" /* BrowserXhr */],
+                        { provide: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */], useClass: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["a" /* BaseRequestOptions */] },
+                        { provide: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["b" /* ResponseOptions */], useClass: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["a" /* BaseResponseOptions */] },
+                        __WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["b" /* XHRBackend */],
+                        { provide: __WEBPACK_IMPORTED_MODULE_8__interfaces__["c" /* XSRFStrategy */], useFactory: _createDefaultCookieXSRFStrategy },
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    HttpModule.ctorParameters = function () { return []; };
+    return HttpModule;
+}());
+function HttpModule_tsickle_Closure_declarations() {
+    /** @type {?} */
+    HttpModule.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    HttpModule.ctorParameters;
+}
+/**
+ *  The module that includes jsonp's providers
+  * *
+ */
+var JsonpModule = (function () {
+    function JsonpModule() {
+    }
+    JsonpModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
+                    providers: [
+                        // TODO(pascal): use factory type annotations once supported in DI
+                        // issue: https://github.com/angular/angular/issues/3183
+                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Jsonp */], useFactory: jsonpFactory, deps: [__WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__["a" /* JSONPBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
+                        __WEBPACK_IMPORTED_MODULE_1__backends_browser_jsonp__["a" /* BrowserJsonp */],
+                        { provide: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */], useClass: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["a" /* BaseRequestOptions */] },
+                        { provide: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["b" /* ResponseOptions */], useClass: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["a" /* BaseResponseOptions */] },
+                        { provide: __WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__["a" /* JSONPBackend */], useClass: __WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__["c" /* JSONPBackend_ */] },
+                    ],
+                },] },
+    ];
+    /** @nocollapse */
+    JsonpModule.ctorParameters = function () { return []; };
+    return JsonpModule;
+}());
+function JsonpModule_tsickle_Closure_declarations() {
+    /** @type {?} */
+    JsonpModule.decorators;
+    /**
+     * @nocollapse
+     * @type {?}
+     */
+    JsonpModule.ctorParameters;
+}
+//# sourceMappingURL=http_module.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/http_utils.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony export (immutable) */ exports["b"] = normalizeMethodName;
+/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return isSuccess; });
+/* harmony export (immutable) */ exports["c"] = getResponseURL;
+/* harmony export (immutable) */ exports["a"] = stringToArrayBuffer;
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * @param {?} method
+ * @return {?}
+ */
+function normalizeMethodName(method) {
+    if (typeof method !== 'string')
+        return method;
+    switch (method.toUpperCase()) {
+        case 'GET':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Get;
+        case 'POST':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Post;
+        case 'PUT':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Put;
+        case 'DELETE':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Delete;
+        case 'OPTIONS':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Options;
+        case 'HEAD':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Head;
+        case 'PATCH':
+            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Patch;
+    }
+    throw new Error("Invalid request method. The method \"" + method + "\" is not supported.");
+}
+var /** @type {?} */ isSuccess = function (status) { return (status >= 200 && status < 300); };
+/**
+ * @param {?} xhr
+ * @return {?}
+ */
+function getResponseURL(xhr) {
+    if ('responseURL' in xhr) {
+        return xhr.responseURL;
+    }
+    if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+        return xhr.getResponseHeader('X-Request-URL');
+    }
+    return;
+}
+/**
+ * @param {?} input
+ * @return {?}
+ */
+function stringToArrayBuffer(input) {
+    var /** @type {?} */ view = new Uint16Array(input.length);
+    for (var /** @type {?} */ i = 0, /** @type {?} */ strLen = input.length; i < strLen; i++) {
+        view[i] = input.charCodeAt(i);
+    }
+    return view.buffer;
+}
+//# sourceMappingURL=http_utils.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/index.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__backends_browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__backends_browser_xhr__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/jsonp_backend.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/xhr_backend.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "h", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "i", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "l", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "m", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "n", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["d"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "o", function() { return __WEBPACK_IMPORTED_MODULE_6__headers__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__http__ = __webpack_require__("./node_modules/@angular/http/src/http.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "q", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "p", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__http_module__ = __webpack_require__("./node_modules/@angular/http/src/http_module.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "r", function() { return __WEBPACK_IMPORTED_MODULE_8__http_module__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "s", function() { return __WEBPACK_IMPORTED_MODULE_8__http_module__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "t", function() { return __WEBPACK_IMPORTED_MODULE_9__interfaces__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "u", function() { return __WEBPACK_IMPORTED_MODULE_9__interfaces__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "v", function() { return __WEBPACK_IMPORTED_MODULE_9__interfaces__["c"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__static_request__ = __webpack_require__("./node_modules/@angular/http/src/static_request.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "w", function() { return __WEBPACK_IMPORTED_MODULE_10__static_request__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "x", function() { return __WEBPACK_IMPORTED_MODULE_11__static_response__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "y", function() { return __WEBPACK_IMPORTED_MODULE_12__url_search_params__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "z", function() { return __WEBPACK_IMPORTED_MODULE_12__url_search_params__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__version__ = __webpack_require__("./node_modules/@angular/http/src/version.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "A", function() { return __WEBPACK_IMPORTED_MODULE_13__version__["a"]; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/interfaces.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return ConnectionBackend; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Connection; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return XSRFStrategy; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ *  Abstract class from which real backends are derived.
+  * *
+  * The primary purpose of a `ConnectionBackend` is to create new connections to fulfill a given
+  * {@link Request}.
+  * *
+ * @abstract
+ */
+var ConnectionBackend = (function () {
+    function ConnectionBackend() {
+    }
+    /**
+     * @abstract
+     * @param {?} request
+     * @return {?}
+     */
+    ConnectionBackend.prototype.createConnection = function (request) { };
+    return ConnectionBackend;
+}());
+/**
+ *  Abstract class from which real connections are derived.
+  * *
+ * @abstract
+ */
+var Connection = (function () {
+    function Connection() {
+    }
+    return Connection;
+}());
+function Connection_tsickle_Closure_declarations() {
+    /** @type {?} */
+    Connection.prototype.readyState;
+    /** @type {?} */
+    Connection.prototype.request;
+    /** @type {?} */
+    Connection.prototype.response;
+}
+/**
+ *  An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
+  * *
+ * @abstract
+ */
+var XSRFStrategy = (function () {
+    function XSRFStrategy() {
+    }
+    /**
+     * @abstract
+     * @param {?} req
+     * @return {?}
+     */
+    XSRFStrategy.prototype.configureRequest = function (req) { };
+    return XSRFStrategy;
+}());
+//# sourceMappingURL=interfaces.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/static_request.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__body__ = __webpack_require__("./node_modules/@angular/http/src/body.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Request; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+
+
+
+
+/**
+ *  Creates `Request` instances from provided values.
+  * *
+  * The Request's interface is inspired by the Request constructor defined in the [Fetch
+  * Spec](https://fetch.spec.whatwg.org/#request-class),
+  * but is considered a static value whose body can be accessed many times. There are other
+  * differences in the implementation, but this is the most significant.
+  * *
+  * `Request` instances are typically created by higher-level classes, like {@link Http} and
+  * {@link Jsonp}, but it may occasionally be useful to explicitly create `Request` instances.
+  * One such example is when creating services that wrap higher-level services, like {@link Http},
+  * where it may be useful to generate a `Request` with arbitrary headers and search params.
+  * *
+  * ```typescript
+  * import {Injectable, Injector} from '@angular/core';
+  * import {HTTP_PROVIDERS, Http, Request, RequestMethod} from '@angular/http';
+  * *
+  * class AutoAuthenticator {
+  * constructor(public http:Http) {}
+  * request(url:string) {
+  * return this.http.request(new Request({
+  * method: RequestMethod.Get,
+  * url: url,
+  * search: 'password=123'
+  * }));
+  * }
+  * }
+  * *
+  * var injector = Injector.resolveAndCreate([HTTP_PROVIDERS, AutoAuthenticator]);
+  * var authenticator = injector.get(AutoAuthenticator);
+  * authenticator.request('people.json').subscribe(res => {
+  * //URL should have included '?password=123'
+  * console.log('people', res.json());
+  * });
+  * ```
+  * *
+ */
+var Request = (function (_super) {
+    __extends(Request, _super);
+    /**
+     * @param {?} requestOptions
+     */
+    function Request(requestOptions) {
+        _super.call(this);
+        // TODO: assert that url is present
+        var url = requestOptions.url;
+        this.url = requestOptions.url;
+        if (requestOptions.search) {
+            var search = requestOptions.search.toString();
+            if (search.length > 0) {
+                var prefix = '?';
+                if (this.url.indexOf('?') != -1) {
+                    prefix = (this.url[this.url.length - 1] == '&') ? '' : '&';
+                }
+                // TODO: just delete search-query-looking string in url?
+                this.url = url + prefix + search;
+            }
+        }
+        this._body = requestOptions.body;
+        this.method = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__http_utils__["b" /* normalizeMethodName */])(requestOptions.method);
+        // TODO(jeffbcross): implement behavior
+        // Defaults to 'omit', consistent with browser
+        this.headers = new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */](requestOptions.headers);
+        this.contentType = this.detectContentType();
+        this.withCredentials = requestOptions.withCredentials;
+        this.responseType = requestOptions.responseType;
+    }
+    /**
+     *  Returns the content type enum based on header options.
+     * @return {?}
+     */
+    Request.prototype.detectContentType = function () {
+        switch (this.headers.get('content-type')) {
+            case 'application/json':
+                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON;
+            case 'application/x-www-form-urlencoded':
+                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM;
+            case 'multipart/form-data':
+                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA;
+            case 'text/plain':
+            case 'text/html':
+                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT;
+            case 'application/octet-stream':
+                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB;
+            default:
+                return this.detectContentTypeFromBody();
+        }
+    };
+    /**
+     *  Returns the content type of request's body based on its type.
+     * @return {?}
+     */
+    Request.prototype.detectContentTypeFromBody = function () {
+        if (this._body == null) {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].NONE;
+        }
+        else if (this._body instanceof __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */]) {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM;
+        }
+        else if (this._body instanceof FormData) {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA;
+        }
+        else if (this._body instanceof Blob) {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB;
+        }
+        else if (this._body instanceof ArrayBuffer) {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].ARRAY_BUFFER;
+        }
+        else if (this._body && typeof this._body == 'object') {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON;
+        }
+        else {
+            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT;
+        }
+    };
+    /**
+     *  Returns the request's body according to its type. If body is undefined, return
+      * null.
+     * @return {?}
+     */
+    Request.prototype.getBody = function () {
+        switch (this.contentType) {
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON:
+                return this.text();
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM:
+                return this.text();
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA:
+                return this._body;
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT:
+                return this.text();
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB:
+                return this.blob();
+            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].ARRAY_BUFFER:
+                return this.arrayBuffer();
+            default:
+                return null;
+        }
+    };
+    return Request;
+}(__WEBPACK_IMPORTED_MODULE_0__body__["a" /* Body */]));
+function Request_tsickle_Closure_declarations() {
+    /**
+     * Http method with which to perform the request.
+     * @type {?}
+     */
+    Request.prototype.method;
+    /**
+     * {@link Headers} instance
+     * @type {?}
+     */
+    Request.prototype.headers;
+    /**
+     * Url of the remote resource
+     * @type {?}
+     */
+    Request.prototype.url;
+    /**
+     * Type of the request body *
+     * @type {?}
+     */
+    Request.prototype.contentType;
+    /**
+     * Enable use credentials
+     * @type {?}
+     */
+    Request.prototype.withCredentials;
+    /**
+     * Buffer to store the response
+     * @type {?}
+     */
+    Request.prototype.responseType;
+}
+var /** @type {?} */ noop = function () { };
+var /** @type {?} */ w = typeof window == 'object' ? window : noop;
+var /** @type {?} */ FormData = ((w) /** TODO #9100 */)['FormData'] || noop;
+var /** @type {?} */ Blob = ((w) /** TODO #9100 */)['Blob'] || noop;
+var /** @type {?} */ ArrayBuffer = ((w) /** TODO #9100 */)['ArrayBuffer'] || noop;
+//# sourceMappingURL=static_request.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/static_response.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__body__ = __webpack_require__("./node_modules/@angular/http/src/body.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Response; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+/**
+ *  Creates `Response` instances from provided values.
+  * *
+  * Though this object isn't
+  * usually instantiated by end-users, it is the primary object interacted with when it comes time to
+  * add data to a view.
+  * *
+  * ### Example
+  * *
+  * ```
+  * http.request('my-friends.txt').subscribe(response => this.friends = response.text());
+  * ```
+  * *
+  * The Response's interface is inspired by the Response constructor defined in the [Fetch
+  * Spec](https://fetch.spec.whatwg.org/#response-class), but is considered a static value whose body
+  * can be accessed many times. There are other differences in the implementation, but this is the
+  * most significant.
+  * *
+ */
+var Response = (function (_super) {
+    __extends(Response, _super);
+    /**
+     * @param {?} responseOptions
+     */
+    function Response(responseOptions) {
+        _super.call(this);
+        this._body = responseOptions.body;
+        this.status = responseOptions.status;
+        this.ok = (this.status >= 200 && this.status <= 299);
+        this.statusText = responseOptions.statusText;
+        this.headers = responseOptions.headers;
+        this.type = responseOptions.type;
+        this.url = responseOptions.url;
+    }
+    /**
+     * @return {?}
+     */
+    Response.prototype.toString = function () {
+        return "Response with status: " + this.status + " " + this.statusText + " for URL: " + this.url;
+    };
+    return Response;
+}(__WEBPACK_IMPORTED_MODULE_0__body__["a" /* Body */]));
+function Response_tsickle_Closure_declarations() {
+    /**
+     * One of "basic", "cors", "default", "error, or "opaque".
+     * *
+     * Defaults to "default".
+     * @type {?}
+     */
+    Response.prototype.type;
+    /**
+     * True if the response's status is within 200-299
+     * @type {?}
+     */
+    Response.prototype.ok;
+    /**
+     * URL of response.
+     * *
+     * Defaults to empty string.
+     * @type {?}
+     */
+    Response.prototype.url;
+    /**
+     * Status code returned by server.
+     * *
+     * Defaults to 200.
+     * @type {?}
+     */
+    Response.prototype.status;
+    /**
+     * Text representing the corresponding reason phrase to the `status`, as defined in [ietf rfc 2616
+     * section 6.1.1](https://tools.ietf.org/html/rfc2616#section-6.1.1)
+     * *
+     * Defaults to "OK"
+     * @type {?}
+     */
+    Response.prototype.statusText;
+    /**
+     * Non-standard property
+     * *
+     * Denotes how many of the response body's bytes have been loaded, for example if the response is
+     * the result of a progress event.
+     * @type {?}
+     */
+    Response.prototype.bytesLoaded;
+    /**
+     * Non-standard property
+     * *
+     * Denotes how many bytes are expected in the final response body.
+     * @type {?}
+     */
+    Response.prototype.totalBytes;
+    /**
+     * Headers object based on the `Headers` class in the [Fetch
+     * Spec](https://fetch.spec.whatwg.org/#headers-class).
+     * @type {?}
+     */
+    Response.prototype.headers;
+}
+//# sourceMappingURL=static_response.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/url_search_params.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return QueryEncoder; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return URLSearchParams; });
+/**
+ * @license undefined
+  * Copyright Google Inc. All Rights Reserved.
+  * *
+  * Use of this source code is governed by an MIT-style license that can be
+  * found in the LICENSE file at https://angular.io/license
+ * @param {?=} rawParams
+ * @return {?}
+ */
+function paramParser(rawParams) {
+    if (rawParams === void 0) { rawParams = ''; }
+    var /** @type {?} */ map = new Map();
+    if (rawParams.length > 0) {
+        var /** @type {?} */ params = rawParams.split('&');
+        params.forEach(function (param) {
+            var /** @type {?} */ eqIdx = param.indexOf('=');
+            var _a = eqIdx == -1 ? [param, ''] : [param.slice(0, eqIdx), param.slice(eqIdx + 1)], key = _a[0], val = _a[1];
+            var /** @type {?} */ list = map.get(key) || [];
+            list.push(val);
+            map.set(key, list);
+        });
+    }
+    return map;
+}
+/**
+ *  *
+ */
+var QueryEncoder = (function () {
+    function QueryEncoder() {
+    }
+    /**
+     * @param {?} k
+     * @return {?}
+     */
+    QueryEncoder.prototype.encodeKey = function (k) { return standardEncoding(k); };
+    /**
+     * @param {?} v
+     * @return {?}
+     */
+    QueryEncoder.prototype.encodeValue = function (v) { return standardEncoding(v); };
+    return QueryEncoder;
+}());
+/**
+ * @param {?} v
+ * @return {?}
+ */
+function standardEncoding(v) {
+    return encodeURIComponent(v)
+        .replace(/%40/gi, '@')
+        .replace(/%3A/gi, ':')
+        .replace(/%24/gi, '$')
+        .replace(/%2C/gi, ',')
+        .replace(/%3B/gi, ';')
+        .replace(/%2B/gi, '+')
+        .replace(/%3D/gi, '=')
+        .replace(/%3F/gi, '?')
+        .replace(/%2F/gi, '/');
+}
+/**
+ *  Map-like representation of url search parameters, based on
+  * [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) in the url living standard,
+  * with several extensions for merging URLSearchParams objects:
+  * - setAll()
+  * - appendAll()
+  * - replaceAll()
+  * *
+  * This class accepts an optional second parameter of ${@link QueryEncoder},
+  * which is used to serialize parameters before making a request. By default,
+  * `QueryEncoder` encodes keys and values of parameters using `encodeURIComponent`,
+  * and then un-encodes certain characters that are allowed to be part of the query
+  * according to IETF RFC 3986: https://tools.ietf.org/html/rfc3986.
+  * *
+  * These are the characters that are not encoded: `! $ \' ( ) * + , ; A 9 - . _ ~ ? /`
+  * *
+  * If the set of allowed query characters is not acceptable for a particular backend,
+  * `QueryEncoder` can be subclassed and provided as the 2nd argument to URLSearchParams.
+  * *
+  * ```
+  * import {URLSearchParams, QueryEncoder} from '@angular/http';
+  * class MyQueryEncoder extends QueryEncoder {
+  * encodeKey(k: string): string {
+  * return myEncodingFunction(k);
+  * }
+  * *
+  * encodeValue(v: string): string {
+  * return myEncodingFunction(v);
+  * }
+  * }
+  * *
+  * let params = new URLSearchParams('', new MyQueryEncoder());
+  * ```
+ */
+var URLSearchParams = (function () {
+    /**
+     * @param {?=} rawParams
+     * @param {?=} queryEncoder
+     */
+    function URLSearchParams(rawParams, queryEncoder) {
+        if (rawParams === void 0) { rawParams = ''; }
+        if (queryEncoder === void 0) { queryEncoder = new QueryEncoder(); }
+        this.rawParams = rawParams;
+        this.queryEncoder = queryEncoder;
+        this.paramsMap = paramParser(rawParams);
+    }
+    /**
+     * @return {?}
+     */
+    URLSearchParams.prototype.clone = function () {
+        var /** @type {?} */ clone = new URLSearchParams('', this.queryEncoder);
+        clone.appendAll(this);
+        return clone;
+    };
+    /**
+     * @param {?} param
+     * @return {?}
+     */
+    URLSearchParams.prototype.has = function (param) { return this.paramsMap.has(param); };
+    /**
+     * @param {?} param
+     * @return {?}
+     */
+    URLSearchParams.prototype.get = function (param) {
+        var /** @type {?} */ storedParam = this.paramsMap.get(param);
+        return Array.isArray(storedParam) ? storedParam[0] : null;
+    };
+    /**
+     * @param {?} param
+     * @return {?}
+     */
+    URLSearchParams.prototype.getAll = function (param) { return this.paramsMap.get(param) || []; };
+    /**
+     * @param {?} param
+     * @param {?} val
+     * @return {?}
+     */
+    URLSearchParams.prototype.set = function (param, val) {
+        if (val === void 0 || val === null) {
+            this.delete(param);
+            return;
+        }
+        var /** @type {?} */ list = this.paramsMap.get(param) || [];
+        list.length = 0;
+        list.push(val);
+        this.paramsMap.set(param, list);
+    };
+    /**
+     * @param {?} searchParams
+     * @return {?}
+     */
+    URLSearchParams.prototype.setAll = function (searchParams) {
+        var _this = this;
+        searchParams.paramsMap.forEach(function (value, param) {
+            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
+            list.length = 0;
+            list.push(value[0]);
+            _this.paramsMap.set(param, list);
+        });
+    };
+    /**
+     * @param {?} param
+     * @param {?} val
+     * @return {?}
+     */
+    URLSearchParams.prototype.append = function (param, val) {
+        if (val === void 0 || val === null)
+            return;
+        var /** @type {?} */ list = this.paramsMap.get(param) || [];
+        list.push(val);
+        this.paramsMap.set(param, list);
+    };
+    /**
+     * @param {?} searchParams
+     * @return {?}
+     */
+    URLSearchParams.prototype.appendAll = function (searchParams) {
+        var _this = this;
+        searchParams.paramsMap.forEach(function (value, param) {
+            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
+            for (var /** @type {?} */ i = 0; i < value.length; ++i) {
+                list.push(value[i]);
+            }
+            _this.paramsMap.set(param, list);
+        });
+    };
+    /**
+     * @param {?} searchParams
+     * @return {?}
+     */
+    URLSearchParams.prototype.replaceAll = function (searchParams) {
+        var _this = this;
+        searchParams.paramsMap.forEach(function (value, param) {
+            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
+            list.length = 0;
+            for (var /** @type {?} */ i = 0; i < value.length; ++i) {
+                list.push(value[i]);
+            }
+            _this.paramsMap.set(param, list);
+        });
+    };
+    /**
+     * @return {?}
+     */
+    URLSearchParams.prototype.toString = function () {
+        var _this = this;
+        var /** @type {?} */ paramsList = [];
+        this.paramsMap.forEach(function (values, k) {
+            values.forEach(function (v) { return paramsList.push(_this.queryEncoder.encodeKey(k) + '=' + _this.queryEncoder.encodeValue(v)); });
+        });
+        return paramsList.join('&');
+    };
+    /**
+     * @param {?} param
+     * @return {?}
+     */
+    URLSearchParams.prototype.delete = function (param) { this.paramsMap.delete(param); };
+    return URLSearchParams;
+}());
+function URLSearchParams_tsickle_Closure_declarations() {
+    /** @type {?} */
+    URLSearchParams.prototype.paramsMap;
+    /** @type {?} */
+    URLSearchParams.prototype.rawParams;
+    /** @type {?} */
+    URLSearchParams.prototype.queryEncoder;
+}
+//# sourceMappingURL=url_search_params.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/version.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return VERSION; });
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * @stable
+ */
+var /** @type {?} */ VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["Version"]('2.4.1');
+//# sourceMappingURL=version.js.map
+
+/***/ },
+
+/***/ "./node_modules/angular2-universal/browser/browser.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(__webpack_require__("./node_modules/angular2-universal/browser/env.js"));
+__export(__webpack_require__("./node_modules/angular2-universal/browser/universal-module.js"));
+__export(__webpack_require__("./node_modules/angular2-universal/common/index.js"));
+
+
+/***/ },
+
+/***/ "./node_modules/angular2-universal/browser/env.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.isBrowser = true;
+exports.isNode = false;
+
+
+/***/ },
+
+/***/ "./node_modules/angular2-universal/browser/index.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+var browserUniversal = __webpack_require__("./node_modules/angular2-universal/browser/browser.js");
+__export(__webpack_require__("./node_modules/angular2-universal/browser/browser.js"));
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = browserUniversal;
+
+
+/***/ },
+
+/***/ "./node_modules/angular2-universal/browser/universal-module.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+var core_1 = __webpack_require__(0);
+var http_1 = __webpack_require__("./node_modules/@angular/http/index.js");
+var platform_browser_dynamic_1 = __webpack_require__(4);
+var platform_browser_1 = __webpack_require__(1);
+var prebootClient;
+try {
+    prebootClient = __webpack_require__("./node_modules/preboot/__build/src/browser/preboot_browser.js");
+    prebootClient = (prebootClient && prebootClient.prebootClient) || prebootClient;
+}
+catch (e) { }
+function _randomChar() {
+    return String.fromCharCode(97 + Math.floor(Math.random() * 25));
+}
+function _appIdRandomProviderFactory() {
+    return "" + _randomChar() + _randomChar() + _randomChar();
+}
+var OpaqueToken = (function () {
+    function OpaqueToken(_desc) {
+        this._desc = _desc;
+    }
+    OpaqueToken.prototype.toString = function () { return "Token " + this._desc; };
+    OpaqueToken = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [String])
+    ], OpaqueToken);
+    return OpaqueToken;
+}());
+exports.OpaqueToken = OpaqueToken;
+var SharedStylesHost = platform_browser_1.__platform_browser_private__.SharedStylesHost;
+exports.UNIVERSAL_CACHE = new OpaqueToken('UNIVERSAL_CACHE');
+var UniversalModule = (function () {
+    function UniversalModule(sharedStylesHost) {
+        var domStyles = document.head.querySelectorAll('style');
+        var styles = Array.prototype.slice.call(domStyles)
+            .filter(function (style) { return style.innerText.indexOf('_ng') !== -1; })
+            .map(function (style) { return style.innerText; });
+        styles.forEach(function (style) {
+            sharedStylesHost._stylesSet.add(style);
+            sharedStylesHost._styles.push(style);
+        });
+    }
+    UniversalModule.withConfig = function (config) {
+        if (config === void 0) { config = {}; }
+        return {
+            ngModule: UniversalModule,
+            providers: []
+        };
+    };
+    UniversalModule = __decorate([
+        core_1.NgModule({
+            imports: [],
+            exports: [
+                platform_browser_1.BrowserModule,
+                http_1.HttpModule,
+                http_1.JsonpModule
+            ],
+            providers: [
+                {
+                    provide: exports.UNIVERSAL_CACHE,
+                    useFactory: function () {
+                        var _win = window;
+                        var CACHE = Object.assign({}, _win.UNIVERSAL_CACHE || {});
+                        delete _win.UNIVERSAL_CACHE;
+                        return CACHE;
+                    }
+                },
+                {
+                    provide: core_1.APP_ID,
+                    useFactory: function () {
+                        var _win = window;
+                        var CACHE = _win.UNIVERSAL_CACHE || {};
+                        var appId = null;
+                        if (CACHE.APP_ID) {
+                            appId = CACHE.APP_ID;
+                        }
+                        else {
+                            appId = _appIdRandomProviderFactory();
+                        }
+                        return appId;
+                    },
+                    deps: []
+                },
+                {
+                    multi: true,
+                    provide: core_1.APP_BOOTSTRAP_LISTENER,
+                    useValue: function () {
+                        var _win = window;
+                        if (_win && prebootClient) {
+                            setTimeout(function () { return prebootClient().complete(); });
+                        }
+                    }
+                }
+            ]
+        }),
+        __param(0, core_1.Inject(SharedStylesHost)), 
+        __metadata('design:paramtypes', [Object])
+    ], UniversalModule);
+    return UniversalModule;
+}());
+exports.UniversalModule = UniversalModule;
+function platformUniversalDynamic(extraProviders) {
+    var platform = core_1.createPlatformFactory(platform_browser_dynamic_1.platformBrowserDynamic, 'universalBrowserDynamic', [])(extraProviders);
+    return platform;
+}
+exports.platformUniversalDynamic = platformUniversalDynamic;
+;
+
+
+/***/ },
+
+/***/ "./node_modules/angular2-universal/common/index.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.zoneProps = new WeakMap();
+var ZoneStore = (function () {
+    function ZoneStore(props) {
+        if (props === void 0) { props = Object.create(null); }
+        var store = new Map();
+        try {
+            Object.keys(props).forEach(function (prop) {
+                store.set(prop, props[prop]);
+            });
+        }
+        catch (e) {
+            console.log('e', e);
+        }
+        exports.zoneProps.set(this, store);
+        this.zone = Zone.current.fork({
+            name: 'ZoneStore',
+            properties: { 'ZoneStore': this }
+        });
+    }
+    ZoneStore.prototype.clear = function () {
+        exports.zoneProps.get(this).clear();
+    };
+    ZoneStore.prototype.setMap = function (obj) {
+        var props = exports.zoneProps.get(this);
+        for (var _i = 0, obj_1 = obj; _i < obj_1.length; _i++) {
+            var prop = obj_1[_i];
+            props.set(prop, obj);
+        }
+    };
+    ZoneStore.prototype.get = function (key) {
+        var props = exports.zoneProps.get(this);
+        if (this.has(key)) {
+            return props.get(key);
+        }
+    };
+    ZoneStore.prototype.set = function (key, value) {
+        var props = exports.zoneProps.get(this);
+        if (this.has(key)) {
+            props.set(key, value);
+            return this;
+        }
+    };
+    ZoneStore.prototype.has = function (key) {
+        var props = exports.zoneProps.get(this);
+        return props.has && props.has(key);
+    };
+    return ZoneStore;
+}());
+exports.ZoneStore = ZoneStore;
+
+
+/***/ },
+
+/***/ "./node_modules/preboot/__build/src/browser/preboot_browser.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * This is the entry point for the client side preboot library. At a high level, this library
+ * is used to facilitate the switch from the server view to the client view. Specifically that
+ * means:
+ *
+ *    1. Replay stored server view events on client view
+ *    2. Switch buffer from server view to client view
+ *    3. Reset focus on client view
+ */
+
+// the idea here is that preboot is a global value on the window that is used by the client
+var preboot = prebootClient();
+// wrapper function used to contain all the preboot client functionality
+function prebootClient() {
+    // used to cache map from server node key to associated client node
+    var clientNodeCache = {};
+    /**
+     * External code call this to kick off the switch from server to client
+     */
+    function complete(opts) {
+        opts = opts || {};
+        var theWindow = (opts.window || window);
+        var prebootData = theWindow.prebootData || {};
+        var apps = prebootData.apps || [];
+        // loop through each of the preboot apps
+        apps.forEach(function (appData) { return completeApp(opts, appData); });
+        // once all events have been replayed and buffers switched, then we cleanup preboot
+        if (!opts.noCleanup) {
+            cleanup(theWindow, prebootData);
+        }
+    }
+    /**
+     * Complete a particular app
+     * @param opts
+     * @param appData
+     */
+    function completeApp(opts, appData) {
+        opts = opts || {};
+        appData = (appData || {});
+        var theWindow = (opts.window || window);
+        var root = (appData.root || {});
+        var events = appData.events || [];
+        // if a specific app root set and it doesn't equal the server selector, then don't do anything
+        if (opts.appRoot && opts.appRoot !== root.serverSelector) {
+            return;
+        }
+        // some client side frameworks (like Angular 1 w UI Router) will replace
+        // elements, so we need to re-get client root just to be safe
+        root.clientNode = theWindow.document.querySelector(root.clientSelector);
+        // replay all the events from the server view onto the client view
+        events.forEach(function (event) { return replayEvent(appData, event); });
+        // if we are buffering, switch the buffers
+        switchBuffer(theWindow, appData);
+    }
+    /**
+     * Replay a particular event. The trick here is finding the appropriate client
+     * node where the event is to be dispatched that matches up with the server node
+     * where the event came from originally.
+     */
+    function replayEvent(appData, prebootEvent) {
+        appData = (appData || {});
+        prebootEvent = (prebootEvent || {});
+        var event = prebootEvent.event;
+        var serverNode = prebootEvent.node || {};
+        var nodeKey = prebootEvent.nodeKey;
+        var clientNode = findClientNode({
+            root: appData.root,
+            node: serverNode,
+            nodeKey: nodeKey
+        });
+        // if client node can't be found, log a warning
+        if (!clientNode) {
+            console.warn('Trying to dispatch event ' + event.type +
+                ' to node ' + nodeKey + ' but could not find client node. ' +
+                'Server node is: ');
+            console.log(serverNode);
+            return;
+        }
+        // now dispatch events and whatnot to the client node
+        clientNode.checked = serverNode.checked ? true : undefined;
+        clientNode.selected = serverNode.selected ? true : undefined;
+        clientNode.value = serverNode.value;
+        clientNode.dispatchEvent(event);
+    }
+    /**
+     * Hide the server buffer and show the client buffer
+     */
+    function switchBuffer(window, appData) {
+        appData = (appData || {});
+        var root = (appData.root || {});
+        var serverView = root.serverNode;
+        var clientView = root.clientNode;
+        // if no client view or the server view is the body or client
+        // and server view are the same, then don't do anything and return
+        if (!clientView || !serverView || serverView === clientView || serverView.nodeName === 'BODY') {
+            return;
+        }
+        // do a try-catch for case where serverView is an object but NOT of type Element
+        try {
+            // get the server view display mode
+            var display = window
+                .getComputedStyle(serverView)
+                .getPropertyValue('display') || 'block';
+            // first remove the server view
+            serverView.remove ?
+                serverView.remove() :
+                serverView.style.display = 'none';
+            // now add the client view
+            clientView.style.display = display;
+        }
+        catch (ex) {
+            console.error(ex);
+        }
+    }
+    /**
+     * This function does three things to cleanup preboot:
+     *    1. Set focus (and selection if a text box/text area) within a form element
+     *    2. Remove existing event listeners
+     *    3. Delete data from memory
+     */
+    function cleanup(window, prebootData) {
+        prebootData = prebootData || {};
+        var listeners = prebootData.listeners || [];
+        // set focus on the active node AFTER a small delay to ensure buffer switched
+        setTimeout(function () {
+            setFocus(prebootData.activeNode);
+        }, 1);
+        // remove all event listeners
+        for (var _i = 0, listeners_1 = listeners; _i < listeners_1.length; _i++) {
+            var listener = listeners_1[_i];
+            listener.node.removeEventListener(listener.eventName, listener.handler);
+        }
+        // remove the freeze overlay if it exists
+        removeOverlay(window);
+        // finally clear out the data stored for each app
+        prebootData.apps = [];
+        clientNodeCache = {};
+    }
+    /**
+     * Remove the overlay if it exists
+     */
+    function removeOverlay(window) {
+        var prebootOverlay = window.document.body.querySelector('#prebootOverlay');
+        if (prebootOverlay) {
+            prebootOverlay.style.display = 'none';
+        }
+    }
+    /**
+     * Set focus on a given active node element
+     */
+    function setFocus(activeNode) {
+        // only do something if there is an active node
+        if (!activeNode || !activeNode.node || !activeNode.nodeKey) {
+            return;
+        }
+        // find the client node in the new client view
+        var clientNode = findClientNode(activeNode);
+        if (clientNode) {
+            // set focus on the client node
+            clientNode.focus();
+            // set selection if a modern browser (i.e. IE9+, etc.)
+            var selection = activeNode.selection;
+            if (clientNode.setSelectionRange && selection) {
+                clientNode.setSelectionRange(selection.start, selection.end, selection.direction);
+            }
+        }
+    }
+    /**
+     * Given a node from the server rendered view, find the equivalent
+     * node in the client rendered view. We do this by the following approach:
+     *      1. take the name of the server node tag (ex. div or h1 or input)
+     *      2. add either id (ex. div#myid) or class names (ex. div.class1.class2)
+     *      3. use that value as a selector to get all the matching client nodes
+     *      4. loop through all client nodes found and for each generate a key value
+     *      5. compare the client key to the server key; once there is a match, we have our client node
+     *
+     * NOTE: this only works when the client view is almost exactly the same as the server
+     * view. we will need an improvement here in the future to account for situations
+     * where the client view is different in structure from the server view
+     */
+    function findClientNode(serverNodeContext) {
+        serverNodeContext = (serverNodeContext || {});
+        var serverNode = serverNodeContext.node;
+        var root = serverNodeContext.root;
+        // if no server or client root, don't do anything
+        if (!root || !root.serverNode || !root.clientNode) {
+            return null;
+        }
+        // we use the string of the node to compare to the client node & as key in cache
+        var serverNodeKey = serverNodeContext.nodeKey || getNodeKey(serverNodeContext);
+        // if client node already in cache, return it
+        if (clientNodeCache[serverNodeKey]) {
+            return clientNodeCache[serverNodeKey];
+        }
+        // get the selector for client nodes
+        var className = (serverNode.className || '').replace('ng-binding', '').trim();
+        var selector = serverNode.tagName;
+        if (serverNode.id) {
+            selector += '#' + serverNode.id;
+        }
+        else if (className) {
+            selector += '.' + className.replace(/ /g, '.');
+        }
+        // select all possible client nodes and look through them to try and find a match
+        var rootClientNode = root.clientNode;
+        var clientNodes = rootClientNode.querySelectorAll(selector) || [];
+        // if nothing found, then just try the tag name as a final option
+        if (!clientNodes.length) {
+            clientNodes = rootClientNode.querySelectorAll(serverNode.tagName) || [];
+        }
+        for (var _i = 0, clientNodes_1 = clientNodes; _i < clientNodes_1.length; _i++) {
+            var clientNode = clientNodes_1[_i];
+            // get the key for the client node
+            var clientNodeKey = getNodeKey({ root: root, node: clientNode });
+            // if the client node key is exact match for the server node key, then we found the client node
+            if (clientNodeKey === serverNodeKey) {
+                clientNodeCache[serverNodeKey] = clientNode;
+                return clientNode;
+            }
+        }
+        // if we get here and there is one clientNode, use it as a fallback
+        if (clientNodes.length === 1) {
+            clientNodeCache[serverNodeKey] = clientNodes[0];
+            return clientNodes[0];
+        }
+        // if we get here it means we couldn't find the client node so give the user a warning
+        console.warn('No matching client node found for ' + serverNodeKey +
+            '. You can fix this by assigning this element a unique id attribute.');
+        return null;
+    }
+    /**
+     * Attempt to generate key from node position in the DOM
+     *
+     * NOTE: this function is duplicated in preboot_inline.ts and must be
+     * kept in sync. It is duplicated for right now since we are trying
+     * to keep all inline code separated and distinct (i.e. without imports)
+     */
+    function getNodeKey(nodeContext) {
+        var ancestors = [];
+        var root = nodeContext.root;
+        var node = nodeContext.node;
+        var temp = node;
+        // walk up the tree from the target node up to the root
+        while (temp && temp !== root.serverNode && temp !== root.clientNode) {
+            ancestors.push(temp);
+            temp = temp.parentNode;
+        }
+        // note: if temp doesn't exist here it means root node wasn't found
+        if (temp) {
+            ancestors.push(temp);
+        }
+        // now go backwards starting from the root, appending the appName to unique identify the node later..
+        var name = node.nodeName || 'unknown';
+        var key = name + '_' + root.serverSelector;
+        var len = ancestors.length;
+        for (var i = (len - 1); i >= 0; i--) {
+            temp = ancestors[i];
+            if (temp.childNodes && i > 0) {
+                for (var j = 0; j < temp.childNodes.length; j++) {
+                    if (temp.childNodes[j] === ancestors[i - 1]) {
+                        key += '_s' + (j + 1);
+                        break;
+                    }
+                }
+            }
+        }
+        return key;
+    }
+    return {
+        complete: complete,
+        completeApp: completeApp,
+        replayEvent: replayEvent,
+        switchBuffer: switchBuffer,
+        removeOverlay: removeOverlay,
+        cleanup: cleanup,
+        setFocus: setFocus,
+        findClientNode: findClientNode,
+        getNodeKey: getNodeKey
+    };
+}
+exports.prebootClient = prebootClient;
+
+
+/***/ },
+
+/***/ "./node_modules/rxjs/Observable.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__("./node_modules/rxjs/util/root.js");
+var toSubscriber_1 = __webpack_require__("./node_modules/rxjs/util/toSubscriber.js");
+var observable_1 = __webpack_require__("./node_modules/rxjs/symbol/observable.js");
+/**
+ * A representation of any set of values over any amount of time. This the most basic building block
+ * of RxJS.
+ *
+ * @class Observable<T>
+ */
+var Observable = (function () {
+    /**
+     * @constructor
+     * @param {Function} subscribe the function that is  called when the Observable is
+     * initially subscribed to. This function is given a Subscriber, to which new values
+     * can be `next`ed, or an `error` method can be called to raise an error, or
+     * `complete` can be called to notify of a successful completion.
+     */
+    function Observable(subscribe) {
+        this._isScalar = false;
+        if (subscribe) {
+            this._subscribe = subscribe;
+        }
+    }
+    /**
+     * Creates a new Observable, with this Observable as the source, and the passed
+     * operator defined as the new observable's operator.
+     * @method lift
+     * @param {Operator} operator the operator defining the operation to take on the observable
+     * @return {Observable} a new observable with the Operator applied
+     */
+    Observable.prototype.lift = function (operator) {
+        var observable = new Observable();
+        observable.source = this;
+        observable.operator = operator;
+        return observable;
+    };
+    Observable.prototype.subscribe = function (observerOrNext, error, complete) {
+        var operator = this.operator;
+        var sink = toSubscriber_1.toSubscriber(observerOrNext, error, complete);
+        if (operator) {
+            operator.call(sink, this.source);
+        }
+        else {
+            sink.add(this._subscribe(sink));
+        }
+        if (sink.syncErrorThrowable) {
+            sink.syncErrorThrowable = false;
+            if (sink.syncErrorThrown) {
+                throw sink.syncErrorValue;
+            }
+        }
+        return sink;
+    };
+    /**
+     * @method forEach
+     * @param {Function} next a handler for each value emitted by the observable
+     * @param {PromiseConstructor} [PromiseCtor] a constructor function used to instantiate the Promise
+     * @return {Promise} a promise that either resolves on observable completion or
+     *  rejects with the handled error
+     */
+    Observable.prototype.forEach = function (next, PromiseCtor) {
+        var _this = this;
+        if (!PromiseCtor) {
+            if (root_1.root.Rx && root_1.root.Rx.config && root_1.root.Rx.config.Promise) {
+                PromiseCtor = root_1.root.Rx.config.Promise;
+            }
+            else if (root_1.root.Promise) {
+                PromiseCtor = root_1.root.Promise;
+            }
+        }
+        if (!PromiseCtor) {
+            throw new Error('no Promise impl found');
+        }
+        return new PromiseCtor(function (resolve, reject) {
+            var subscription = _this.subscribe(function (value) {
+                if (subscription) {
+                    // if there is a subscription, then we can surmise
+                    // the next handling is asynchronous. Any errors thrown
+                    // need to be rejected explicitly and unsubscribe must be
+                    // called manually
+                    try {
+                        next(value);
+                    }
+                    catch (err) {
+                        reject(err);
+                        subscription.unsubscribe();
+                    }
+                }
+                else {
+                    // if there is NO subscription, then we're getting a nexted
+                    // value synchronously during subscription. We can just call it.
+                    // If it errors, Observable's `subscribe` will ensure the
+                    // unsubscription logic is called, then synchronously rethrow the error.
+                    // After that, Promise will trap the error and send it
+                    // down the rejection path.
+                    next(value);
+                }
+            }, reject, resolve);
+        });
+    };
+    Observable.prototype._subscribe = function (subscriber) {
+        return this.source.subscribe(subscriber);
+    };
+    /**
+     * An interop point defined by the es7-observable spec https://github.com/zenparsing/es-observable
+     * @method Symbol.observable
+     * @return {Observable} this instance of the observable
+     */
+    Observable.prototype[observable_1.$$observable] = function () {
+        return this;
+    };
+    // HACK: Since TypeScript inherits static properties too, we have to
+    // fight against TypeScript here so Subject can have a different static create signature
+    /**
+     * Creates a new cold Observable by calling the Observable constructor
+     * @static true
+     * @owner Observable
+     * @method create
+     * @param {Function} subscribe? the subscriber function to be passed to the Observable constructor
+     * @return {Observable} a new cold observable
+     */
+    Observable.create = function (subscribe) {
+        return new Observable(subscribe);
+    };
+    return Observable;
+}());
+exports.Observable = Observable;
+//# sourceMappingURL=Observable.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/Observer.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.empty = {
+    closed: true,
+    next: function (value) { },
+    error: function (err) { throw err; },
+    complete: function () { }
+};
+//# sourceMappingURL=Observer.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/Subscriber.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var isFunction_1 = __webpack_require__("./node_modules/rxjs/util/isFunction.js");
+var Subscription_1 = __webpack_require__("./node_modules/rxjs/Subscription.js");
+var Observer_1 = __webpack_require__("./node_modules/rxjs/Observer.js");
+var rxSubscriber_1 = __webpack_require__("./node_modules/rxjs/symbol/rxSubscriber.js");
+/**
+ * Implements the {@link Observer} interface and extends the
+ * {@link Subscription} class. While the {@link Observer} is the public API for
+ * consuming the values of an {@link Observable}, all Observers get converted to
+ * a Subscriber, in order to provide Subscription-like capabilities such as
+ * `unsubscribe`. Subscriber is a common type in RxJS, and crucial for
+ * implementing operators, but it is rarely used as a public API.
+ *
+ * @class Subscriber<T>
+ */
+var Subscriber = (function (_super) {
+    __extends(Subscriber, _super);
+    /**
+     * @param {Observer|function(value: T): void} [destinationOrNext] A partially
+     * defined Observer or a `next` callback function.
+     * @param {function(e: ?any): void} [error] The `error` callback of an
+     * Observer.
+     * @param {function(): void} [complete] The `complete` callback of an
+     * Observer.
+     */
+    function Subscriber(destinationOrNext, error, complete) {
+        _super.call(this);
+        this.syncErrorValue = null;
+        this.syncErrorThrown = false;
+        this.syncErrorThrowable = false;
+        this.isStopped = false;
+        switch (arguments.length) {
+            case 0:
+                this.destination = Observer_1.empty;
+                break;
+            case 1:
+                if (!destinationOrNext) {
+                    this.destination = Observer_1.empty;
+                    break;
+                }
+                if (typeof destinationOrNext === 'object') {
+                    if (destinationOrNext instanceof Subscriber) {
+                        this.destination = destinationOrNext;
+                        this.destination.add(this);
+                    }
+                    else {
+                        this.syncErrorThrowable = true;
+                        this.destination = new SafeSubscriber(this, destinationOrNext);
+                    }
+                    break;
+                }
+            default:
+                this.syncErrorThrowable = true;
+                this.destination = new SafeSubscriber(this, destinationOrNext, error, complete);
+                break;
+        }
+    }
+    Subscriber.prototype[rxSubscriber_1.$$rxSubscriber] = function () { return this; };
+    /**
+     * A static factory for a Subscriber, given a (potentially partial) definition
+     * of an Observer.
+     * @param {function(x: ?T): void} [next] The `next` callback of an Observer.
+     * @param {function(e: ?any): void} [error] The `error` callback of an
+     * Observer.
+     * @param {function(): void} [complete] The `complete` callback of an
+     * Observer.
+     * @return {Subscriber<T>} A Subscriber wrapping the (partially defined)
+     * Observer represented by the given arguments.
+     */
+    Subscriber.create = function (next, error, complete) {
+        var subscriber = new Subscriber(next, error, complete);
+        subscriber.syncErrorThrowable = false;
+        return subscriber;
+    };
+    /**
+     * The {@link Observer} callback to receive notifications of type `next` from
+     * the Observable, with a value. The Observable may call this method 0 or more
+     * times.
+     * @param {T} [value] The `next` value.
+     * @return {void}
+     */
+    Subscriber.prototype.next = function (value) {
+        if (!this.isStopped) {
+            this._next(value);
+        }
+    };
+    /**
+     * The {@link Observer} callback to receive notifications of type `error` from
+     * the Observable, with an attached {@link Error}. Notifies the Observer that
+     * the Observable has experienced an error condition.
+     * @param {any} [err] The `error` exception.
+     * @return {void}
+     */
+    Subscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            this.isStopped = true;
+            this._error(err);
+        }
+    };
+    /**
+     * The {@link Observer} callback to receive a valueless notification of type
+     * `complete` from the Observable. Notifies the Observer that the Observable
+     * has finished sending push-based notifications.
+     * @return {void}
+     */
+    Subscriber.prototype.complete = function () {
+        if (!this.isStopped) {
+            this.isStopped = true;
+            this._complete();
+        }
+    };
+    Subscriber.prototype.unsubscribe = function () {
+        if (this.closed) {
+            return;
+        }
+        this.isStopped = true;
+        _super.prototype.unsubscribe.call(this);
+    };
+    Subscriber.prototype._next = function (value) {
+        this.destination.next(value);
+    };
+    Subscriber.prototype._error = function (err) {
+        this.destination.error(err);
+        this.unsubscribe();
+    };
+    Subscriber.prototype._complete = function () {
+        this.destination.complete();
+        this.unsubscribe();
+    };
+    return Subscriber;
+}(Subscription_1.Subscription));
+exports.Subscriber = Subscriber;
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SafeSubscriber = (function (_super) {
+    __extends(SafeSubscriber, _super);
+    function SafeSubscriber(_parent, observerOrNext, error, complete) {
+        _super.call(this);
+        this._parent = _parent;
+        var next;
+        var context = this;
+        if (isFunction_1.isFunction(observerOrNext)) {
+            next = observerOrNext;
+        }
+        else if (observerOrNext) {
+            context = observerOrNext;
+            next = observerOrNext.next;
+            error = observerOrNext.error;
+            complete = observerOrNext.complete;
+            if (isFunction_1.isFunction(context.unsubscribe)) {
+                this.add(context.unsubscribe.bind(context));
+            }
+            context.unsubscribe = this.unsubscribe.bind(this);
+        }
+        this._context = context;
+        this._next = next;
+        this._error = error;
+        this._complete = complete;
+    }
+    SafeSubscriber.prototype.next = function (value) {
+        if (!this.isStopped && this._next) {
+            var _parent = this._parent;
+            if (!_parent.syncErrorThrowable) {
+                this.__tryOrUnsub(this._next, value);
+            }
+            else if (this.__tryOrSetError(_parent, this._next, value)) {
+                this.unsubscribe();
+            }
+        }
+    };
+    SafeSubscriber.prototype.error = function (err) {
+        if (!this.isStopped) {
+            var _parent = this._parent;
+            if (this._error) {
+                if (!_parent.syncErrorThrowable) {
+                    this.__tryOrUnsub(this._error, err);
+                    this.unsubscribe();
+                }
+                else {
+                    this.__tryOrSetError(_parent, this._error, err);
+                    this.unsubscribe();
+                }
+            }
+            else if (!_parent.syncErrorThrowable) {
+                this.unsubscribe();
+                throw err;
+            }
+            else {
+                _parent.syncErrorValue = err;
+                _parent.syncErrorThrown = true;
+                this.unsubscribe();
+            }
+        }
+    };
+    SafeSubscriber.prototype.complete = function () {
+        if (!this.isStopped) {
+            var _parent = this._parent;
+            if (this._complete) {
+                if (!_parent.syncErrorThrowable) {
+                    this.__tryOrUnsub(this._complete);
+                    this.unsubscribe();
+                }
+                else {
+                    this.__tryOrSetError(_parent, this._complete);
+                    this.unsubscribe();
+                }
+            }
+            else {
+                this.unsubscribe();
+            }
+        }
+    };
+    SafeSubscriber.prototype.__tryOrUnsub = function (fn, value) {
+        try {
+            fn.call(this._context, value);
+        }
+        catch (err) {
+            this.unsubscribe();
+            throw err;
+        }
+    };
+    SafeSubscriber.prototype.__tryOrSetError = function (parent, fn, value) {
+        try {
+            fn.call(this._context, value);
+        }
+        catch (err) {
+            parent.syncErrorValue = err;
+            parent.syncErrorThrown = true;
+            return true;
+        }
+        return false;
+    };
+    SafeSubscriber.prototype._unsubscribe = function () {
+        var _parent = this._parent;
+        this._context = null;
+        this._parent = null;
+        _parent.unsubscribe();
+    };
+    return SafeSubscriber;
+}(Subscriber));
+//# sourceMappingURL=Subscriber.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/Subscription.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var isArray_1 = __webpack_require__("./node_modules/rxjs/util/isArray.js");
+var isObject_1 = __webpack_require__("./node_modules/rxjs/util/isObject.js");
+var isFunction_1 = __webpack_require__("./node_modules/rxjs/util/isFunction.js");
+var tryCatch_1 = __webpack_require__("./node_modules/rxjs/util/tryCatch.js");
+var errorObject_1 = __webpack_require__("./node_modules/rxjs/util/errorObject.js");
+var UnsubscriptionError_1 = __webpack_require__("./node_modules/rxjs/util/UnsubscriptionError.js");
+/**
+ * Represents a disposable resource, such as the execution of an Observable. A
+ * Subscription has one important method, `unsubscribe`, that takes no argument
+ * and just disposes the resource held by the subscription.
+ *
+ * Additionally, subscriptions may be grouped together through the `add()`
+ * method, which will attach a child Subscription to the current Subscription.
+ * When a Subscription is unsubscribed, all its children (and its grandchildren)
+ * will be unsubscribed as well.
+ *
+ * @class Subscription
+ */
+var Subscription = (function () {
+    /**
+     * @param {function(): void} [unsubscribe] A function describing how to
+     * perform the disposal of resources when the `unsubscribe` method is called.
+     */
+    function Subscription(unsubscribe) {
+        /**
+         * A flag to indicate whether this Subscription has already been unsubscribed.
+         * @type {boolean}
+         */
+        this.closed = false;
+        if (unsubscribe) {
+            this._unsubscribe = unsubscribe;
+        }
+    }
+    /**
+     * Disposes the resources held by the subscription. May, for instance, cancel
+     * an ongoing Observable execution or cancel any other type of work that
+     * started when the Subscription was created.
+     * @return {void}
+     */
+    Subscription.prototype.unsubscribe = function () {
+        var hasErrors = false;
+        var errors;
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
+        var _a = this, _unsubscribe = _a._unsubscribe, _subscriptions = _a._subscriptions;
+        this._subscriptions = null;
+        if (isFunction_1.isFunction(_unsubscribe)) {
+            var trial = tryCatch_1.tryCatch(_unsubscribe).call(this);
+            if (trial === errorObject_1.errorObject) {
+                hasErrors = true;
+                errors = errors || (errorObject_1.errorObject.e instanceof UnsubscriptionError_1.UnsubscriptionError ?
+                    flattenUnsubscriptionErrors(errorObject_1.errorObject.e.errors) : [errorObject_1.errorObject.e]);
+            }
+        }
+        if (isArray_1.isArray(_subscriptions)) {
+            var index = -1;
+            var len = _subscriptions.length;
+            while (++index < len) {
+                var sub = _subscriptions[index];
+                if (isObject_1.isObject(sub)) {
+                    var trial = tryCatch_1.tryCatch(sub.unsubscribe).call(sub);
+                    if (trial === errorObject_1.errorObject) {
+                        hasErrors = true;
+                        errors = errors || [];
+                        var err = errorObject_1.errorObject.e;
+                        if (err instanceof UnsubscriptionError_1.UnsubscriptionError) {
+                            errors = errors.concat(flattenUnsubscriptionErrors(err.errors));
+                        }
+                        else {
+                            errors.push(err);
+                        }
+                    }
+                }
+            }
+        }
+        if (hasErrors) {
+            throw new UnsubscriptionError_1.UnsubscriptionError(errors);
+        }
+    };
+    /**
+     * Adds a tear down to be called during the unsubscribe() of this
+     * Subscription.
+     *
+     * If the tear down being added is a subscription that is already
+     * unsubscribed, is the same reference `add` is being called on, or is
+     * `Subscription.EMPTY`, it will not be added.
+     *
+     * If this subscription is already in an `closed` state, the passed
+     * tear down logic will be executed immediately.
+     *
+     * @param {TeardownLogic} teardown The additional logic to execute on
+     * teardown.
+     * @return {Subscription} Returns the Subscription used or created to be
+     * added to the inner subscriptions list. This Subscription can be used with
+     * `remove()` to remove the passed teardown logic from the inner subscriptions
+     * list.
+     */
+    Subscription.prototype.add = function (teardown) {
+        if (!teardown || (teardown === Subscription.EMPTY)) {
+            return Subscription.EMPTY;
+        }
+        if (teardown === this) {
+            return this;
+        }
+        var sub = teardown;
+        switch (typeof teardown) {
+            case 'function':
+                sub = new Subscription(teardown);
+            case 'object':
+                if (sub.closed || typeof sub.unsubscribe !== 'function') {
+                    return sub;
+                }
+                else if (this.closed) {
+                    sub.unsubscribe();
+                    return sub;
+                }
+                break;
+            default:
+                throw new Error('unrecognized teardown ' + teardown + ' added to Subscription.');
+        }
+        var childSub = new ChildSubscription(sub, this);
+        this._subscriptions = this._subscriptions || [];
+        this._subscriptions.push(childSub);
+        return childSub;
+    };
+    /**
+     * Removes a Subscription from the internal list of subscriptions that will
+     * unsubscribe during the unsubscribe process of this Subscription.
+     * @param {Subscription} subscription The subscription to remove.
+     * @return {void}
+     */
+    Subscription.prototype.remove = function (subscription) {
+        // HACK: This might be redundant because of the logic in `add()`
+        if (subscription == null || (subscription === this) || (subscription === Subscription.EMPTY)) {
+            return;
+        }
+        var subscriptions = this._subscriptions;
+        if (subscriptions) {
+            var subscriptionIndex = subscriptions.indexOf(subscription);
+            if (subscriptionIndex !== -1) {
+                subscriptions.splice(subscriptionIndex, 1);
+            }
+        }
+    };
+    Subscription.EMPTY = (function (empty) {
+        empty.closed = true;
+        return empty;
+    }(new Subscription()));
+    return Subscription;
+}());
+exports.Subscription = Subscription;
+var ChildSubscription = (function (_super) {
+    __extends(ChildSubscription, _super);
+    function ChildSubscription(_innerSub, _parent) {
+        _super.call(this);
+        this._innerSub = _innerSub;
+        this._parent = _parent;
+    }
+    ChildSubscription.prototype._unsubscribe = function () {
+        var _a = this, _innerSub = _a._innerSub, _parent = _a._parent;
+        _parent.remove(this);
+        _innerSub.unsubscribe();
+    };
+    return ChildSubscription;
+}(Subscription));
+exports.ChildSubscription = ChildSubscription;
+function flattenUnsubscriptionErrors(errors) {
+    return errors.reduce(function (errs, err) { return errs.concat((err instanceof UnsubscriptionError_1.UnsubscriptionError) ? err.errors : err); }, []);
+}
+//# sourceMappingURL=Subscription.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/symbol/observable.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__("./node_modules/rxjs/util/root.js");
+function getSymbolObservable(context) {
+    var $$observable;
+    var Symbol = context.Symbol;
+    if (typeof Symbol === 'function') {
+        if (Symbol.observable) {
+            $$observable = Symbol.observable;
+        }
+        else {
+            $$observable = Symbol('observable');
+            Symbol.observable = $$observable;
+        }
+    }
+    else {
+        $$observable = '@@observable';
+    }
+    return $$observable;
+}
+exports.getSymbolObservable = getSymbolObservable;
+exports.$$observable = getSymbolObservable(root_1.root);
+//# sourceMappingURL=observable.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/symbol/rxSubscriber.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var root_1 = __webpack_require__("./node_modules/rxjs/util/root.js");
+var Symbol = root_1.root.Symbol;
+exports.$$rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'function') ?
+    Symbol.for('rxSubscriber') : '@@rxSubscriber';
+//# sourceMappingURL=rxSubscriber.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/UnsubscriptionError.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when one or more errors have occurred during the
+ * `unsubscribe` of a {@link Subscription}.
+ */
+var UnsubscriptionError = (function (_super) {
+    __extends(UnsubscriptionError, _super);
+    function UnsubscriptionError(errors) {
+        _super.call(this);
+        this.errors = errors;
+        var err = Error.call(this, errors ?
+            errors.length + " errors occurred during unsubscription:\n  " + errors.map(function (err, i) { return ((i + 1) + ") " + err.toString()); }).join('\n  ') : '');
+        this.name = err.name = 'UnsubscriptionError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return UnsubscriptionError;
+}(Error));
+exports.UnsubscriptionError = UnsubscriptionError;
+//# sourceMappingURL=UnsubscriptionError.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/errorObject.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// typeof any so that it we don't have to cast when comparing a result to the error object
+exports.errorObject = { e: {} };
+//# sourceMappingURL=errorObject.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/isArray.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
+//# sourceMappingURL=isArray.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/isFunction.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isFunction(x) {
+    return typeof x === 'function';
+}
+exports.isFunction = isFunction;
+//# sourceMappingURL=isFunction.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/isObject.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isObject(x) {
+    return x != null && typeof x === 'object';
+}
+exports.isObject = isObject;
+//# sourceMappingURL=isObject.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/root.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+/**
+ * window: browser in DOM main thread
+ * self: browser in WebWorker
+ * global: Node.js/other
+ */
+exports.root = (typeof window == 'object' && window.window === window && window
+    || typeof self == 'object' && self.self === self && self
+    || typeof global == 'object' && global.global === global && global);
+if (!exports.root) {
+    throw new Error('RxJS could not find any global context (window, self, global)');
+}
+//# sourceMappingURL=root.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/toSubscriber.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Subscriber_1 = __webpack_require__("./node_modules/rxjs/Subscriber.js");
+var rxSubscriber_1 = __webpack_require__("./node_modules/rxjs/symbol/rxSubscriber.js");
+var Observer_1 = __webpack_require__("./node_modules/rxjs/Observer.js");
+function toSubscriber(nextOrObserver, error, complete) {
+    if (nextOrObserver) {
+        if (nextOrObserver instanceof Subscriber_1.Subscriber) {
+            return nextOrObserver;
+        }
+        if (nextOrObserver[rxSubscriber_1.$$rxSubscriber]) {
+            return nextOrObserver[rxSubscriber_1.$$rxSubscriber]();
+        }
+    }
+    if (!nextOrObserver && !error && !complete) {
+        return new Subscriber_1.Subscriber(Observer_1.empty);
+    }
+    return new Subscriber_1.Subscriber(nextOrObserver, error, complete);
+}
+exports.toSubscriber = toSubscriber;
+//# sourceMappingURL=toSubscriber.js.map
+
+/***/ },
+
+/***/ "./node_modules/rxjs/util/tryCatch.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var errorObject_1 = __webpack_require__("./node_modules/rxjs/util/errorObject.js");
+var tryCatchTarget;
+function tryCatcher() {
+    try {
+        return tryCatchTarget.apply(this, arguments);
+    }
+    catch (e) {
+        errorObject_1.errorObject.e = e;
+        return errorObject_1.errorObject;
+    }
+}
+function tryCatch(fn) {
+    tryCatchTarget = fn;
+    return tryCatcher;
+}
+exports.tryCatch = tryCatch;
+;
+//# sourceMappingURL=tryCatch.js.map
 
 /***/ },
 
@@ -1946,6 +6006,7 @@ var body_1 = __webpack_require__("./src/components/body/index.ts");
 var columns_1 = __webpack_require__("./src/components/columns/index.ts");
 var row_detail_1 = __webpack_require__("./src/components/row-detail/index.ts");
 var utils_2 = __webpack_require__("./src/utils/index.ts");
+var angular2_universal_1 = __webpack_require__("./node_modules/angular2-universal/browser/index.js");
 var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
 var KeyboardEvent = lang_1.global.KeyboardEvent;
 var MouseEvent = lang_1.global.MouseEvent;
@@ -2600,16 +6661,18 @@ var DatatableComponent = (function () {
      * @memberOf DatatableComponent
      */
     DatatableComponent.prototype.recalculateDims = function () {
-        var _a = this.element.getBoundingClientRect(), height = _a.height, width = _a.width;
-        this.innerWidth = Math.floor(width);
-        if (this.scrollbarV) {
-            if (this.headerHeight)
-                height = height - this.headerHeight;
-            if (this.footerHeight)
-                height = height - this.footerHeight;
-            this.bodyHeight = height;
+        if (angular2_universal_1.isBrowser) {
+            var _a = this.element.getBoundingClientRect(), height = _a.height, width = _a.width;
+            this.innerWidth = Math.floor(width);
+            if (this.scrollbarV) {
+                if (this.headerHeight)
+                    height = height - this.headerHeight;
+                if (this.footerHeight)
+                    height = height - this.footerHeight;
+                this.bodyHeight = height;
+            }
+            this.recalculatePages();
         }
-        this.recalculatePages();
     };
     /**
      * Recalculates the pages after a update.
@@ -3841,7 +7904,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
-var common_1 = __webpack_require__(2);
+var common_1 = __webpack_require__(3);
+//import { UniversalModule } from 'angular2-universal';
 var components_1 = __webpack_require__("./src/components/index.ts");
 var directives_1 = __webpack_require__("./src/directives/index.ts");
 var NgxDatatableModule = (function () {
@@ -3850,7 +7914,7 @@ var NgxDatatableModule = (function () {
     NgxDatatableModule = __decorate([
         core_1.NgModule({
             imports: [
-                common_1.CommonModule
+                common_1.CommonModule //,
             ],
             declarations: [
                 directives_1.VisibilityDirective,
@@ -3909,7 +7973,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
-var Rx_1 = __webpack_require__(1);
+var Rx_1 = __webpack_require__(2);
 var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
 var KeyboardEvent = lang_1.global.KeyboardEvent;
 var MouseEvent = lang_1.global.MouseEvent;
@@ -4298,7 +8362,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
-var Rx_1 = __webpack_require__(1);
+var Rx_1 = __webpack_require__(2);
 var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
 var KeyboardEvent = lang_1.global.KeyboardEvent;
 var MouseEvent = lang_1.global.MouseEvent;
@@ -5562,6 +9626,20 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 /***/ function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+
+/***/ 3:
+/***/ function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ },
+
+/***/ 4:
+/***/ function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
 
 /***/ }
 

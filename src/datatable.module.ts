@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+//import { UniversalModule } from 'angular2-universal';
 
 import {
   DatatableComponent,
@@ -31,7 +32,8 @@ import {
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule//,
+	//UniversalModule
   ],
   declarations: [
     VisibilityDirective,

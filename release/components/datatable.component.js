@@ -15,6 +15,7 @@ var body_1 = require('./body');
 var columns_1 = require('./columns');
 var row_detail_1 = require('./row-detail');
 var utils_2 = require('../utils');
+var angular2_universal_1 = require('angular2-universal');
 var lang_1 = require('@angular/core/src/facade/lang');
 var KeyboardEvent = lang_1.global.KeyboardEvent;
 var MouseEvent = lang_1.global.MouseEvent;
@@ -669,16 +670,18 @@ var DatatableComponent = (function () {
      * @memberOf DatatableComponent
      */
     DatatableComponent.prototype.recalculateDims = function () {
-        var _a = this.element.getBoundingClientRect(), height = _a.height, width = _a.width;
-        this.innerWidth = Math.floor(width);
-        if (this.scrollbarV) {
-            if (this.headerHeight)
-                height = height - this.headerHeight;
-            if (this.footerHeight)
-                height = height - this.footerHeight;
-            this.bodyHeight = height;
+        if (angular2_universal_1.isBrowser) {
+            var _a = this.element.getBoundingClientRect(), height = _a.height, width = _a.width;
+            this.innerWidth = Math.floor(width);
+            if (this.scrollbarV) {
+                if (this.headerHeight)
+                    height = height - this.headerHeight;
+                if (this.footerHeight)
+                    height = height - this.footerHeight;
+                this.bodyHeight = height;
+            }
+            this.recalculatePages();
         }
-        this.recalculatePages();
     };
     /**
      * Recalculates the pages after a update.
