@@ -1,1 +1,1 @@
-{"version":3,"file":"scrollbar-width.js","sourceRoot":"","sources":["../../src/utils/scrollbar-width.ts"],"names":[],"mappings":";AAAA;;;;GAIG;AACH;IACE;;;;;;;;;;;;;;;;6CAgByC;IACzC,MAAM,CAAC,CAAC,CAAC;AACX,CAAC;AAnBe,yBAAiB,oBAmBhC,CAAA;AAAA,CAAC;AAEW,sBAAc,GAAG,iBAAiB,EAAE,CAAC"}
+{"version":3,"file":"scrollbar-width.js","sourceRoot":"","sources":["../../src/utils/scrollbar-width.ts"],"names":[],"mappings":";AAAA;;;;GAIG;AACH;IAEE,MAAM,CAAC,CAAC,CAAC;AACX,CAAC;AAHe,yBAAiB,oBAGhC,CAAA;AAAA,CAAC;AAEW,sBAAc,GAAG,iBAAiB,EAAE,CAAC"}
