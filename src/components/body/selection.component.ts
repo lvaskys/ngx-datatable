@@ -2,6 +2,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Keys, selectRows, selectRowsBetween } from '../../utils';
 import { SelectionType } from '../../types';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
 export interface Model {
   type: string;
   event: MouseEvent | KeyboardEvent;

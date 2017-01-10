@@ -2,6 +2,11 @@ import {
   Component, Input, HostBinding, ElementRef, Output, EventEmitter, HostListener
 } from '@angular/core';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
 import {
   columnsByPin, columnGroupWidths, columnsByPinArr,
   translateXY, Keys, scrollbarWidth

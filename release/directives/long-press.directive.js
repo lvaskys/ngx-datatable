@@ -1,5 +1,8 @@
 "use strict";
 var core_1 = require('@angular/core');
+var lang_1 = require('@angular/core/src/facade/lang');
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var LongPressDirective = (function () {
     function LongPressDirective() {
         this.duration = 500;

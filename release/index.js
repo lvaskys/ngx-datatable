@@ -83,6 +83,264 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@angular/core/src/facade/lang.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {Object.defineProperty(exports, "__esModule", { value: true });
+/* harmony export (immutable) */ exports["scheduleMicroTask"] = scheduleMicroTask;
+/* harmony export (binding) */ __webpack_require__.d(exports, "global", function() { return _global; });
+/* harmony export (immutable) */ exports["getTypeNameForDebugging"] = getTypeNameForDebugging;
+/* harmony export (immutable) */ exports["isPresent"] = isPresent;
+/* harmony export (immutable) */ exports["isBlank"] = isBlank;
+/* harmony export (immutable) */ exports["isStrictStringMap"] = isStrictStringMap;
+/* harmony export (immutable) */ exports["isDate"] = isDate;
+/* harmony export (immutable) */ exports["stringify"] = stringify;
+/* harmony export (binding) */ __webpack_require__.d(exports, "NumberWrapper", function() { return NumberWrapper; });
+/* harmony export (immutable) */ exports["looseIdentical"] = looseIdentical;
+/* harmony export (immutable) */ exports["isJsObject"] = isJsObject;
+/* harmony export (immutable) */ exports["print"] = print;
+/* harmony export (immutable) */ exports["warn"] = warn;
+/* harmony export (immutable) */ exports["setValueOnPath"] = setValueOnPath;
+/* harmony export (immutable) */ exports["getSymbolIterator"] = getSymbolIterator;
+/* harmony export (immutable) */ exports["isPrimitive"] = isPrimitive;
+/* harmony export (immutable) */ exports["escapeRegExp"] = escapeRegExp;
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var /** @type {?} */ globalScope;
+if (typeof window === 'undefined') {
+    if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+        // TODO: Replace any with WorkerGlobalScope from lib.webworker.d.ts #3492
+        globalScope = (self);
+    }
+    else {
+        globalScope = (global);
+    }
+}
+else {
+    globalScope = (window);
+}
+/**
+ * @param {?} fn
+ * @return {?}
+ */
+function scheduleMicroTask(fn) {
+    Zone.current.scheduleMicroTask('scheduleMicrotask', fn);
+}
+// Need to declare a new variable for global here since TypeScript
+// exports the original value of the symbol.
+var /** @type {?} */ _global = globalScope;
+
+/**
+ * @param {?} type
+ * @return {?}
+ */
+function getTypeNameForDebugging(type) {
+    return type['name'] || typeof type;
+}
+// TODO: remove calls to assert in production environment
+// Note: Can't just export this and import in in other files
+// as `assert` is a reserved keyword in Dart
+_global.assert = function assert(condition) {
+    // TODO: to be fixed properly via #2830, noop for now
+};
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function isPresent(obj) {
+    return obj != null;
+}
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function isBlank(obj) {
+    return obj == null;
+}
+var /** @type {?} */ STRING_MAP_PROTO = Object.getPrototypeOf({});
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function isStrictStringMap(obj) {
+    return typeof obj === 'object' && obj !== null && Object.getPrototypeOf(obj) === STRING_MAP_PROTO;
+}
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function isDate(obj) {
+    return obj instanceof Date && !isNaN(obj.valueOf());
+}
+/**
+ * @param {?} token
+ * @return {?}
+ */
+function stringify(token) {
+    if (typeof token === 'string') {
+        return token;
+    }
+    if (token == null) {
+        return '' + token;
+    }
+    if (token.overriddenName) {
+        return "" + token.overriddenName;
+    }
+    if (token.name) {
+        return "" + token.name;
+    }
+    var /** @type {?} */ res = token.toString();
+    var /** @type {?} */ newLineIndex = res.indexOf('\n');
+    return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
+}
+var NumberWrapper = (function () {
+    function NumberWrapper() {
+    }
+    /**
+     * @param {?} text
+     * @return {?}
+     */
+    NumberWrapper.parseIntAutoRadix = function (text) {
+        var /** @type {?} */ result = parseInt(text);
+        if (isNaN(result)) {
+            throw new Error('Invalid integer literal when parsing ' + text);
+        }
+        return result;
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
+    return NumberWrapper;
+}());
+/**
+ * @param {?} a
+ * @param {?} b
+ * @return {?}
+ */
+function looseIdentical(a, b) {
+    return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
+}
+/**
+ * @param {?} o
+ * @return {?}
+ */
+function isJsObject(o) {
+    return o !== null && (typeof o === 'function' || typeof o === 'object');
+}
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function print(obj) {
+    // tslint:disable-next-line:no-console
+    console.log(obj);
+}
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function warn(obj) {
+    console.warn(obj);
+}
+/**
+ * @param {?} global
+ * @param {?} path
+ * @param {?} value
+ * @return {?}
+ */
+function setValueOnPath(global, path, value) {
+    var /** @type {?} */ parts = path.split('.');
+    var /** @type {?} */ obj = global;
+    while (parts.length > 1) {
+        var /** @type {?} */ name_1 = parts.shift();
+        if (obj.hasOwnProperty(name_1) && obj[name_1] != null) {
+            obj = obj[name_1];
+        }
+        else {
+            obj = obj[name_1] = {};
+        }
+    }
+    if (obj === undefined || obj === null) {
+        obj = {};
+    }
+    obj[parts.shift()] = value;
+}
+var /** @type {?} */ _symbolIterator = null;
+/**
+ * @return {?}
+ */
+function getSymbolIterator() {
+    if (!_symbolIterator) {
+        if (((globalScope)).Symbol && Symbol.iterator) {
+            _symbolIterator = Symbol.iterator;
+        }
+        else {
+            // es6-shim specific logic
+            var /** @type {?} */ keys = Object.getOwnPropertyNames(Map.prototype);
+            for (var /** @type {?} */ i = 0; i < keys.length; ++i) {
+                var /** @type {?} */ key = keys[i];
+                if (key !== 'entries' && key !== 'size' &&
+                    ((Map)).prototype[key] === Map.prototype['entries']) {
+                    _symbolIterator = key;
+                }
+            }
+        }
+    }
+    return _symbolIterator;
+}
+/**
+ * @param {?} obj
+ * @return {?}
+ */
+function isPrimitive(obj) {
+    return !isJsObject(obj);
+}
+/**
+ * @param {?} s
+ * @return {?}
+ */
+function escapeRegExp(s) {
+    return s.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+}
+//# sourceMappingURL=lang.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
+
+/***/ },
+
+/***/ "./node_modules/webpack/buildin/global.js":
+/***/ function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() { return this; })();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ },
+
 /***/ "./src/components/body/body-cell.component.ts":
 /***/ function(module, exports, __webpack_require__) {
 
@@ -100,6 +358,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(0);
 var utils_1 = __webpack_require__("./src/utils/index.ts");
 var types_1 = __webpack_require__("./src/types/index.ts");
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DataTableBodyCellComponent = (function () {
     function DataTableBodyCellComponent(element) {
         this.activate = new core_1.EventEmitter();
@@ -301,19 +562,19 @@ var DataTableBodyCellComponent = (function () {
     __decorate([
         core_1.HostListener('click', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DataTableBodyCellComponent.prototype, "onClick", null);
     __decorate([
         core_1.HostListener('dblclick', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DataTableBodyCellComponent.prototype, "onDblClick", null);
     __decorate([
         core_1.HostListener('keydown', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [KeyboardEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DataTableBodyCellComponent.prototype, "onKeyDown", null);
     DataTableBodyCellComponent = __decorate([
@@ -348,6 +609,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DataTableRowWrapperComponent = (function () {
     function DataTableRowWrapperComponent() {
         this.expanded = false;
@@ -379,7 +643,7 @@ var DataTableRowWrapperComponent = (function () {
     __decorate([
         core_1.HostListener('contextmenu', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DataTableRowWrapperComponent.prototype, "onContextmenu", null);
     DataTableRowWrapperComponent = __decorate([
@@ -414,6 +678,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var utils_1 = __webpack_require__("./src/utils/index.ts");
 var DataTableBodyRowComponent = (function () {
     function DataTableBodyRowComponent(element) {
@@ -553,7 +820,7 @@ var DataTableBodyRowComponent = (function () {
     __decorate([
         core_1.HostListener('keydown', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [KeyboardEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DataTableBodyRowComponent.prototype, "onKeyDown", null);
     DataTableBodyRowComponent = __decorate([
@@ -591,6 +858,9 @@ var core_1 = __webpack_require__(0);
 var utils_1 = __webpack_require__("./src/utils/index.ts");
 var types_1 = __webpack_require__("./src/types/index.ts");
 var scroller_component_1 = __webpack_require__("./src/components/body/scroller.component.ts");
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DataTableBodyComponent = (function () {
     function DataTableBodyComponent() {
         this.selected = [];
@@ -1191,6 +1461,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var ScrollerComponent = (function () {
     function ScrollerComponent(element, renderer) {
         this.renderer = renderer;
@@ -1298,6 +1571,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = __webpack_require__(0);
 var utils_1 = __webpack_require__("./src/utils/index.ts");
 var types_1 = __webpack_require__("./src/types/index.ts");
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DataTableSelectionComponent = (function () {
     function DataTableSelectionComponent() {
         this.activate = new core_1.EventEmitter();
@@ -1670,6 +1946,9 @@ var body_1 = __webpack_require__("./src/components/body/index.ts");
 var columns_1 = __webpack_require__("./src/components/columns/index.ts");
 var row_detail_1 = __webpack_require__("./src/components/row-detail/index.ts");
 var utils_2 = __webpack_require__("./src/utils/index.ts");
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DatatableComponent = (function () {
     function DatatableComponent(element, differs) {
         /**
@@ -3631,6 +3910,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(0);
 var Rx_1 = __webpack_require__(1);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 /**
  * Draggable Directive for Angular2
  *
@@ -3726,13 +4008,13 @@ var DraggableDirective = (function () {
     __decorate([
         core_1.HostListener('document:mouseup', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DraggableDirective.prototype, "onMouseup", null);
     __decorate([
         core_1.HostListener('mousedown', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], DraggableDirective.prototype, "onMousedown", null);
     DraggableDirective = __decorate([
@@ -3778,6 +4060,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = __webpack_require__(0);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var LongPressDirective = (function () {
     function LongPressDirective() {
         this.duration = 500;
@@ -3865,13 +4150,13 @@ var LongPressDirective = (function () {
     __decorate([
         core_1.HostListener('mousedown', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], LongPressDirective.prototype, "onMouseDown", null);
     __decorate([
         core_1.HostListener('mousemove', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], LongPressDirective.prototype, "onMouseMove", null);
     __decorate([
@@ -4014,6 +4299,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = __webpack_require__(0);
 var Rx_1 = __webpack_require__(1);
+var lang_1 = __webpack_require__("./node_modules/@angular/core/src/facade/lang.js");
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var ResizeableDirective = (function () {
     function ResizeableDirective(element) {
         this.resizeEnabled = true;
@@ -4084,7 +4372,7 @@ var ResizeableDirective = (function () {
     __decorate([
         core_1.HostListener('mousedown', ['$event']), 
         __metadata('design:type', Function), 
-        __metadata('design:paramtypes', [MouseEvent]), 
+        __metadata('design:paramtypes', [Object]), 
         __metadata('design:returntype', void 0)
     ], ResizeableDirective.prototype, "onMousedown", null);
     ResizeableDirective = __decorate([

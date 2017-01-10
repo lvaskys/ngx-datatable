@@ -15,6 +15,9 @@ var body_1 = require('./body');
 var columns_1 = require('./columns');
 var row_detail_1 = require('./row-detail');
 var utils_2 = require('../utils');
+var lang_1 = require('@angular/core/src/facade/lang');
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DatatableComponent = (function () {
     function DatatableComponent(element, differs) {
         /**

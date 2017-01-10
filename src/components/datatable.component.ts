@@ -12,6 +12,11 @@ import { DataTableColumnDirective } from './columns';
 import { DatatableRowDetailDirective } from './row-detail';
 import { scrollbarWidth, setColumnDefaults, throttleable, translateTemplates } from '../utils';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
 @Component({
   selector: 'ngx-datatable',
   template: `

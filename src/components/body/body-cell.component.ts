@@ -6,6 +6,12 @@ import {
 import { deepValueGetter, Keys } from '../../utils';
 import { SortDirection } from '../../types';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
+
 @Component({
   selector: 'datatable-body-cell',
   template: `

@@ -2,6 +2,9 @@
 var core_1 = require('@angular/core');
 var utils_1 = require('../../utils');
 var types_1 = require('../../types');
+var lang_1 = require('@angular/core/src/facade/lang');
+var KeyboardEvent = lang_1.global.KeyboardEvent;
+var MouseEvent = lang_1.global.MouseEvent;
 var DataTableBodyCellComponent = (function () {
     function DataTableBodyCellComponent(element) {
         this.activate = new core_1.EventEmitter();

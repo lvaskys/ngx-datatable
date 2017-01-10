@@ -3,6 +3,11 @@ import {
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
 @Directive({
   selector: '[resizeable]',
   host: {

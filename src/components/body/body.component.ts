@@ -5,6 +5,11 @@ import { translateXY, columnsByPin, columnGroupWidths, RowHeightCache } from '..
 import { SelectionType } from '../../types';
 import { ScrollerComponent } from './scroller.component';
 
+
+import { global } from '@angular/core/src/facade/lang';
+const KeyboardEvent = (global as any).KeyboardEvent as KeyboardEvent;
+const MouseEvent = (global as any).MouseEvent as MouseEvent;
+
 @Component({
   selector: 'datatable-body',
   template: `
