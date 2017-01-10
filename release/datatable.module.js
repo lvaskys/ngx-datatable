@@ -47,7 +47,7 @@ var NgxDatatableModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    NgxDatatableModule.ctorParameters = function () { return []; };
+    NgxDatatableModule.ctorParameters = [];
     return NgxDatatableModule;
 }());
 exports.NgxDatatableModule = NgxDatatableModule;

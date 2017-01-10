@@ -9,9 +9,9 @@ var DataTableColumnHeaderDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[ngx-datatable-header-template]' },] },
     ];
     /** @nocollapse */
-    DataTableColumnHeaderDirective.ctorParameters = function () { return [
+    DataTableColumnHeaderDirective.ctorParameters = [
         { type: core_1.TemplateRef, },
-    ]; };
+    ];
     return DataTableColumnHeaderDirective;
 }());
 exports.DataTableColumnHeaderDirective = DataTableColumnHeaderDirective;

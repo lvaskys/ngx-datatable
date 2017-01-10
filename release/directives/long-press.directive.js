@@ -67,7 +67,7 @@ var LongPressDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[long-press]' },] },
     ];
     /** @nocollapse */
-    LongPressDirective.ctorParameters = function () { return []; };
+    LongPressDirective.ctorParameters = [];
     LongPressDirective.propDecorators = {
         'duration': [{ type: core_1.Input },],
         'longPress': [{ type: core_1.Output },],

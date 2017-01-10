@@ -152,9 +152,9 @@ var DataTableBodyCellComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableBodyCellComponent.ctorParameters = function () { return [
+    DataTableBodyCellComponent.ctorParameters = [
         { type: core_1.ElementRef, },
-    ]; };
+    ];
     DataTableBodyCellComponent.propDecorators = {
         'row': [{ type: core_1.Input },],
         'column': [{ type: core_1.Input },],

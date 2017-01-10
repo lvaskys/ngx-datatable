@@ -135,7 +135,7 @@ var DataTableSelectionComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableSelectionComponent.ctorParameters = function () { return []; };
+    DataTableSelectionComponent.ctorParameters = [];
     DataTableSelectionComponent.propDecorators = {
         'rows': [{ type: core_1.Input },],
         'selected': [{ type: core_1.Input },],

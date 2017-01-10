@@ -29,7 +29,7 @@ var DataTableFooterComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableFooterComponent.ctorParameters = function () { return []; };
+    DataTableFooterComponent.ctorParameters = [];
     DataTableFooterComponent.propDecorators = {
         'footerHeight': [{ type: core_1.Input },],
         'rowCount': [{ type: core_1.Input },],

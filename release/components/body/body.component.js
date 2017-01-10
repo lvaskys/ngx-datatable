@@ -412,7 +412,7 @@ var DataTableBodyComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableBodyComponent.ctorParameters = function () { return []; };
+    DataTableBodyComponent.ctorParameters = [];
     DataTableBodyComponent.propDecorators = {
         'scrollbarV': [{ type: core_1.Input },],
         'scrollbarH': [{ type: core_1.Input },],

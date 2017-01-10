@@ -98,7 +98,7 @@ var DataTablePagerComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTablePagerComponent.ctorParameters = function () { return []; };
+    DataTablePagerComponent.ctorParameters = [];
     DataTablePagerComponent.propDecorators = {
         'pagerLeftArrowIcon': [{ type: core_1.Input },],
         'pagerRightArrowIcon': [{ type: core_1.Input },],

@@ -11,9 +11,9 @@ var DatatableRowDetailTemplateDirective = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DatatableRowDetailTemplateDirective.ctorParameters = function () { return [
+    DatatableRowDetailTemplateDirective.ctorParameters = [
         { type: core_1.TemplateRef, },
-    ]; };
+    ];
     return DatatableRowDetailTemplateDirective;
 }());
 exports.DatatableRowDetailTemplateDirective = DatatableRowDetailTemplateDirective;

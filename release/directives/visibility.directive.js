@@ -54,10 +54,10 @@ var VisibilityDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[visibility-observer]' },] },
     ];
     /** @nocollapse */
-    VisibilityDirective.ctorParameters = function () { return [
+    VisibilityDirective.ctorParameters = [
         { type: core_1.ElementRef, },
         { type: core_1.NgZone, },
-    ]; };
+    ];
     VisibilityDirective.propDecorators = {
         'isVisible': [{ type: core_1.HostBinding, args: ['class.visible',] },],
         'visible': [{ type: core_1.Output },],

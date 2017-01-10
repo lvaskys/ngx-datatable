@@ -9,9 +9,9 @@ var DataTableColumnCellDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[ngx-datatable-cell-template]' },] },
     ];
     /** @nocollapse */
-    DataTableColumnCellDirective.ctorParameters = function () { return [
+    DataTableColumnCellDirective.ctorParameters = [
         { type: core_1.TemplateRef, },
-    ]; };
+    ];
     return DataTableColumnCellDirective;
 }());
 exports.DataTableColumnCellDirective = DataTableColumnCellDirective;

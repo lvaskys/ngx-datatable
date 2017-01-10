@@ -21,7 +21,7 @@ var DataTableRowWrapperComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableRowWrapperComponent.ctorParameters = function () { return []; };
+    DataTableRowWrapperComponent.ctorParameters = [];
     DataTableRowWrapperComponent.propDecorators = {
         'rowDetailTemplate': [{ type: core_1.Input },],
         'detailRowHeight': [{ type: core_1.Input },],

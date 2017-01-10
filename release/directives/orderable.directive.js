@@ -77,9 +77,9 @@ var OrderableDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[orderable]' },] },
     ];
     /** @nocollapse */
-    OrderableDirective.ctorParameters = function () { return [
+    OrderableDirective.ctorParameters = [
         { type: core_1.KeyValueDiffers, },
-    ]; };
+    ];
     OrderableDirective.propDecorators = {
         'reorder': [{ type: core_1.Output },],
         'draggables': [{ type: core_1.ContentChildren, args: [draggable_directive_1.DraggableDirective, { descendants: true },] },],

@@ -58,9 +58,9 @@ var ResizeableDirective = (function () {
                 },] },
     ];
     /** @nocollapse */
-    ResizeableDirective.ctorParameters = function () { return [
+    ResizeableDirective.ctorParameters = [
         { type: core_1.ElementRef, },
-    ]; };
+    ];
     ResizeableDirective.propDecorators = {
         'resizeEnabled': [{ type: core_1.Input },],
         'minWidth': [{ type: core_1.Input },],

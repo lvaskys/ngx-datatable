@@ -890,10 +890,10 @@ var DatatableComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DatatableComponent.ctorParameters = function () { return [
+    DatatableComponent.ctorParameters = [
         { type: core_1.ElementRef, },
         { type: core_1.KeyValueDiffers, },
-    ]; };
+    ];
     DatatableComponent.propDecorators = {
         'rows': [{ type: core_1.Input },],
         'columns': [{ type: core_1.Input },],

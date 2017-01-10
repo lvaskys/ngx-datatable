@@ -132,7 +132,7 @@ var DataTableHeaderComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableHeaderComponent.ctorParameters = function () { return []; };
+    DataTableHeaderComponent.ctorParameters = [];
     DataTableHeaderComponent.propDecorators = {
         'sortAscendingIcon': [{ type: core_1.Input },],
         'sortDescendingIcon': [{ type: core_1.Input },],

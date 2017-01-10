@@ -9,7 +9,7 @@ var DataTableColumnDirective = (function () {
         { type: core_1.Directive, args: [{ selector: 'ngx-datatable-column' },] },
     ];
     /** @nocollapse */
-    DataTableColumnDirective.ctorParameters = function () { return []; };
+    DataTableColumnDirective.ctorParameters = [];
     DataTableColumnDirective.propDecorators = {
         'name': [{ type: core_1.Input },],
         'prop': [{ type: core_1.Input },],

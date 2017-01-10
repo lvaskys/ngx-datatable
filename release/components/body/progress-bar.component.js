@@ -11,7 +11,7 @@ var ProgressBarComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    ProgressBarComponent.ctorParameters = function () { return []; };
+    ProgressBarComponent.ctorParameters = [];
     return ProgressBarComponent;
 }());
 exports.ProgressBarComponent = ProgressBarComponent;

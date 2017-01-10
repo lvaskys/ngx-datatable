@@ -108,7 +108,7 @@ var DataTableHeaderCellComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    DataTableHeaderCellComponent.ctorParameters = function () { return []; };
+    DataTableHeaderCellComponent.ctorParameters = [];
     DataTableHeaderCellComponent.propDecorators = {
         'sortType': [{ type: core_1.Input },],
         'column': [{ type: core_1.Input },],

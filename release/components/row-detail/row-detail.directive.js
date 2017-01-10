@@ -15,7 +15,7 @@ var DatatableRowDetailDirective = (function () {
         { type: core_1.Directive, args: [{ selector: 'ngx-datatable-row-detail' },] },
     ];
     /** @nocollapse */
-    DatatableRowDetailDirective.ctorParameters = function () { return []; };
+    DatatableRowDetailDirective.ctorParameters = [];
     DatatableRowDetailDirective.propDecorators = {
         'template': [{ type: core_1.ContentChild, args: [row_detail_template_directive_1.DatatableRowDetailTemplateDirective, { read: core_1.TemplateRef },] },],
     };

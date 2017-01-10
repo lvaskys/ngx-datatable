@@ -76,9 +76,9 @@ var DraggableDirective = (function () {
         { type: core_1.Directive, args: [{ selector: '[draggable]' },] },
     ];
     /** @nocollapse */
-    DraggableDirective.ctorParameters = function () { return [
+    DraggableDirective.ctorParameters = [
         { type: core_1.ElementRef, },
-    ]; };
+    ];
     DraggableDirective.propDecorators = {
         'dragModel': [{ type: core_1.Input },],
         'dragX': [{ type: core_1.Input },],

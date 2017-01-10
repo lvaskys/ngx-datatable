@@ -64,10 +64,10 @@ var ScrollerComponent = (function () {
                 },] },
     ];
     /** @nocollapse */
-    ScrollerComponent.ctorParameters = function () { return [
+    ScrollerComponent.ctorParameters = [
         { type: core_1.ElementRef, },
         { type: core_1.Renderer, },
-    ]; };
+    ];
     ScrollerComponent.propDecorators = {
         'scrollbarV': [{ type: core_1.Input },],
         'scrollbarH': [{ type: core_1.Input },],

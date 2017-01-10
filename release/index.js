@@ -93,17 +93,36 @@ return /******/ (function(modules) { // webpackBootstrap
 /* harmony export (immutable) */ exports["getTypeNameForDebugging"] = getTypeNameForDebugging;
 /* harmony export (immutable) */ exports["isPresent"] = isPresent;
 /* harmony export (immutable) */ exports["isBlank"] = isBlank;
+/* harmony export (immutable) */ exports["isBoolean"] = isBoolean;
+/* harmony export (immutable) */ exports["isNumber"] = isNumber;
+/* harmony export (immutable) */ exports["isString"] = isString;
+/* harmony export (immutable) */ exports["isFunction"] = isFunction;
+/* harmony export (immutable) */ exports["isType"] = isType;
+/* harmony export (immutable) */ exports["isStringMap"] = isStringMap;
 /* harmony export (immutable) */ exports["isStrictStringMap"] = isStrictStringMap;
+/* harmony export (immutable) */ exports["isArray"] = isArray;
 /* harmony export (immutable) */ exports["isDate"] = isDate;
+/* harmony export (immutable) */ exports["noop"] = noop;
 /* harmony export (immutable) */ exports["stringify"] = stringify;
+/* harmony export (binding) */ __webpack_require__.d(exports, "StringWrapper", function() { return StringWrapper; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "StringJoiner", function() { return StringJoiner; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "NumberWrapper", function() { return NumberWrapper; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "RegExp", function() { return RegExp; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "FunctionWrapper", function() { return FunctionWrapper; });
 /* harmony export (immutable) */ exports["looseIdentical"] = looseIdentical;
+/* harmony export (immutable) */ exports["getMapKey"] = getMapKey;
+/* harmony export (immutable) */ exports["normalizeBlank"] = normalizeBlank;
+/* harmony export (immutable) */ exports["normalizeBool"] = normalizeBool;
 /* harmony export (immutable) */ exports["isJsObject"] = isJsObject;
 /* harmony export (immutable) */ exports["print"] = print;
 /* harmony export (immutable) */ exports["warn"] = warn;
+/* harmony export (binding) */ __webpack_require__.d(exports, "Json", function() { return Json; });
 /* harmony export (immutable) */ exports["setValueOnPath"] = setValueOnPath;
 /* harmony export (immutable) */ exports["getSymbolIterator"] = getSymbolIterator;
+/* harmony export (immutable) */ exports["evalExpression"] = evalExpression;
 /* harmony export (immutable) */ exports["isPrimitive"] = isPrimitive;
+/* harmony export (immutable) */ exports["hasConstructor"] = hasConstructor;
+/* harmony export (immutable) */ exports["escape"] = escape;
 /* harmony export (immutable) */ exports["escapeRegExp"] = escapeRegExp;
 /**
  * @license
@@ -112,34 +131,26 @@ return /******/ (function(modules) { // webpackBootstrap
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-var /** @type {?} */ globalScope;
+var globalScope;
 if (typeof window === 'undefined') {
     if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
         // TODO: Replace any with WorkerGlobalScope from lib.webworker.d.ts #3492
-        globalScope = (self);
+        globalScope = self;
     }
     else {
-        globalScope = (global);
+        globalScope = global;
     }
 }
 else {
-    globalScope = (window);
+    globalScope = window;
 }
-/**
- * @param {?} fn
- * @return {?}
- */
 function scheduleMicroTask(fn) {
     Zone.current.scheduleMicroTask('scheduleMicrotask', fn);
 }
 // Need to declare a new variable for global here since TypeScript
 // exports the original value of the symbol.
-var /** @type {?} */ _global = globalScope;
+var _global = globalScope;
 
-/**
- * @param {?} type
- * @return {?}
- */
 function getTypeNameForDebugging(type) {
     return type['name'] || typeof type;
 }
@@ -149,123 +160,229 @@ function getTypeNameForDebugging(type) {
 _global.assert = function assert(condition) {
     // TODO: to be fixed properly via #2830, noop for now
 };
-/**
- * @param {?} obj
- * @return {?}
- */
 function isPresent(obj) {
-    return obj != null;
+    return obj !== undefined && obj !== null;
 }
-/**
- * @param {?} obj
- * @return {?}
- */
 function isBlank(obj) {
-    return obj == null;
+    return obj === undefined || obj === null;
 }
-var /** @type {?} */ STRING_MAP_PROTO = Object.getPrototypeOf({});
-/**
- * @param {?} obj
- * @return {?}
- */
+function isBoolean(obj) {
+    return typeof obj === 'boolean';
+}
+function isNumber(obj) {
+    return typeof obj === 'number';
+}
+function isString(obj) {
+    return typeof obj === 'string';
+}
+function isFunction(obj) {
+    return typeof obj === 'function';
+}
+function isType(obj) {
+    return isFunction(obj);
+}
+function isStringMap(obj) {
+    return typeof obj === 'object' && obj !== null;
+}
+var STRING_MAP_PROTO = Object.getPrototypeOf({});
 function isStrictStringMap(obj) {
-    return typeof obj === 'object' && obj !== null && Object.getPrototypeOf(obj) === STRING_MAP_PROTO;
+    return isStringMap(obj) && Object.getPrototypeOf(obj) === STRING_MAP_PROTO;
 }
-/**
- * @param {?} obj
- * @return {?}
- */
+function isArray(obj) {
+    return Array.isArray(obj);
+}
 function isDate(obj) {
     return obj instanceof Date && !isNaN(obj.valueOf());
 }
-/**
- * @param {?} token
- * @return {?}
- */
+function noop() { }
 function stringify(token) {
     if (typeof token === 'string') {
         return token;
     }
-    if (token == null) {
+    if (token === undefined || token === null) {
         return '' + token;
     }
     if (token.overriddenName) {
-        return "" + token.overriddenName;
+        return token.overriddenName;
     }
     if (token.name) {
-        return "" + token.name;
+        return token.name;
     }
-    var /** @type {?} */ res = token.toString();
-    var /** @type {?} */ newLineIndex = res.indexOf('\n');
+    var res = token.toString();
+    var newLineIndex = res.indexOf('\n');
     return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
 }
+var StringWrapper = (function () {
+    function StringWrapper() {
+    }
+    StringWrapper.fromCharCode = function (code) { return String.fromCharCode(code); };
+    StringWrapper.charCodeAt = function (s, index) { return s.charCodeAt(index); };
+    StringWrapper.split = function (s, regExp) { return s.split(regExp); };
+    StringWrapper.equals = function (s, s2) { return s === s2; };
+    StringWrapper.stripLeft = function (s, charVal) {
+        if (s && s.length) {
+            var pos = 0;
+            for (var i = 0; i < s.length; i++) {
+                if (s[i] != charVal)
+                    break;
+                pos++;
+            }
+            s = s.substring(pos);
+        }
+        return s;
+    };
+    StringWrapper.stripRight = function (s, charVal) {
+        if (s && s.length) {
+            var pos = s.length;
+            for (var i = s.length - 1; i >= 0; i--) {
+                if (s[i] != charVal)
+                    break;
+                pos--;
+            }
+            s = s.substring(0, pos);
+        }
+        return s;
+    };
+    StringWrapper.replace = function (s, from, replace) {
+        return s.replace(from, replace);
+    };
+    StringWrapper.replaceAll = function (s, from, replace) {
+        return s.replace(from, replace);
+    };
+    StringWrapper.slice = function (s, from, to) {
+        if (from === void 0) { from = 0; }
+        if (to === void 0) { to = null; }
+        return s.slice(from, to === null ? undefined : to);
+    };
+    StringWrapper.replaceAllMapped = function (s, from, cb) {
+        return s.replace(from, function () {
+            var matches = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                matches[_i - 0] = arguments[_i];
+            }
+            // Remove offset & string from the result array
+            matches.splice(-2, 2);
+            // The callback receives match, p1, ..., pn
+            return cb(matches);
+        });
+    };
+    StringWrapper.contains = function (s, substr) { return s.indexOf(substr) != -1; };
+    StringWrapper.compare = function (a, b) {
+        if (a < b) {
+            return -1;
+        }
+        else if (a > b) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+    return StringWrapper;
+}());
+var StringJoiner = (function () {
+    function StringJoiner(parts) {
+        if (parts === void 0) { parts = []; }
+        this.parts = parts;
+    }
+    StringJoiner.prototype.add = function (part) { this.parts.push(part); };
+    StringJoiner.prototype.toString = function () { return this.parts.join(''); };
+    return StringJoiner;
+}());
 var NumberWrapper = (function () {
     function NumberWrapper() {
     }
-    /**
-     * @param {?} text
-     * @return {?}
-     */
+    NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
+    NumberWrapper.equal = function (a, b) { return a === b; };
     NumberWrapper.parseIntAutoRadix = function (text) {
-        var /** @type {?} */ result = parseInt(text);
+        var result = parseInt(text);
         if (isNaN(result)) {
             throw new Error('Invalid integer literal when parsing ' + text);
         }
         return result;
     };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
+    NumberWrapper.parseInt = function (text, radix) {
+        if (radix == 10) {
+            if (/^(\-|\+)?[0-9]+$/.test(text)) {
+                return parseInt(text, radix);
+            }
+        }
+        else if (radix == 16) {
+            if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
+                return parseInt(text, radix);
+            }
+        }
+        else {
+            var result = parseInt(text, radix);
+            if (!isNaN(result)) {
+                return result;
+            }
+        }
+        throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
+    };
+    Object.defineProperty(NumberWrapper, "NaN", {
+        get: function () { return NaN; },
+        enumerable: true,
+        configurable: true
+    });
     NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
+    NumberWrapper.isNaN = function (value) { return isNaN(value); };
+    NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
     return NumberWrapper;
 }());
-/**
- * @param {?} a
- * @param {?} b
- * @return {?}
- */
+var RegExp = _global.RegExp;
+var FunctionWrapper = (function () {
+    function FunctionWrapper() {
+    }
+    FunctionWrapper.apply = function (fn, posArgs) { return fn.apply(null, posArgs); };
+    FunctionWrapper.bind = function (fn, scope) { return fn.bind(scope); };
+    return FunctionWrapper;
+}());
+// JS has NaN !== NaN
 function looseIdentical(a, b) {
     return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
 }
-/**
- * @param {?} o
- * @return {?}
- */
+// JS considers NaN is the same as NaN for map Key (while NaN !== NaN otherwise)
+// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+function getMapKey(value) {
+    return value;
+}
+function normalizeBlank(obj) {
+    return isBlank(obj) ? null : obj;
+}
+function normalizeBool(obj) {
+    return isBlank(obj) ? false : obj;
+}
 function isJsObject(o) {
     return o !== null && (typeof o === 'function' || typeof o === 'object');
 }
-/**
- * @param {?} obj
- * @return {?}
- */
 function print(obj) {
-    // tslint:disable-next-line:no-console
     console.log(obj);
 }
-/**
- * @param {?} obj
- * @return {?}
- */
 function warn(obj) {
     console.warn(obj);
 }
-/**
- * @param {?} global
- * @param {?} path
- * @param {?} value
- * @return {?}
- */
+// Can't be all uppercase as our transpiler would think it is a special directive...
+var Json = (function () {
+    function Json() {
+    }
+    Json.parse = function (s) { return _global.JSON.parse(s); };
+    Json.stringify = function (data) {
+        // Dart doesn't take 3 arguments
+        return _global.JSON.stringify(data, null, 2);
+    };
+    return Json;
+}());
 function setValueOnPath(global, path, value) {
-    var /** @type {?} */ parts = path.split('.');
-    var /** @type {?} */ obj = global;
+    var parts = path.split('.');
+    var obj = global;
     while (parts.length > 1) {
-        var /** @type {?} */ name_1 = parts.shift();
-        if (obj.hasOwnProperty(name_1) && obj[name_1] != null) {
-            obj = obj[name_1];
+        var name = parts.shift();
+        if (obj.hasOwnProperty(name) && isPresent(obj[name])) {
+            obj = obj[name];
         }
         else {
-            obj = obj[name_1] = {};
+            obj = obj[name] = {};
         }
     }
     if (obj === undefined || obj === null) {
@@ -273,22 +390,19 @@ function setValueOnPath(global, path, value) {
     }
     obj[parts.shift()] = value;
 }
-var /** @type {?} */ _symbolIterator = null;
-/**
- * @return {?}
- */
+var _symbolIterator = null;
 function getSymbolIterator() {
-    if (!_symbolIterator) {
-        if (((globalScope)).Symbol && Symbol.iterator) {
+    if (isBlank(_symbolIterator)) {
+        if (isPresent(globalScope.Symbol) && isPresent(Symbol.iterator)) {
             _symbolIterator = Symbol.iterator;
         }
         else {
             // es6-shim specific logic
-            var /** @type {?} */ keys = Object.getOwnPropertyNames(Map.prototype);
-            for (var /** @type {?} */ i = 0; i < keys.length; ++i) {
-                var /** @type {?} */ key = keys[i];
+            var keys = Object.getOwnPropertyNames(Map.prototype);
+            for (var i = 0; i < keys.length; ++i) {
+                var key = keys[i];
                 if (key !== 'entries' && key !== 'size' &&
-                    ((Map)).prototype[key] === Map.prototype['entries']) {
+                    Map.prototype[key] === Map.prototype['entries']) {
                     _symbolIterator = key;
                 }
             }
@@ -296,17 +410,25 @@ function getSymbolIterator() {
     }
     return _symbolIterator;
 }
-/**
- * @param {?} obj
- * @return {?}
- */
+function evalExpression(sourceUrl, expr, declarations, vars) {
+    var fnBody = declarations + "\nreturn " + expr + "\n//# sourceURL=" + sourceUrl;
+    var fnArgNames = [];
+    var fnArgValues = [];
+    for (var argName in vars) {
+        fnArgNames.push(argName);
+        fnArgValues.push(vars[argName]);
+    }
+    return new (Function.bind.apply(Function, [void 0].concat(fnArgNames.concat(fnBody))))().apply(void 0, fnArgValues);
+}
 function isPrimitive(obj) {
     return !isJsObject(obj);
 }
-/**
- * @param {?} s
- * @return {?}
- */
+function hasConstructor(value, type) {
+    return value.constructor === type;
+}
+function escape(s) {
+    return _global.encodeURI(s);
+}
 function escapeRegExp(s) {
     return s.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
 }
@@ -319,35 +441,34 @@ function escapeRegExp(s) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseContentType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_index__ = __webpack_require__("./node_modules/@angular/http/src/index.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "BrowserXhr", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "JSONPBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "JSONPConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["d"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "CookieXSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["e"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "XHRBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["f"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "XHRConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["g"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "BaseRequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["h"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "RequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["i"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "BaseResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["j"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["k"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "ReadyState", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["l"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "RequestMethod", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["m"]; });
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "ResponseType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["n"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Headers", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["o"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Http", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["p"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Jsonp", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["q"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "HttpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["r"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "JsonpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["s"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Connection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["t"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "ConnectionBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["u"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "XSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["v"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Request", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["w"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "Response", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["x"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "QueryEncoder", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["y"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "URLSearchParams", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["z"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "VERSION", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["A"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "BrowserXhr", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "JSONPBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "JSONPConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "CookieXSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "XHRBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "XHRConnection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "BaseRequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "RequestOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "BaseResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "ResponseOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "ReadyState", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "RequestMethod", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "ResponseContentType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["m"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "ResponseType", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["n"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Headers", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["o"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Http", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["p"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Jsonp", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["q"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "HttpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["r"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "JsonpModule", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["s"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Connection", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["t"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "ConnectionBackend", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["u"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "XSRFStrategy", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["v"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Request", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["w"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "Response", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["x"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "QueryEncoder", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["y"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(exports, "URLSearchParams", function() { return __WEBPACK_IMPORTED_MODULE_0__src_index__["z"]; });
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -371,6 +492,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
 /* unused harmony export JSONP_HOME */
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BrowserJsonp; });
 /**
@@ -381,16 +503,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * found in the LICENSE file at https://angular.io/license
  */
 
-var /** @type {?} */ _nextRequestId = 0;
-var /** @type {?} */ JSONP_HOME = '__ng_jsonp__';
-var /** @type {?} */ _jsonpConnections = null;
-/**
- * @return {?}
- */
+
+var _nextRequestId = 0;
+var JSONP_HOME = '__ng_jsonp__';
+var _jsonpConnections = null;
 function _getJsonpConnections() {
-    var /** @type {?} */ w = typeof window == 'object' ? window : {};
     if (_jsonpConnections === null) {
-        _jsonpConnections = w[JSONP_HOME] = {};
+        _jsonpConnections = __WEBPACK_IMPORTED_MODULE_1__facade_lang__["f" /* global */][JSONP_HOME] = {};
     }
     return _jsonpConnections;
 }
@@ -398,71 +517,37 @@ function _getJsonpConnections() {
 var BrowserJsonp = (function () {
     function BrowserJsonp() {
     }
-    /**
-     * @param {?} url
-     * @return {?}
-     */
+    // Construct a <script> element with the specified URL
     BrowserJsonp.prototype.build = function (url) {
-        var /** @type {?} */ node = document.createElement('script');
+        var node = document.createElement('script');
         node.src = url;
         return node;
     };
-    /**
-     * @return {?}
-     */
     BrowserJsonp.prototype.nextRequestID = function () { return "__req" + _nextRequestId++; };
-    /**
-     * @param {?} id
-     * @return {?}
-     */
     BrowserJsonp.prototype.requestCallback = function (id) { return JSONP_HOME + "." + id + ".finished"; };
-    /**
-     * @param {?} id
-     * @param {?} connection
-     * @return {?}
-     */
     BrowserJsonp.prototype.exposeConnection = function (id, connection) {
-        var /** @type {?} */ connections = _getJsonpConnections();
+        var connections = _getJsonpConnections();
         connections[id] = connection;
     };
-    /**
-     * @param {?} id
-     * @return {?}
-     */
     BrowserJsonp.prototype.removeConnection = function (id) {
-        var /** @type {?} */ connections = _getJsonpConnections();
+        var connections = _getJsonpConnections();
         connections[id] = null;
     };
-    /**
-     * @param {?} node
-     * @return {?}
-     */
-    BrowserJsonp.prototype.send = function (node) { document.body.appendChild(/** @type {?} */ ((node))); };
-    /**
-     * @param {?} node
-     * @return {?}
-     */
+    // Attach the <script> element to the DOM
+    BrowserJsonp.prototype.send = function (node) { document.body.appendChild((node)); };
+    // Remove <script> element from the DOM
     BrowserJsonp.prototype.cleanup = function (node) {
         if (node.parentNode) {
-            node.parentNode.removeChild(/** @type {?} */ ((node)));
+            node.parentNode.removeChild((node));
         }
     };
     BrowserJsonp.decorators = [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    BrowserJsonp.ctorParameters = function () { return []; };
+    BrowserJsonp.ctorParameters = [];
     return BrowserJsonp;
 }());
-function BrowserJsonp_tsickle_Closure_declarations() {
-    /** @type {?} */
-    BrowserJsonp.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    BrowserJsonp.ctorParameters;
-}
 //# sourceMappingURL=browser_jsonp.js.map
 
 /***/ },
@@ -483,34 +568,23 @@ function BrowserJsonp_tsickle_Closure_declarations() {
  */
 
 /**
- *  A backend for http that uses the `XMLHttpRequest` browser API.
-  * *
-  * Take care not to evaluate this in non-browser contexts.
-  * *
+ * A backend for http that uses the `XMLHttpRequest` browser API.
+ *
+ * Take care not to evaluate this in non-browser contexts.
+ *
+ * @experimental
  */
 var BrowserXhr = (function () {
     function BrowserXhr() {
     }
-    /**
-     * @return {?}
-     */
-    BrowserXhr.prototype.build = function () { return ((new XMLHttpRequest())); };
+    BrowserXhr.prototype.build = function () { return (new XMLHttpRequest()); };
     BrowserXhr.decorators = [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    BrowserXhr.ctorParameters = function () { return []; };
+    BrowserXhr.ctorParameters = [];
     return BrowserXhr;
 }());
-function BrowserXhr_tsickle_Closure_declarations() {
-    /** @type {?} */
-    BrowserXhr.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    BrowserXhr.ctorParameters;
-}
 //# sourceMappingURL=browser_xhr.js.map
 
 /***/ },
@@ -525,9 +599,10 @@ function BrowserXhr_tsickle_Closure_declarations() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__browser_jsonp__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_jsonp.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__browser_jsonp__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_jsonp.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return JSONPConnection; });
 /* unused harmony export JSONPConnection_ */
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return JSONPBackend; });
@@ -551,50 +626,21 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
-var /** @type {?} */ JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
-var /** @type {?} */ JSONP_ERR_WRONG_METHOD = 'JSONP requests must use GET request method.';
+
+var JSONP_ERR_NO_CALLBACK = 'JSONP injected script did not invoke callback.';
+var JSONP_ERR_WRONG_METHOD = 'JSONP requests must use GET request method.';
 /**
- *  Abstract base class for an in-flight JSONP request.
-  * *
- * @abstract
+ * Abstract base class for an in-flight JSONP request.
+ *
+ * @experimental
  */
 var JSONPConnection = (function () {
     function JSONPConnection() {
     }
-    /**
-     *  Callback called when the JSONP request completes, to notify the application
-      * of the new data.
-     * @abstract
-     * @param {?=} data
-     * @return {?}
-     */
-    JSONPConnection.prototype.finished = function (data) { };
     return JSONPConnection;
 }());
-function JSONPConnection_tsickle_Closure_declarations() {
-    /**
-     * The {@link ReadyState} of this request.
-     * @type {?}
-     */
-    JSONPConnection.prototype.readyState;
-    /**
-     * The outgoing HTTP request.
-     * @type {?}
-     */
-    JSONPConnection.prototype.request;
-    /**
-     * An observable that completes with the response, when the request is finished.
-     * @type {?}
-     */
-    JSONPConnection.prototype.response;
-}
 var JSONPConnection_ = (function (_super) {
     __extends(JSONPConnection_, _super);
-    /**
-     * @param {?} req
-     * @param {?} _dom
-     * @param {?=} baseResponseOptions
-     */
     function JSONPConnection_(req, _dom, baseResponseOptions) {
         var _this = this;
         _super.call(this);
@@ -614,7 +660,7 @@ var JSONPConnection_ = (function (_super) {
             var callback = _dom.requestCallback(_this._id);
             var url = req.url;
             if (url.indexOf('=JSONP_CALLBACK&') > -1) {
-                url = url.replace('=JSONP_CALLBACK&', "=" + callback + "&");
+                url = __WEBPACK_IMPORTED_MODULE_4__facade_lang__["e" /* StringWrapper */].replace(url, '=JSONP_CALLBACK&', "=" + callback + "&");
             }
             else if (url.lastIndexOf('=JSONP_CALLBACK') === url.length - '=JSONP_CALLBACK'.length) {
                 url = url.substring(0, url.length - '=JSONP_CALLBACK'.length) + ("=" + callback);
@@ -627,17 +673,17 @@ var JSONPConnection_ = (function (_super) {
                 _dom.cleanup(script);
                 if (!_this._finished) {
                     var responseOptions_1 = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: JSONP_ERR_NO_CALLBACK, type: __WEBPACK_IMPORTED_MODULE_3__enums__["d" /* ResponseType */].Error, url: url });
-                    if (baseResponseOptions) {
+                    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__facade_lang__["d" /* isPresent */])(baseResponseOptions)) {
                         responseOptions_1 = baseResponseOptions.merge(responseOptions_1);
                     }
-                    responseObserver.error(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions_1));
+                    responseObserver.error(new __WEBPACK_IMPORTED_MODULE_6__static_response__["a" /* Response */](responseOptions_1));
                     return;
                 }
                 var responseOptions = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: _this._responseData, url: url });
-                if (_this.baseResponseOptions) {
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__facade_lang__["d" /* isPresent */])(_this.baseResponseOptions)) {
                     responseOptions = _this.baseResponseOptions.merge(responseOptions);
                 }
-                responseObserver.next(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions));
+                responseObserver.next(new __WEBPACK_IMPORTED_MODULE_6__static_response__["a" /* Response */](responseOptions));
                 responseObserver.complete();
             };
             var onError = function (error) {
@@ -646,10 +692,10 @@ var JSONPConnection_ = (function (_super) {
                 _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Done;
                 _dom.cleanup(script);
                 var responseOptions = new __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */]({ body: error.message, type: __WEBPACK_IMPORTED_MODULE_3__enums__["d" /* ResponseType */].Error });
-                if (baseResponseOptions) {
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__facade_lang__["d" /* isPresent */])(baseResponseOptions)) {
                     responseOptions = baseResponseOptions.merge(responseOptions);
                 }
-                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_5__static_response__["a" /* Response */](responseOptions));
+                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_6__static_response__["a" /* Response */](responseOptions));
             };
             script.addEventListener('load', onLoad);
             script.addEventListener('error', onError);
@@ -658,14 +704,12 @@ var JSONPConnection_ = (function (_super) {
                 _this.readyState = __WEBPACK_IMPORTED_MODULE_3__enums__["a" /* ReadyState */].Cancelled;
                 script.removeEventListener('load', onLoad);
                 script.removeEventListener('error', onError);
-                _this._dom.cleanup(script);
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__facade_lang__["d" /* isPresent */])(script)) {
+                    _this._dom.cleanup(script);
+                }
             };
         });
     }
-    /**
-     * @param {?=} data
-     * @return {?}
-     */
     JSONPConnection_.prototype.finished = function (data) {
         // Don't leak connections
         this._finished = true;
@@ -676,24 +720,10 @@ var JSONPConnection_ = (function (_super) {
     };
     return JSONPConnection_;
 }(JSONPConnection));
-function JSONPConnection__tsickle_Closure_declarations() {
-    /** @type {?} */
-    JSONPConnection_.prototype._id;
-    /** @type {?} */
-    JSONPConnection_.prototype._script;
-    /** @type {?} */
-    JSONPConnection_.prototype._responseData;
-    /** @type {?} */
-    JSONPConnection_.prototype._finished;
-    /** @type {?} */
-    JSONPConnection_.prototype._dom;
-    /** @type {?} */
-    JSONPConnection_.prototype.baseResponseOptions;
-}
 /**
- *  A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
-  * *
- * @abstract
+ * A {@link ConnectionBackend} that uses the JSONP strategy of making requests.
+ *
+ * @experimental
  */
 var JSONPBackend = (function (_super) {
     __extends(JSONPBackend, _super);
@@ -701,22 +731,14 @@ var JSONPBackend = (function (_super) {
         _super.apply(this, arguments);
     }
     return JSONPBackend;
-}(__WEBPACK_IMPORTED_MODULE_4__interfaces__["b" /* ConnectionBackend */]));
+}(__WEBPACK_IMPORTED_MODULE_5__interfaces__["b" /* ConnectionBackend */]));
 var JSONPBackend_ = (function (_super) {
     __extends(JSONPBackend_, _super);
-    /**
-     * @param {?} _browserJSONP
-     * @param {?} _baseResponseOptions
-     */
     function JSONPBackend_(_browserJSONP, _baseResponseOptions) {
         _super.call(this);
         this._browserJSONP = _browserJSONP;
         this._baseResponseOptions = _baseResponseOptions;
     }
-    /**
-     * @param {?} request
-     * @return {?}
-     */
     JSONPBackend_.prototype.createConnection = function (request) {
         return new JSONPConnection_(request, this._browserJSONP, this._baseResponseOptions);
     };
@@ -724,25 +746,12 @@ var JSONPBackend_ = (function (_super) {
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    JSONPBackend_.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_6__browser_jsonp__["a" /* BrowserJsonp */], },
+    JSONPBackend_.ctorParameters = [
+        { type: __WEBPACK_IMPORTED_MODULE_7__browser_jsonp__["a" /* BrowserJsonp */], },
         { type: __WEBPACK_IMPORTED_MODULE_2__base_response_options__["b" /* ResponseOptions */], },
-    ]; };
+    ];
     return JSONPBackend_;
 }(JSONPBackend));
-function JSONPBackend__tsickle_Closure_declarations() {
-    /** @type {?} */
-    JSONPBackend_.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    JSONPBackend_.ctorParameters;
-    /** @type {?} */
-    JSONPBackend_.prototype._browserJSONP;
-    /** @type {?} */
-    JSONPBackend_.prototype._baseResponseOptions;
-}
 //# sourceMappingURL=jsonp_backend.js.map
 
 /***/ },
@@ -759,11 +768,12 @@ function JSONPBackend__tsickle_Closure_declarations() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__static_response__ = __webpack_require__("./node_modules/@angular/http/src/static_response.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return XHRConnection; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return CookieXSRFStrategy; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return XHRBackend; });
@@ -784,63 +794,54 @@ function JSONPBackend__tsickle_Closure_declarations() {
 
 
 
-var /** @type {?} */ XSSI_PREFIX = /^\)\]\}',?\n/;
+
+var XSSI_PREFIX = /^\)\]\}',?\n/;
 /**
- *  Creates connections using `XMLHttpRequest`. Given a fully-qualified
-  * request, an `XHRConnection` will immediately create an `XMLHttpRequest` object and send the
-  * request.
-  * *
-  * This class would typically not be created or interacted with directly inside applications, though
-  * the {@link MockConnection} may be interacted with in tests.
-  * *
+ * Creates connections using `XMLHttpRequest`. Given a fully-qualified
+ * request, an `XHRConnection` will immediately create an `XMLHttpRequest` object and send the
+ * request.
+ *
+ * This class would typically not be created or interacted with directly inside applications, though
+ * the {@link MockConnection} may be interacted with in tests.
+ *
+ * @experimental
  */
 var XHRConnection = (function () {
-    /**
-     * @param {?} req
-     * @param {?} browserXHR
-     * @param {?=} baseResponseOptions
-     */
     function XHRConnection(req, browserXHR, baseResponseOptions) {
         var _this = this;
         this.request = req;
         this.response = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"](function (responseObserver) {
             var _xhr = browserXHR.build();
             _xhr.open(__WEBPACK_IMPORTED_MODULE_4__enums__["b" /* RequestMethod */][req.method].toUpperCase(), req.url);
-            if (req.withCredentials != null) {
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(req.withCredentials)) {
                 _xhr.withCredentials = req.withCredentials;
             }
             // load event handler
             var onLoad = function () {
+                // responseText is the old-school way of retrieving response (supported by IE8 & 9)
+                // response/responseType properties were introduced in ResourceLoader Level2 spec (supported
+                // by IE10)
+                var body = _xhr.response === undefined ? _xhr.responseText : _xhr.response;
+                // Implicitly strip a potential XSSI prefix.
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["a" /* isString */])(body))
+                    body = body.replace(XSSI_PREFIX, '');
+                var headers = __WEBPACK_IMPORTED_MODULE_6__headers__["a" /* Headers */].fromResponseHeaderString(_xhr.getAllResponseHeaders());
+                var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__http_utils__["d" /* getResponseURL */])(_xhr);
                 // normalize IE9 bug (http://bugs.jquery.com/ticket/1450)
                 var status = _xhr.status === 1223 ? 204 : _xhr.status;
-                var body = null;
-                // HTTP 204 means no content
-                if (status !== 204) {
-                    // responseText is the old-school way of retrieving response (supported by IE8 & 9)
-                    // response/responseType properties were introduced in ResourceLoader Level2 spec
-                    // (supported by IE10)
-                    body = (typeof _xhr.response === 'undefined') ? _xhr.responseText : _xhr.response;
-                    // Implicitly strip a potential XSSI prefix.
-                    if (typeof body === 'string') {
-                        body = body.replace(XSSI_PREFIX, '');
-                    }
-                }
                 // fix status code when it is 0 (0 status is undocumented).
                 // Occurs when accessing file resources or on Android 4.1 stock browser
                 // while retrieving files from application cache.
                 if (status === 0) {
                     status = body ? 200 : 0;
                 }
-                var headers = __WEBPACK_IMPORTED_MODULE_5__headers__["a" /* Headers */].fromResponseHeaderString(_xhr.getAllResponseHeaders());
-                // IE 9 does not provide the way to get URL of response
-                var url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__http_utils__["c" /* getResponseURL */])(_xhr) || req.url;
                 var statusText = _xhr.statusText || 'OK';
                 var responseOptions = new __WEBPACK_IMPORTED_MODULE_3__base_response_options__["b" /* ResponseOptions */]({ body: body, status: status, headers: headers, statusText: statusText, url: url });
-                if (baseResponseOptions != null) {
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(baseResponseOptions)) {
                     responseOptions = baseResponseOptions.merge(responseOptions);
                 }
-                var response = new __WEBPACK_IMPORTED_MODULE_8__static_response__["a" /* Response */](responseOptions);
-                response.ok = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__http_utils__["d" /* isSuccess */])(status);
+                var response = new __WEBPACK_IMPORTED_MODULE_9__static_response__["a" /* Response */](responseOptions);
+                response.ok = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__http_utils__["e" /* isSuccess */])(status);
                 if (response.ok) {
                     responseObserver.next(response);
                     // TODO(gdi2290): defer complete if array buffer until done
@@ -857,21 +858,17 @@ var XHRConnection = (function () {
                     status: _xhr.status,
                     statusText: _xhr.statusText,
                 });
-                if (baseResponseOptions != null) {
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(baseResponseOptions)) {
                     responseOptions = baseResponseOptions.merge(responseOptions);
                 }
-                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_8__static_response__["a" /* Response */](responseOptions));
+                responseObserver.error(new __WEBPACK_IMPORTED_MODULE_9__static_response__["a" /* Response */](responseOptions));
             };
             _this.setDetectedContentType(req, _xhr);
-            if (req.headers == null) {
-                req.headers = new __WEBPACK_IMPORTED_MODULE_5__headers__["a" /* Headers */]();
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(req.headers)) {
+                req.headers.forEach(function (values, name) { return _xhr.setRequestHeader(name, values.join(',')); });
             }
-            if (!req.headers.has('Accept')) {
-                req.headers.append('Accept', 'application/json, text/plain, */*');
-            }
-            req.headers.forEach(function (values, name) { return _xhr.setRequestHeader(name, values.join(',')); });
             // Select the correct buffer type to store the response
-            if (req.responseType != null && _xhr.responseType != null) {
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(req.responseType) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(_xhr.responseType)) {
                 switch (req.responseType) {
                     case __WEBPACK_IMPORTED_MODULE_4__enums__["c" /* ResponseContentType */].ArrayBuffer:
                         _xhr.responseType = 'arraybuffer';
@@ -899,14 +896,9 @@ var XHRConnection = (function () {
             };
         });
     }
-    /**
-     * @param {?} req
-     * @param {?} _xhr
-     * @return {?}
-     */
-    XHRConnection.prototype.setDetectedContentType = function (req /** TODO Request */, _xhr /** XMLHttpRequest */) {
+    XHRConnection.prototype.setDetectedContentType = function (req /** TODO #9100 */, _xhr /** TODO #9100 */) {
         // Skip if a custom Content-Type header is provided
-        if (req.headers != null && req.headers.get('Content-Type') != null) {
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(req.headers) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__facade_lang__["d" /* isPresent */])(req.headers.get('Content-Type'))) {
             return;
         }
         // Set the detected content type
@@ -923,7 +915,7 @@ var XHRConnection = (function () {
                 _xhr.setRequestHeader('content-type', 'text/plain');
                 break;
             case __WEBPACK_IMPORTED_MODULE_4__enums__["e" /* ContentType */].BLOB:
-                var /** @type {?} */ blob = req.blob();
+                var blob = req.blob();
                 if (blob.type) {
                     _xhr.setRequestHeader('content-type', blob.type);
                 }
@@ -932,96 +924,64 @@ var XHRConnection = (function () {
     };
     return XHRConnection;
 }());
-function XHRConnection_tsickle_Closure_declarations() {
-    /** @type {?} */
-    XHRConnection.prototype.request;
-    /**
-     * Response {@link EventEmitter} which emits a single {@link Response} value on load event of
-     * `XMLHttpRequest`.
-     * @type {?}
-     */
-    XHRConnection.prototype.response;
-    /** @type {?} */
-    XHRConnection.prototype.readyState;
-}
 /**
- *  `XSRFConfiguration` sets up Cross Site Request Forgery (XSRF) protection for the application
-  * using a cookie. See {@link https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)}
-  * for more information on XSRF.
-  * *
-  * Applications can configure custom cookie and header names by binding an instance of this class
-  * with different `cookieName` and `headerName` values. See the main HTTP documentation for more
-  * details.
-  * *
+ * `XSRFConfiguration` sets up Cross Site Request Forgery (XSRF) protection for the application
+ * using a cookie. See {@link https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)}
+ * for more information on XSRF.
+ *
+ * Applications can configure custom cookie and header names by binding an instance of this class
+ * with different `cookieName` and `headerName` values. See the main HTTP documentation for more
+ * details.
+ *
+ * @experimental
  */
 var CookieXSRFStrategy = (function () {
-    /**
-     * @param {?=} _cookieName
-     * @param {?=} _headerName
-     */
     function CookieXSRFStrategy(_cookieName, _headerName) {
         if (_cookieName === void 0) { _cookieName = 'XSRF-TOKEN'; }
         if (_headerName === void 0) { _headerName = 'X-XSRF-TOKEN'; }
         this._cookieName = _cookieName;
         this._headerName = _headerName;
     }
-    /**
-     * @param {?} req
-     * @return {?}
-     */
     CookieXSRFStrategy.prototype.configureRequest = function (req) {
-        var /** @type {?} */ xsrfToken = __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["__platform_browser_private__"].getDOM().getCookie(this._cookieName);
-        if (xsrfToken) {
+        var xsrfToken = __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["__platform_browser_private__"].getDOM().getCookie(this._cookieName);
+        if (xsrfToken && !req.headers.has(this._headerName)) {
             req.headers.set(this._headerName, xsrfToken);
         }
     };
     return CookieXSRFStrategy;
 }());
-function CookieXSRFStrategy_tsickle_Closure_declarations() {
-    /** @type {?} */
-    CookieXSRFStrategy.prototype._cookieName;
-    /** @type {?} */
-    CookieXSRFStrategy.prototype._headerName;
-}
 /**
- *  Creates {@link XHRConnection} instances.
-  * *
-  * This class would typically not be used by end users, but could be
-  * overridden if a different backend implementation should be used,
-  * such as in a node backend.
-  * *
-  * ### Example
-  * *
-  * ```
-  * import {Http, MyNodeBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
-  * viewProviders: [
-  * HTTP_PROVIDERS,
-  * {provide: Http, useFactory: (backend, options) => {
-  * return new Http(backend, options);
-  * }, deps: [MyNodeBackend, BaseRequestOptions]}]
-  * })
-  * class MyComponent {
-  * constructor(http:Http) {
-  * http.request('people.json').subscribe(res => this.people = res.json());
-  * }
-  * }
-  * ```
+ * Creates {@link XHRConnection} instances.
+ *
+ * This class would typically not be used by end users, but could be
+ * overridden if a different backend implementation should be used,
+ * such as in a node backend.
+ *
+ * ### Example
+ *
+ * ```
+ * import {Http, MyNodeBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
+ * @Component({
+ *   viewProviders: [
+ *     HTTP_PROVIDERS,
+ *     {provide: Http, useFactory: (backend, options) => {
+ *       return new Http(backend, options);
+ *     }, deps: [MyNodeBackend, BaseRequestOptions]}]
+ * })
+ * class MyComponent {
+ *   constructor(http:Http) {
+ *     http.request('people.json').subscribe(res => this.people = res.json());
+ *   }
+ * }
+ * ```
+ * @experimental
  */
 var XHRBackend = (function () {
-    /**
-     * @param {?} _browserXHR
-     * @param {?} _baseResponseOptions
-     * @param {?} _xsrfStrategy
-     */
     function XHRBackend(_browserXHR, _baseResponseOptions, _xsrfStrategy) {
         this._browserXHR = _browserXHR;
         this._baseResponseOptions = _baseResponseOptions;
         this._xsrfStrategy = _xsrfStrategy;
     }
-    /**
-     * @param {?} request
-     * @return {?}
-     */
     XHRBackend.prototype.createConnection = function (request) {
         this._xsrfStrategy.configureRequest(request);
         return new XHRConnection(request, this._browserXHR, this._baseResponseOptions);
@@ -1030,28 +990,13 @@ var XHRBackend = (function () {
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    XHRBackend.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_9__browser_xhr__["a" /* BrowserXhr */], },
+    XHRBackend.ctorParameters = [
+        { type: __WEBPACK_IMPORTED_MODULE_10__browser_xhr__["a" /* BrowserXhr */], },
         { type: __WEBPACK_IMPORTED_MODULE_3__base_response_options__["b" /* ResponseOptions */], },
-        { type: __WEBPACK_IMPORTED_MODULE_7__interfaces__["c" /* XSRFStrategy */], },
-    ]; };
+        { type: __WEBPACK_IMPORTED_MODULE_8__interfaces__["c" /* XSRFStrategy */], },
+    ];
     return XHRBackend;
 }());
-function XHRBackend_tsickle_Closure_declarations() {
-    /** @type {?} */
-    XHRBackend.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    XHRBackend.ctorParameters;
-    /** @type {?} */
-    XHRBackend.prototype._browserXHR;
-    /** @type {?} */
-    XHRBackend.prototype._baseResponseOptions;
-    /** @type {?} */
-    XHRBackend.prototype._xsrfStrategy;
-}
 //# sourceMappingURL=xhr_backend.js.map
 
 /***/ },
@@ -1062,10 +1007,11 @@ function XHRBackend_tsickle_Closure_declarations() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return RequestOptions; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BaseRequestOptions; });
 /**
@@ -1085,192 +1031,148 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
+
 /**
- *  Creates a request options object to be optionally provided when instantiating a
-  * {@link Request}.
-  * *
-  * This class is based on the `RequestInit` description in the [Fetch
-  * Spec](https://fetch.spec.whatwg.org/#requestinit).
-  * *
-  * All values are null by default. Typical defaults can be found in the {@link BaseRequestOptions}
-  * class, which sub-classes `RequestOptions`.
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
-  * *
-  * ```typescript
-  * import {RequestOptions, Request, RequestMethod} from '@angular/http';
-  * *
-  * var options = new RequestOptions({
-  * method: RequestMethod.Post,
-  * url: 'https://google.com'
-  * });
-  * var req = new Request(options);
-  * console.log('req.method:', RequestMethod[req.method]); // Post
-  * console.log('options.url:', options.url); // https://google.com
-  * ```
-  * *
+ * Creates a request options object to be optionally provided when instantiating a
+ * {@link Request}.
+ *
+ * This class is based on the `RequestInit` description in the [Fetch
+ * Spec](https://fetch.spec.whatwg.org/#requestinit).
+ *
+ * All values are null by default. Typical defaults can be found in the {@link BaseRequestOptions}
+ * class, which sub-classes `RequestOptions`.
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/7Wvi3lfLq41aQPKlxB4O?p=preview))
+ *
+ * ```typescript
+ * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+ *
+ * var options = new RequestOptions({
+ *   method: RequestMethod.Post,
+ *   url: 'https://google.com'
+ * });
+ * var req = new Request(options);
+ * console.log('req.method:', RequestMethod[req.method]); // Post
+ * console.log('options.url:', options.url); // https://google.com
+ * ```
+ *
+ * @experimental
  */
 var RequestOptions = (function () {
-    /**
-     * @param {?=} __0
-     */
     function RequestOptions(_a) {
         var _b = _a === void 0 ? {} : _a, method = _b.method, headers = _b.headers, body = _b.body, url = _b.url, search = _b.search, withCredentials = _b.withCredentials, responseType = _b.responseType;
-        this.method = method != null ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__http_utils__["b" /* normalizeMethodName */])(method) : null;
-        this.headers = headers != null ? headers : null;
-        this.body = body != null ? body : null;
-        this.url = url != null ? url : null;
-        this.search =
-            search != null ? (typeof search === 'string' ? new __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */](search) : search) : null;
-        this.withCredentials = withCredentials != null ? withCredentials : null;
-        this.responseType = responseType != null ? responseType : null;
+        this.method = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(method) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__http_utils__["c" /* normalizeMethodName */])(method) : null;
+        this.headers = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(headers) ? headers : null;
+        this.body = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(body) ? body : null;
+        this.url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(url) ? url : null;
+        this.search = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(search) ?
+            (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["a" /* isString */])(search) ? new __WEBPACK_IMPORTED_MODULE_5__url_search_params__["b" /* URLSearchParams */]((search)) : (search)) :
+            null;
+        this.withCredentials = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(withCredentials) ? withCredentials : null;
+        this.responseType = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(responseType) ? responseType : null;
     }
     /**
-     *  Creates a copy of the `RequestOptions` instance, using the optional input as values to override
-      * existing values. This method will not change the values of the instance on which it is being
-      * called.
-      * *
-      * Note that `headers` and `search` will override existing values completely if present in
-      * the `options` object. If these values should be merged, it should be done prior to calling
-      * `merge` on the `RequestOptions` instance.
-      * *
-      * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
-      * *
-      * ```typescript
-      * import {RequestOptions, Request, RequestMethod} from '@angular/http';
-      * *
-      * var options = new RequestOptions({
-      * method: RequestMethod.Post
-      * });
-      * var req = new Request(options.merge({
-      * url: 'https://google.com'
-      * }));
-      * console.log('req.method:', RequestMethod[req.method]); // Post
-      * console.log('options.url:', options.url); // null
-      * console.log('req.url:', req.url); // https://google.com
-      * ```
-     * @param {?=} options
-     * @return {?}
+     * Creates a copy of the `RequestOptions` instance, using the optional input as values to override
+     * existing values. This method will not change the values of the instance on which it is being
+     * called.
+     *
+     * Note that `headers` and `search` will override existing values completely if present in
+     * the `options` object. If these values should be merged, it should be done prior to calling
+     * `merge` on the `RequestOptions` instance.
+     *
+     * ### Example ([live demo](http://plnkr.co/edit/6w8XA8YTkDRcPYpdB9dk?p=preview))
+     *
+     * ```typescript
+     * import {RequestOptions, Request, RequestMethod} from '@angular/http';
+     *
+     * var options = new RequestOptions({
+     *   method: RequestMethod.Post
+     * });
+     * var req = new Request(options.merge({
+     *   url: 'https://google.com'
+     * }));
+     * console.log('req.method:', RequestMethod[req.method]); // Post
+     * console.log('options.url:', options.url); // null
+     * console.log('req.url:', req.url); // https://google.com
+     * ```
      */
     RequestOptions.prototype.merge = function (options) {
         return new RequestOptions({
-            method: options && options.method != null ? options.method : this.method,
-            headers: options && options.headers != null ? options.headers : new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */](this.headers),
-            body: options && options.body != null ? options.body : this.body,
-            url: options && options.url != null ? options.url : this.url,
-            search: options && options.search != null ?
-                (typeof options.search === 'string' ? new __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */](options.search) :
-                    options.search.clone()) :
+            method: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.method) ? options.method : this.method,
+            headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.headers) ? options.headers : this.headers,
+            body: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.body) ? options.body : this.body,
+            url: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.url) ? options.url : this.url,
+            search: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.search) ?
+                (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["a" /* isString */])(options.search) ? new __WEBPACK_IMPORTED_MODULE_5__url_search_params__["b" /* URLSearchParams */]((options.search)) :
+                    (options.search).clone()) :
                 this.search,
-            withCredentials: options && options.withCredentials != null ? options.withCredentials :
+            withCredentials: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.withCredentials) ?
+                options.withCredentials :
                 this.withCredentials,
-            responseType: options && options.responseType != null ? options.responseType :
+            responseType: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.responseType) ? options.responseType :
                 this.responseType
         });
     };
     return RequestOptions;
 }());
-function RequestOptions_tsickle_Closure_declarations() {
-    /**
-     * Http method with which to execute a {@link Request}.
-     * Acceptable methods are defined in the {@link RequestMethod} enum.
-     * @type {?}
-     */
-    RequestOptions.prototype.method;
-    /**
-     * {@link Headers} to be attached to a {@link Request}.
-     * @type {?}
-     */
-    RequestOptions.prototype.headers;
-    /**
-     * Body to be used when creating a {@link Request}.
-     * @type {?}
-     */
-    RequestOptions.prototype.body;
-    /**
-     * Url with which to perform a {@link Request}.
-     * @type {?}
-     */
-    RequestOptions.prototype.url;
-    /**
-     * Search parameters to be included in a {@link Request}.
-     * @type {?}
-     */
-    RequestOptions.prototype.search;
-    /**
-     * Enable use credentials for a {@link Request}.
-     * @type {?}
-     */
-    RequestOptions.prototype.withCredentials;
-    /** @type {?} */
-    RequestOptions.prototype.responseType;
-}
 /**
- *  Subclass of {@link RequestOptions}, with default values.
-  * *
-  * Default values:
-  * * method: {@link RequestMethod RequestMethod.Get}
-  * * headers: empty {@link Headers} object
-  * *
-  * This class could be extended and bound to the {@link RequestOptions} class
-  * when configuring an {@link Injector}, in order to override the default options
-  * used by {@link Http} to create and send {@link Request Requests}.
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
-  * *
-  * ```typescript
-  * import {provide} from '@angular/core';
-  * import {bootstrap} from '@angular/platform-browser/browser';
-  * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
-  * import {App} from './myapp';
-  * *
-  * class MyOptions extends BaseRequestOptions {
-  * search: string = 'coreTeam=true';
-  * }
-  * *
-  * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
-  * ```
-  * *
-  * The options could also be extended when manually creating a {@link Request}
-  * object.
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
-  * *
-  * ```
-  * import {BaseRequestOptions, Request, RequestMethod} from '@angular/http';
-  * *
-  * var options = new BaseRequestOptions();
-  * var req = new Request(options.merge({
-  * method: RequestMethod.Post,
-  * url: 'https://google.com'
-  * }));
-  * console.log('req.method:', RequestMethod[req.method]); // Post
-  * console.log('options.url:', options.url); // null
-  * console.log('req.url:', req.url); // https://google.com
-  * ```
-  * *
+ * Subclass of {@link RequestOptions}, with default values.
+ *
+ * Default values:
+ *  * method: {@link RequestMethod RequestMethod.Get}
+ *  * headers: empty {@link Headers} object
+ *
+ * This class could be extended and bound to the {@link RequestOptions} class
+ * when configuring an {@link Injector}, in order to override the default options
+ * used by {@link Http} to create and send {@link Request Requests}.
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/LEKVSx?p=preview))
+ *
+ * ```typescript
+ * import {provide} from '@angular/core';
+ * import {bootstrap} from '@angular/platform-browser/browser';
+ * import {HTTP_PROVIDERS, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
+ * import {App} from './myapp';
+ *
+ * class MyOptions extends BaseRequestOptions {
+ *   search: string = 'coreTeam=true';
+ * }
+ *
+ * bootstrap(App, [HTTP_PROVIDERS, {provide: RequestOptions, useClass: MyOptions}]);
+ * ```
+ *
+ * The options could also be extended when manually creating a {@link Request}
+ * object.
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/oyBoEvNtDhOSfi9YxaVb?p=preview))
+ *
+ * ```
+ * import {BaseRequestOptions, Request, RequestMethod} from '@angular/http';
+ *
+ * var options = new BaseRequestOptions();
+ * var req = new Request(options.merge({
+ *   method: RequestMethod.Post,
+ *   url: 'https://google.com'
+ * }));
+ * console.log('req.method:', RequestMethod[req.method]); // Post
+ * console.log('options.url:', options.url); // null
+ * console.log('req.url:', req.url); // https://google.com
+ * ```
+ *
+ * @experimental
  */
 var BaseRequestOptions = (function (_super) {
     __extends(BaseRequestOptions, _super);
     function BaseRequestOptions() {
-        _super.call(this, { method: __WEBPACK_IMPORTED_MODULE_1__enums__["b" /* RequestMethod */].Get, headers: new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */]() });
+        _super.call(this, { method: __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, headers: new __WEBPACK_IMPORTED_MODULE_3__headers__["a" /* Headers */]() });
     }
     BaseRequestOptions.decorators = [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    BaseRequestOptions.ctorParameters = function () { return []; };
+    BaseRequestOptions.ctorParameters = [];
     return BaseRequestOptions;
 }(RequestOptions));
-function BaseRequestOptions_tsickle_Closure_declarations() {
-    /** @type {?} */
-    BaseRequestOptions.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    BaseRequestOptions.ctorParameters;
-}
 //# sourceMappingURL=base_request_options.js.map
 
 /***/ },
@@ -1281,8 +1183,9 @@ function BaseRequestOptions_tsickle_Closure_declarations() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return ResponseOptions; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return BaseResponseOptions; });
 /**
@@ -1300,175 +1203,141 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
+
 /**
- *  Creates a response options object to be optionally provided when instantiating a
-  * {@link Response}.
-  * *
-  * This class is based on the `ResponseInit` description in the [Fetch
-  * Spec](https://fetch.spec.whatwg.org/#responseinit).
-  * *
-  * All values are null by default. Typical defaults can be found in the
-  * {@link BaseResponseOptions} class, which sub-classes `ResponseOptions`.
-  * *
-  * This class may be used in tests to build {@link Response Responses} for
-  * mock responses (see {@link MockBackend}).
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/P9Jkk8e8cz6NVzbcxEsD?p=preview))
-  * *
-  * ```typescript
-  * import {ResponseOptions, Response} from '@angular/http';
-  * *
-  * var options = new ResponseOptions({
-  * body: '{"name":"Jeff"}'
-  * });
-  * var res = new Response(options);
-  * *
-  * console.log('res.json():', res.json()); // Object {name: "Jeff"}
-  * ```
-  * *
+ * Creates a response options object to be optionally provided when instantiating a
+ * {@link Response}.
+ *
+ * This class is based on the `ResponseInit` description in the [Fetch
+ * Spec](https://fetch.spec.whatwg.org/#responseinit).
+ *
+ * All values are null by default. Typical defaults can be found in the
+ * {@link BaseResponseOptions} class, which sub-classes `ResponseOptions`.
+ *
+ * This class may be used in tests to build {@link Response Responses} for
+ * mock responses (see {@link MockBackend}).
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/P9Jkk8e8cz6NVzbcxEsD?p=preview))
+ *
+ * ```typescript
+ * import {ResponseOptions, Response} from '@angular/http';
+ *
+ * var options = new ResponseOptions({
+ *   body: '{"name":"Jeff"}'
+ * });
+ * var res = new Response(options);
+ *
+ * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+ * ```
+ *
+ * @experimental
  */
 var ResponseOptions = (function () {
-    /**
-     * @param {?=} __0
-     */
     function ResponseOptions(_a) {
         var _b = _a === void 0 ? {} : _a, body = _b.body, status = _b.status, headers = _b.headers, statusText = _b.statusText, type = _b.type, url = _b.url;
-        this.body = body != null ? body : null;
-        this.status = status != null ? status : null;
-        this.headers = headers != null ? headers : null;
-        this.statusText = statusText != null ? statusText : null;
-        this.type = type != null ? type : null;
-        this.url = url != null ? url : null;
+        this.body = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(body) ? body : null;
+        this.status = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(status) ? status : null;
+        this.headers = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(headers) ? headers : null;
+        this.statusText = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(statusText) ? statusText : null;
+        this.type = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(type) ? type : null;
+        this.url = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(url) ? url : null;
     }
     /**
-     *  Creates a copy of the `ResponseOptions` instance, using the optional input as values to
-      * override
-      * existing values. This method will not change the values of the instance on which it is being
-      * called.
-      * *
-      * This may be useful when sharing a base `ResponseOptions` object inside tests,
-      * where certain properties may change from test to test.
-      * *
-      * ### Example ([live demo](http://plnkr.co/edit/1lXquqFfgduTFBWjNoRE?p=preview))
-      * *
-      * ```typescript
-      * import {ResponseOptions, Response} from '@angular/http';
-      * *
-      * var options = new ResponseOptions({
-      * body: {name: 'Jeff'}
-      * });
-      * var res = new Response(options.merge({
-      * url: 'https://google.com'
-      * }));
-      * console.log('options.url:', options.url); // null
-      * console.log('res.json():', res.json()); // Object {name: "Jeff"}
-      * console.log('res.url:', res.url); // https://google.com
-      * ```
-     * @param {?=} options
-     * @return {?}
+     * Creates a copy of the `ResponseOptions` instance, using the optional input as values to
+     * override
+     * existing values. This method will not change the values of the instance on which it is being
+     * called.
+     *
+     * This may be useful when sharing a base `ResponseOptions` object inside tests,
+     * where certain properties may change from test to test.
+     *
+     * ### Example ([live demo](http://plnkr.co/edit/1lXquqFfgduTFBWjNoRE?p=preview))
+     *
+     * ```typescript
+     * import {ResponseOptions, Response} from '@angular/http';
+     *
+     * var options = new ResponseOptions({
+     *   body: {name: 'Jeff'}
+     * });
+     * var res = new Response(options.merge({
+     *   url: 'https://google.com'
+     * }));
+     * console.log('options.url:', options.url); // null
+     * console.log('res.json():', res.json()); // Object {name: "Jeff"}
+     * console.log('res.url:', res.url); // https://google.com
+     * ```
      */
     ResponseOptions.prototype.merge = function (options) {
         return new ResponseOptions({
-            body: options && options.body != null ? options.body : this.body,
-            status: options && options.status != null ? options.status : this.status,
-            headers: options && options.headers != null ? options.headers : this.headers,
-            statusText: options && options.statusText != null ? options.statusText : this.statusText,
-            type: options && options.type != null ? options.type : this.type,
-            url: options && options.url != null ? options.url : this.url,
+            body: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.body) ? options.body : this.body,
+            status: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.status) ? options.status : this.status,
+            headers: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.headers) ? options.headers : this.headers,
+            statusText: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.statusText) ? options.statusText :
+                this.statusText,
+            type: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.type) ? options.type : this.type,
+            url: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(options.url) ? options.url : this.url,
         });
     };
     return ResponseOptions;
 }());
-function ResponseOptions_tsickle_Closure_declarations() {
-    /**
-     * String, Object, ArrayBuffer or Blob representing the body of the {@link Response}.
-     * @type {?}
-     */
-    ResponseOptions.prototype.body;
-    /**
-     * Http {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html status code}
-     * associated with the response.
-     * @type {?}
-     */
-    ResponseOptions.prototype.status;
-    /**
-     * Response {@link Headers headers}
-     * @type {?}
-     */
-    ResponseOptions.prototype.headers;
-    /** @type {?} */
-    ResponseOptions.prototype.statusText;
-    /** @type {?} */
-    ResponseOptions.prototype.type;
-    /** @type {?} */
-    ResponseOptions.prototype.url;
-}
 /**
- *  Subclass of {@link ResponseOptions}, with default values.
-  * *
-  * Default values:
-  * * status: 200
-  * * headers: empty {@link Headers} object
-  * *
-  * This class could be extended and bound to the {@link ResponseOptions} class
-  * when configuring an {@link Injector}, in order to override the default options
-  * used by {@link Http} to create {@link Response Responses}.
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/qv8DLT?p=preview))
-  * *
-  * ```typescript
-  * import {provide} from '@angular/core';
-  * import {bootstrap} from '@angular/platform-browser/browser';
-  * import {HTTP_PROVIDERS, Headers, Http, BaseResponseOptions, ResponseOptions} from
-  * '@angular/http';
-  * import {App} from './myapp';
-  * *
-  * class MyOptions extends BaseResponseOptions {
-  * headers:Headers = new Headers({network: 'github'});
-  * }
-  * *
-  * bootstrap(App, [HTTP_PROVIDERS, {provide: ResponseOptions, useClass: MyOptions}]);
-  * ```
-  * *
-  * The options could also be extended when manually creating a {@link Response}
-  * object.
-  * *
-  * ### Example ([live demo](http://plnkr.co/edit/VngosOWiaExEtbstDoix?p=preview))
-  * *
-  * ```
-  * import {BaseResponseOptions, Response} from '@angular/http';
-  * *
-  * var options = new BaseResponseOptions();
-  * var res = new Response(options.merge({
-  * body: 'Angular',
-  * headers: new Headers({framework: 'angular'})
-  * }));
-  * console.log('res.headers.get("framework"):', res.headers.get('framework')); // angular
-  * console.log('res.text():', res.text()); // Angular;
-  * ```
-  * *
+ * Subclass of {@link ResponseOptions}, with default values.
+ *
+ * Default values:
+ *  * status: 200
+ *  * headers: empty {@link Headers} object
+ *
+ * This class could be extended and bound to the {@link ResponseOptions} class
+ * when configuring an {@link Injector}, in order to override the default options
+ * used by {@link Http} to create {@link Response Responses}.
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/qv8DLT?p=preview))
+ *
+ * ```typescript
+ * import {provide} from '@angular/core';
+ * import {bootstrap} from '@angular/platform-browser/browser';
+ * import {HTTP_PROVIDERS, Headers, Http, BaseResponseOptions, ResponseOptions} from
+ * '@angular/http';
+ * import {App} from './myapp';
+ *
+ * class MyOptions extends BaseResponseOptions {
+ *   headers:Headers = new Headers({network: 'github'});
+ * }
+ *
+ * bootstrap(App, [HTTP_PROVIDERS, {provide: ResponseOptions, useClass: MyOptions}]);
+ * ```
+ *
+ * The options could also be extended when manually creating a {@link Response}
+ * object.
+ *
+ * ### Example ([live demo](http://plnkr.co/edit/VngosOWiaExEtbstDoix?p=preview))
+ *
+ * ```
+ * import {BaseResponseOptions, Response} from '@angular/http';
+ *
+ * var options = new BaseResponseOptions();
+ * var res = new Response(options.merge({
+ *   body: 'Angular',
+ *   headers: new Headers({framework: 'angular'})
+ * }));
+ * console.log('res.headers.get("framework"):', res.headers.get('framework')); // angular
+ * console.log('res.text():', res.text()); // Angular;
+ * ```
+ *
+ * @experimental
  */
 var BaseResponseOptions = (function (_super) {
     __extends(BaseResponseOptions, _super);
     function BaseResponseOptions() {
-        _super.call(this, { status: 200, statusText: 'Ok', type: __WEBPACK_IMPORTED_MODULE_1__enums__["d" /* ResponseType */].Default, headers: new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */]() });
+        _super.call(this, { status: 200, statusText: 'Ok', type: __WEBPACK_IMPORTED_MODULE_2__enums__["d" /* ResponseType */].Default, headers: new __WEBPACK_IMPORTED_MODULE_3__headers__["a" /* Headers */]() });
     }
     BaseResponseOptions.decorators = [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    BaseResponseOptions.ctorParameters = function () { return []; };
+    BaseResponseOptions.ctorParameters = [];
     return BaseResponseOptions;
 }(ResponseOptions));
-function BaseResponseOptions_tsickle_Closure_declarations() {
-    /** @type {?} */
-    BaseResponseOptions.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    BaseResponseOptions.ctorParameters;
-}
 //# sourceMappingURL=base_response_options.js.map
 
 /***/ },
@@ -1477,8 +1346,9 @@ function BaseResponseOptions_tsickle_Closure_declarations() {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Body; });
 /**
  * @license
@@ -1489,63 +1359,59 @@ function BaseResponseOptions_tsickle_Closure_declarations() {
  */
 
 
+
 /**
- *  HTTP request body used by both {@link Request} and {@link Response}
-  * https://fetch.spec.whatwg.org/#body
- * @abstract
+ * HTTP request body used by both {@link Request} and {@link Response}
+ * https://fetch.spec.whatwg.org/#body
  */
 var Body = (function () {
     function Body() {
     }
     /**
-     *  Attempts to return body as parsed `JSON` object, or raises an exception.
-     * @return {?}
+     * Attempts to return body as parsed `JSON` object, or raises an exception.
      */
     Body.prototype.json = function () {
-        if (typeof this._body === 'string') {
-            return JSON.parse(/** @type {?} */ (this._body));
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["a" /* isString */])(this._body)) {
+            return __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["b" /* Json */].parse(this._body);
         }
         if (this._body instanceof ArrayBuffer) {
-            return JSON.parse(this.text());
+            return __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["b" /* Json */].parse(this.text());
         }
         return this._body;
     };
     /**
-     *  Returns the body as a string, presuming `toString()` can be called on the response body.
-     * @return {?}
+     * Returns the body as a string, presuming `toString()` can be called on the response body.
      */
     Body.prototype.text = function () {
-        if (this._body instanceof __WEBPACK_IMPORTED_MODULE_1__url_search_params__["b" /* URLSearchParams */]) {
+        if (this._body instanceof __WEBPACK_IMPORTED_MODULE_2__url_search_params__["b" /* URLSearchParams */]) {
             return this._body.toString();
         }
         if (this._body instanceof ArrayBuffer) {
-            return String.fromCharCode.apply(null, new Uint16Array(/** @type {?} */ (this._body)));
+            return String.fromCharCode.apply(null, new Uint16Array(this._body));
         }
-        if (this._body == null) {
+        if (this._body === null) {
             return '';
         }
-        if (typeof this._body === 'object') {
-            return JSON.stringify(this._body, null, 2);
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__http_utils__["a" /* isJsObject */])(this._body)) {
+            return __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["b" /* Json */].stringify(this._body);
         }
         return this._body.toString();
     };
     /**
-     *  Return the body as an ArrayBuffer
-     * @return {?}
+     * Return the body as an ArrayBuffer
      */
     Body.prototype.arrayBuffer = function () {
         if (this._body instanceof ArrayBuffer) {
-            return (this._body);
+            return this._body;
         }
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__http_utils__["a" /* stringToArrayBuffer */])(this.text());
+        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__http_utils__["b" /* stringToArrayBuffer */])(this.text());
     };
     /**
-     *  Returns the request's body as a Blob, assuming that body exists.
-     * @return {?}
-     */
+      * Returns the request's body as a Blob, assuming that body exists.
+      */
     Body.prototype.blob = function () {
         if (this._body instanceof Blob) {
-            return (this._body);
+            return this._body;
         }
         if (this._body instanceof ArrayBuffer) {
             return new Blob([this._body]);
@@ -1554,10 +1420,6 @@ var Body = (function () {
     };
     return Body;
 }());
-function Body_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Body.prototype._body;
-}
 //# sourceMappingURL=body.js.map
 
 /***/ },
@@ -1571,70 +1433,747 @@ function Body_tsickle_Closure_declarations() {
 /* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return ResponseType; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return ContentType; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return ResponseContentType; });
-var RequestMethod = {};
-RequestMethod.Get = 0;
-RequestMethod.Post = 1;
-RequestMethod.Put = 2;
-RequestMethod.Delete = 3;
-RequestMethod.Options = 4;
-RequestMethod.Head = 5;
-RequestMethod.Patch = 6;
-RequestMethod[RequestMethod.Get] = "Get";
-RequestMethod[RequestMethod.Post] = "Post";
-RequestMethod[RequestMethod.Put] = "Put";
-RequestMethod[RequestMethod.Delete] = "Delete";
-RequestMethod[RequestMethod.Options] = "Options";
-RequestMethod[RequestMethod.Head] = "Head";
-RequestMethod[RequestMethod.Patch] = "Patch";
-var ReadyState = {};
-ReadyState.Unsent = 0;
-ReadyState.Open = 1;
-ReadyState.HeadersReceived = 2;
-ReadyState.Loading = 3;
-ReadyState.Done = 4;
-ReadyState.Cancelled = 5;
-ReadyState[ReadyState.Unsent] = "Unsent";
-ReadyState[ReadyState.Open] = "Open";
-ReadyState[ReadyState.HeadersReceived] = "HeadersReceived";
-ReadyState[ReadyState.Loading] = "Loading";
-ReadyState[ReadyState.Done] = "Done";
-ReadyState[ReadyState.Cancelled] = "Cancelled";
-var ResponseType = {};
-ResponseType.Basic = 0;
-ResponseType.Cors = 1;
-ResponseType.Default = 2;
-ResponseType.Error = 3;
-ResponseType.Opaque = 4;
-ResponseType[ResponseType.Basic] = "Basic";
-ResponseType[ResponseType.Cors] = "Cors";
-ResponseType[ResponseType.Default] = "Default";
-ResponseType[ResponseType.Error] = "Error";
-ResponseType[ResponseType.Opaque] = "Opaque";
-var ContentType = {};
-ContentType.NONE = 0;
-ContentType.JSON = 1;
-ContentType.FORM = 2;
-ContentType.FORM_DATA = 3;
-ContentType.TEXT = 4;
-ContentType.BLOB = 5;
-ContentType.ARRAY_BUFFER = 6;
-ContentType[ContentType.NONE] = "NONE";
-ContentType[ContentType.JSON] = "JSON";
-ContentType[ContentType.FORM] = "FORM";
-ContentType[ContentType.FORM_DATA] = "FORM_DATA";
-ContentType[ContentType.TEXT] = "TEXT";
-ContentType[ContentType.BLOB] = "BLOB";
-ContentType[ContentType.ARRAY_BUFFER] = "ARRAY_BUFFER";
-var ResponseContentType = {};
-ResponseContentType.Text = 0;
-ResponseContentType.Json = 1;
-ResponseContentType.ArrayBuffer = 2;
-ResponseContentType.Blob = 3;
-ResponseContentType[ResponseContentType.Text] = "Text";
-ResponseContentType[ResponseContentType.Json] = "Json";
-ResponseContentType[ResponseContentType.ArrayBuffer] = "ArrayBuffer";
-ResponseContentType[ResponseContentType.Blob] = "Blob";
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+/**
+ * Supported http methods.
+ * @experimental
+ */
+var RequestMethod;
+(function (RequestMethod) {
+    RequestMethod[RequestMethod["Get"] = 0] = "Get";
+    RequestMethod[RequestMethod["Post"] = 1] = "Post";
+    RequestMethod[RequestMethod["Put"] = 2] = "Put";
+    RequestMethod[RequestMethod["Delete"] = 3] = "Delete";
+    RequestMethod[RequestMethod["Options"] = 4] = "Options";
+    RequestMethod[RequestMethod["Head"] = 5] = "Head";
+    RequestMethod[RequestMethod["Patch"] = 6] = "Patch";
+})(RequestMethod || (RequestMethod = {}));
+/**
+ * All possible states in which a connection can be, based on
+ * [States](http://www.w3.org/TR/XMLHttpRequest/#states) from the `XMLHttpRequest` spec, but with an
+ * additional "CANCELLED" state.
+ * @experimental
+ */
+var ReadyState;
+(function (ReadyState) {
+    ReadyState[ReadyState["Unsent"] = 0] = "Unsent";
+    ReadyState[ReadyState["Open"] = 1] = "Open";
+    ReadyState[ReadyState["HeadersReceived"] = 2] = "HeadersReceived";
+    ReadyState[ReadyState["Loading"] = 3] = "Loading";
+    ReadyState[ReadyState["Done"] = 4] = "Done";
+    ReadyState[ReadyState["Cancelled"] = 5] = "Cancelled";
+})(ReadyState || (ReadyState = {}));
+/**
+ * Acceptable response types to be associated with a {@link Response}, based on
+ * [ResponseType](https://fetch.spec.whatwg.org/#responsetype) from the Fetch spec.
+ * @experimental
+ */
+var ResponseType;
+(function (ResponseType) {
+    ResponseType[ResponseType["Basic"] = 0] = "Basic";
+    ResponseType[ResponseType["Cors"] = 1] = "Cors";
+    ResponseType[ResponseType["Default"] = 2] = "Default";
+    ResponseType[ResponseType["Error"] = 3] = "Error";
+    ResponseType[ResponseType["Opaque"] = 4] = "Opaque";
+})(ResponseType || (ResponseType = {}));
+/**
+ * Supported content type to be automatically associated with a {@link Request}.
+ * @experimental
+ */
+var ContentType;
+(function (ContentType) {
+    ContentType[ContentType["NONE"] = 0] = "NONE";
+    ContentType[ContentType["JSON"] = 1] = "JSON";
+    ContentType[ContentType["FORM"] = 2] = "FORM";
+    ContentType[ContentType["FORM_DATA"] = 3] = "FORM_DATA";
+    ContentType[ContentType["TEXT"] = 4] = "TEXT";
+    ContentType[ContentType["BLOB"] = 5] = "BLOB";
+    ContentType[ContentType["ARRAY_BUFFER"] = 6] = "ARRAY_BUFFER";
+})(ContentType || (ContentType = {}));
+/**
+ * Define which buffer to use to store the response
+ * @experimental
+ */
+var ResponseContentType;
+(function (ResponseContentType) {
+    ResponseContentType[ResponseContentType["Text"] = 0] = "Text";
+    ResponseContentType[ResponseContentType["Json"] = 1] = "Json";
+    ResponseContentType[ResponseContentType["ArrayBuffer"] = 2] = "ArrayBuffer";
+    ResponseContentType[ResponseContentType["Blob"] = 3] = "Blob";
+})(ResponseContentType || (ResponseContentType = {}));
 //# sourceMappingURL=enums.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/facade/collection.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return MapWrapper; });
+/* unused harmony export StringMapWrapper */
+/* unused harmony export ListWrapper */
+/* unused harmony export isListLikeIterable */
+/* unused harmony export areIterablesEqual */
+/* unused harmony export iterateListLike */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+// Safari and Internet Explorer do not support the iterable parameter to the
+// Map constructor.  We work around that by manually adding the items.
+var createMapFromPairs = (function () {
+    try {
+        if (new Map([[1, 2]]).size === 1) {
+            return function createMapFromPairs(pairs) { return new Map(pairs); };
+        }
+    }
+    catch (e) {
+    }
+    return function createMapAndPopulateFromPairs(pairs) {
+        var map = new Map();
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            map.set(pair[0], pair[1]);
+        }
+        return map;
+    };
+})();
+var createMapFromMap = (function () {
+    try {
+        if (new Map(new Map())) {
+            return function createMapFromMap(m) { return new Map(m); };
+        }
+    }
+    catch (e) {
+    }
+    return function createMapAndPopulateFromMap(m) {
+        var map = new Map();
+        m.forEach(function (v, k) { map.set(k, v); });
+        return map;
+    };
+})();
+var _clearValues = (function () {
+    if ((new Map()).keys().next) {
+        return function _clearValues(m) {
+            var keyIterator = m.keys();
+            var k;
+            while (!((k = keyIterator.next()).done)) {
+                m.set(k.value, null);
+            }
+        };
+    }
+    else {
+        return function _clearValuesWithForeEach(m) {
+            m.forEach(function (v, k) { m.set(k, null); });
+        };
+    }
+})();
+// Safari doesn't implement MapIterator.next(), which is used is Traceur's polyfill of Array.from
+// TODO(mlaval): remove the work around once we have a working polyfill of Array.from
+var _arrayFromMap = (function () {
+    try {
+        if ((new Map()).values().next) {
+            return function createArrayFromMap(m, getValues) {
+                return getValues ? Array.from(m.values()) : Array.from(m.keys());
+            };
+        }
+    }
+    catch (e) {
+    }
+    return function createArrayFromMapWithForeach(m, getValues) {
+        var res = new Array(m.size), i = 0;
+        m.forEach(function (v, k) {
+            res[i] = getValues ? v : k;
+            i++;
+        });
+        return res;
+    };
+})();
+var MapWrapper = (function () {
+    function MapWrapper() {
+    }
+    MapWrapper.createFromStringMap = function (stringMap) {
+        var result = new Map();
+        for (var prop in stringMap) {
+            result.set(prop, stringMap[prop]);
+        }
+        return result;
+    };
+    MapWrapper.toStringMap = function (m) {
+        var r = {};
+        m.forEach(function (v, k) { return r[k] = v; });
+        return r;
+    };
+    MapWrapper.createFromPairs = function (pairs) { return createMapFromPairs(pairs); };
+    MapWrapper.iterable = function (m) { return m; };
+    MapWrapper.keys = function (m) { return _arrayFromMap(m, false); };
+    MapWrapper.values = function (m) { return _arrayFromMap(m, true); };
+    return MapWrapper;
+}());
+/**
+ * Wraps Javascript Objects
+ */
+var StringMapWrapper = (function () {
+    function StringMapWrapper() {
+    }
+    StringMapWrapper.merge = function (m1, m2) {
+        var m = {};
+        for (var _i = 0, _a = Object.keys(m1); _i < _a.length; _i++) {
+            var k = _a[_i];
+            m[k] = m1[k];
+        }
+        for (var _b = 0, _c = Object.keys(m2); _b < _c.length; _b++) {
+            var k = _c[_b];
+            m[k] = m2[k];
+        }
+        return m;
+    };
+    StringMapWrapper.equals = function (m1, m2) {
+        var k1 = Object.keys(m1);
+        var k2 = Object.keys(m2);
+        if (k1.length != k2.length) {
+            return false;
+        }
+        for (var i = 0; i < k1.length; i++) {
+            var key = k1[i];
+            if (m1[key] !== m2[key]) {
+                return false;
+            }
+        }
+        return true;
+    };
+    return StringMapWrapper;
+}());
+var ListWrapper = (function () {
+    function ListWrapper() {
+    }
+    // JS has no way to express a statically fixed size list, but dart does so we
+    // keep both methods.
+    ListWrapper.createFixedSize = function (size) { return new Array(size); };
+    ListWrapper.createGrowableSize = function (size) { return new Array(size); };
+    ListWrapper.clone = function (array) { return array.slice(0); };
+    ListWrapper.forEachWithIndex = function (array, fn) {
+        for (var i = 0; i < array.length; i++) {
+            fn(array[i], i);
+        }
+    };
+    ListWrapper.first = function (array) {
+        if (!array)
+            return null;
+        return array[0];
+    };
+    ListWrapper.last = function (array) {
+        if (!array || array.length == 0)
+            return null;
+        return array[array.length - 1];
+    };
+    ListWrapper.indexOf = function (array, value, startIndex) {
+        if (startIndex === void 0) { startIndex = 0; }
+        return array.indexOf(value, startIndex);
+    };
+    ListWrapper.contains = function (list, el) { return list.indexOf(el) !== -1; };
+    ListWrapper.reversed = function (array) {
+        var a = ListWrapper.clone(array);
+        return a.reverse();
+    };
+    ListWrapper.concat = function (a, b) { return a.concat(b); };
+    ListWrapper.insert = function (list, index, value) { list.splice(index, 0, value); };
+    ListWrapper.removeAt = function (list, index) {
+        var res = list[index];
+        list.splice(index, 1);
+        return res;
+    };
+    ListWrapper.removeAll = function (list, items) {
+        for (var i = 0; i < items.length; ++i) {
+            var index = list.indexOf(items[i]);
+            list.splice(index, 1);
+        }
+    };
+    ListWrapper.remove = function (list, el) {
+        var index = list.indexOf(el);
+        if (index > -1) {
+            list.splice(index, 1);
+            return true;
+        }
+        return false;
+    };
+    ListWrapper.clear = function (list) { list.length = 0; };
+    ListWrapper.isEmpty = function (list) { return list.length == 0; };
+    ListWrapper.fill = function (list, value, start, end) {
+        if (start === void 0) { start = 0; }
+        if (end === void 0) { end = null; }
+        list.fill(value, start, end === null ? list.length : end);
+    };
+    ListWrapper.equals = function (a, b) {
+        if (a.length != b.length)
+            return false;
+        for (var i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i])
+                return false;
+        }
+        return true;
+    };
+    ListWrapper.slice = function (l, from, to) {
+        if (from === void 0) { from = 0; }
+        if (to === void 0) { to = null; }
+        return l.slice(from, to === null ? undefined : to);
+    };
+    ListWrapper.splice = function (l, from, length) { return l.splice(from, length); };
+    ListWrapper.sort = function (l, compareFn) {
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["d" /* isPresent */])(compareFn)) {
+            l.sort(compareFn);
+        }
+        else {
+            l.sort();
+        }
+    };
+    ListWrapper.toString = function (l) { return l.toString(); };
+    ListWrapper.toJSON = function (l) { return JSON.stringify(l); };
+    ListWrapper.maximum = function (list, predicate) {
+        if (list.length == 0) {
+            return null;
+        }
+        var solution = null;
+        var maxValue = -Infinity;
+        for (var index = 0; index < list.length; index++) {
+            var candidate = list[index];
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["g" /* isBlank */])(candidate)) {
+                continue;
+            }
+            var candidateValue = predicate(candidate);
+            if (candidateValue > maxValue) {
+                solution = candidate;
+                maxValue = candidateValue;
+            }
+        }
+        return solution;
+    };
+    ListWrapper.flatten = function (list) {
+        var target = [];
+        _flattenArray(list, target);
+        return target;
+    };
+    ListWrapper.addAll = function (list, source) {
+        for (var i = 0; i < source.length; i++) {
+            list.push(source[i]);
+        }
+    };
+    return ListWrapper;
+}());
+function _flattenArray(source, target) {
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["d" /* isPresent */])(source)) {
+        for (var i = 0; i < source.length; i++) {
+            var item = source[i];
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["h" /* isArray */])(item)) {
+                _flattenArray(item, target);
+            }
+            else {
+                target.push(item);
+            }
+        }
+    }
+    return target;
+}
+function isListLikeIterable(obj) {
+    if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["c" /* isJsObject */])(obj))
+        return false;
+    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["h" /* isArray */])(obj) ||
+        (!(obj instanceof Map) &&
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["i" /* getSymbolIterator */])() in obj); // JS Iterable have a Symbol.iterator prop
+}
+function areIterablesEqual(a, b, comparator) {
+    var iterator1 = a[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["i" /* getSymbolIterator */])()]();
+    var iterator2 = b[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["i" /* getSymbolIterator */])()]();
+    while (true) {
+        var item1 = iterator1.next();
+        var item2 = iterator2.next();
+        if (item1.done && item2.done)
+            return true;
+        if (item1.done || item2.done)
+            return false;
+        if (!comparator(item1.value, item2.value))
+            return false;
+    }
+}
+function iterateListLike(obj, fn) {
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["h" /* isArray */])(obj)) {
+        for (var i = 0; i < obj.length; i++) {
+            fn(obj[i]);
+        }
+    }
+    else {
+        var iterator = obj[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__lang__["i" /* getSymbolIterator */])()]();
+        var item;
+        while (!((item = iterator.next()).done)) {
+            fn(item.value);
+        }
+    }
+}
+//# sourceMappingURL=collection.js.map
+
+/***/ },
+
+/***/ "./node_modules/@angular/http/src/facade/lang.js":
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/* unused harmony export scheduleMicroTask */
+/* harmony export (binding) */ __webpack_require__.d(exports, "f", function() { return _global; });
+/* unused harmony export getTypeNameForDebugging */
+/* harmony export (immutable) */ exports["d"] = isPresent;
+/* harmony export (immutable) */ exports["g"] = isBlank;
+/* unused harmony export isBoolean */
+/* unused harmony export isNumber */
+/* harmony export (immutable) */ exports["a"] = isString;
+/* unused harmony export isFunction */
+/* unused harmony export isType */
+/* unused harmony export isStringMap */
+/* unused harmony export isStrictStringMap */
+/* harmony export (immutable) */ exports["h"] = isArray;
+/* unused harmony export isDate */
+/* unused harmony export noop */
+/* unused harmony export stringify */
+/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return StringWrapper; });
+/* unused harmony export StringJoiner */
+/* unused harmony export NumberWrapper */
+/* unused harmony export RegExp */
+/* unused harmony export FunctionWrapper */
+/* unused harmony export looseIdentical */
+/* unused harmony export getMapKey */
+/* unused harmony export normalizeBlank */
+/* unused harmony export normalizeBool */
+/* harmony export (immutable) */ exports["c"] = isJsObject;
+/* unused harmony export print */
+/* unused harmony export warn */
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return Json; });
+/* unused harmony export setValueOnPath */
+/* harmony export (immutable) */ exports["i"] = getSymbolIterator;
+/* unused harmony export evalExpression */
+/* unused harmony export isPrimitive */
+/* unused harmony export hasConstructor */
+/* unused harmony export escape */
+/* unused harmony export escapeRegExp */
+/**
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+var globalScope;
+if (typeof window === 'undefined') {
+    if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+        // TODO: Replace any with WorkerGlobalScope from lib.webworker.d.ts #3492
+        globalScope = self;
+    }
+    else {
+        globalScope = global;
+    }
+}
+else {
+    globalScope = window;
+}
+function scheduleMicroTask(fn) {
+    Zone.current.scheduleMicroTask('scheduleMicrotask', fn);
+}
+// Need to declare a new variable for global here since TypeScript
+// exports the original value of the symbol.
+var _global = globalScope;
+
+function getTypeNameForDebugging(type) {
+    return type['name'] || typeof type;
+}
+// TODO: remove calls to assert in production environment
+// Note: Can't just export this and import in in other files
+// as `assert` is a reserved keyword in Dart
+_global.assert = function assert(condition) {
+    // TODO: to be fixed properly via #2830, noop for now
+};
+function isPresent(obj) {
+    return obj !== undefined && obj !== null;
+}
+function isBlank(obj) {
+    return obj === undefined || obj === null;
+}
+function isBoolean(obj) {
+    return typeof obj === 'boolean';
+}
+function isNumber(obj) {
+    return typeof obj === 'number';
+}
+function isString(obj) {
+    return typeof obj === 'string';
+}
+function isFunction(obj) {
+    return typeof obj === 'function';
+}
+function isType(obj) {
+    return isFunction(obj);
+}
+function isStringMap(obj) {
+    return typeof obj === 'object' && obj !== null;
+}
+var STRING_MAP_PROTO = Object.getPrototypeOf({});
+function isStrictStringMap(obj) {
+    return isStringMap(obj) && Object.getPrototypeOf(obj) === STRING_MAP_PROTO;
+}
+function isArray(obj) {
+    return Array.isArray(obj);
+}
+function isDate(obj) {
+    return obj instanceof Date && !isNaN(obj.valueOf());
+}
+function noop() { }
+function stringify(token) {
+    if (typeof token === 'string') {
+        return token;
+    }
+    if (token === undefined || token === null) {
+        return '' + token;
+    }
+    if (token.overriddenName) {
+        return token.overriddenName;
+    }
+    if (token.name) {
+        return token.name;
+    }
+    var res = token.toString();
+    var newLineIndex = res.indexOf('\n');
+    return newLineIndex === -1 ? res : res.substring(0, newLineIndex);
+}
+var StringWrapper = (function () {
+    function StringWrapper() {
+    }
+    StringWrapper.fromCharCode = function (code) { return String.fromCharCode(code); };
+    StringWrapper.charCodeAt = function (s, index) { return s.charCodeAt(index); };
+    StringWrapper.split = function (s, regExp) { return s.split(regExp); };
+    StringWrapper.equals = function (s, s2) { return s === s2; };
+    StringWrapper.stripLeft = function (s, charVal) {
+        if (s && s.length) {
+            var pos = 0;
+            for (var i = 0; i < s.length; i++) {
+                if (s[i] != charVal)
+                    break;
+                pos++;
+            }
+            s = s.substring(pos);
+        }
+        return s;
+    };
+    StringWrapper.stripRight = function (s, charVal) {
+        if (s && s.length) {
+            var pos = s.length;
+            for (var i = s.length - 1; i >= 0; i--) {
+                if (s[i] != charVal)
+                    break;
+                pos--;
+            }
+            s = s.substring(0, pos);
+        }
+        return s;
+    };
+    StringWrapper.replace = function (s, from, replace) {
+        return s.replace(from, replace);
+    };
+    StringWrapper.replaceAll = function (s, from, replace) {
+        return s.replace(from, replace);
+    };
+    StringWrapper.slice = function (s, from, to) {
+        if (from === void 0) { from = 0; }
+        if (to === void 0) { to = null; }
+        return s.slice(from, to === null ? undefined : to);
+    };
+    StringWrapper.replaceAllMapped = function (s, from, cb) {
+        return s.replace(from, function () {
+            var matches = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                matches[_i - 0] = arguments[_i];
+            }
+            // Remove offset & string from the result array
+            matches.splice(-2, 2);
+            // The callback receives match, p1, ..., pn
+            return cb(matches);
+        });
+    };
+    StringWrapper.contains = function (s, substr) { return s.indexOf(substr) != -1; };
+    StringWrapper.compare = function (a, b) {
+        if (a < b) {
+            return -1;
+        }
+        else if (a > b) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+    return StringWrapper;
+}());
+var StringJoiner = (function () {
+    function StringJoiner(parts) {
+        if (parts === void 0) { parts = []; }
+        this.parts = parts;
+    }
+    StringJoiner.prototype.add = function (part) { this.parts.push(part); };
+    StringJoiner.prototype.toString = function () { return this.parts.join(''); };
+    return StringJoiner;
+}());
+var NumberWrapper = (function () {
+    function NumberWrapper() {
+    }
+    NumberWrapper.toFixed = function (n, fractionDigits) { return n.toFixed(fractionDigits); };
+    NumberWrapper.equal = function (a, b) { return a === b; };
+    NumberWrapper.parseIntAutoRadix = function (text) {
+        var result = parseInt(text);
+        if (isNaN(result)) {
+            throw new Error('Invalid integer literal when parsing ' + text);
+        }
+        return result;
+    };
+    NumberWrapper.parseInt = function (text, radix) {
+        if (radix == 10) {
+            if (/^(\-|\+)?[0-9]+$/.test(text)) {
+                return parseInt(text, radix);
+            }
+        }
+        else if (radix == 16) {
+            if (/^(\-|\+)?[0-9ABCDEFabcdef]+$/.test(text)) {
+                return parseInt(text, radix);
+            }
+        }
+        else {
+            var result = parseInt(text, radix);
+            if (!isNaN(result)) {
+                return result;
+            }
+        }
+        throw new Error('Invalid integer literal when parsing ' + text + ' in base ' + radix);
+    };
+    Object.defineProperty(NumberWrapper, "NaN", {
+        get: function () { return NaN; },
+        enumerable: true,
+        configurable: true
+    });
+    NumberWrapper.isNumeric = function (value) { return !isNaN(value - parseFloat(value)); };
+    NumberWrapper.isNaN = function (value) { return isNaN(value); };
+    NumberWrapper.isInteger = function (value) { return Number.isInteger(value); };
+    return NumberWrapper;
+}());
+var RegExp = _global.RegExp;
+var FunctionWrapper = (function () {
+    function FunctionWrapper() {
+    }
+    FunctionWrapper.apply = function (fn, posArgs) { return fn.apply(null, posArgs); };
+    FunctionWrapper.bind = function (fn, scope) { return fn.bind(scope); };
+    return FunctionWrapper;
+}());
+// JS has NaN !== NaN
+function looseIdentical(a, b) {
+    return a === b || typeof a === 'number' && typeof b === 'number' && isNaN(a) && isNaN(b);
+}
+// JS considers NaN is the same as NaN for map Key (while NaN !== NaN otherwise)
+// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+function getMapKey(value) {
+    return value;
+}
+function normalizeBlank(obj) {
+    return isBlank(obj) ? null : obj;
+}
+function normalizeBool(obj) {
+    return isBlank(obj) ? false : obj;
+}
+function isJsObject(o) {
+    return o !== null && (typeof o === 'function' || typeof o === 'object');
+}
+function print(obj) {
+    console.log(obj);
+}
+function warn(obj) {
+    console.warn(obj);
+}
+// Can't be all uppercase as our transpiler would think it is a special directive...
+var Json = (function () {
+    function Json() {
+    }
+    Json.parse = function (s) { return _global.JSON.parse(s); };
+    Json.stringify = function (data) {
+        // Dart doesn't take 3 arguments
+        return _global.JSON.stringify(data, null, 2);
+    };
+    return Json;
+}());
+function setValueOnPath(global, path, value) {
+    var parts = path.split('.');
+    var obj = global;
+    while (parts.length > 1) {
+        var name = parts.shift();
+        if (obj.hasOwnProperty(name) && isPresent(obj[name])) {
+            obj = obj[name];
+        }
+        else {
+            obj = obj[name] = {};
+        }
+    }
+    if (obj === undefined || obj === null) {
+        obj = {};
+    }
+    obj[parts.shift()] = value;
+}
+var _symbolIterator = null;
+function getSymbolIterator() {
+    if (isBlank(_symbolIterator)) {
+        if (isPresent(globalScope.Symbol) && isPresent(Symbol.iterator)) {
+            _symbolIterator = Symbol.iterator;
+        }
+        else {
+            // es6-shim specific logic
+            var keys = Object.getOwnPropertyNames(Map.prototype);
+            for (var i = 0; i < keys.length; ++i) {
+                var key = keys[i];
+                if (key !== 'entries' && key !== 'size' &&
+                    Map.prototype[key] === Map.prototype['entries']) {
+                    _symbolIterator = key;
+                }
+            }
+        }
+    }
+    return _symbolIterator;
+}
+function evalExpression(sourceUrl, expr, declarations, vars) {
+    var fnBody = declarations + "\nreturn " + expr + "\n//# sourceURL=" + sourceUrl;
+    var fnArgNames = [];
+    var fnArgValues = [];
+    for (var argName in vars) {
+        fnArgNames.push(argName);
+        fnArgValues.push(vars[argName]);
+    }
+    return new (Function.bind.apply(Function, [void 0].concat(fnArgNames.concat(fnBody))))().apply(void 0, fnArgValues);
+}
+function isPrimitive(obj) {
+    return !isJsObject(obj);
+}
+function hasConstructor(value, type) {
+    return value.constructor === type;
+}
+function escape(s) {
+    return _global.encodeURI(s);
+}
+function escapeRegExp(s) {
+    return s.replace(/([.*+?^=!:${}()|[\]\/\\])/g, '\\$1');
+}
+//# sourceMappingURL=lang.js.map
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/webpack/buildin/global.js")))
 
 /***/ },
 
@@ -1642,38 +2181,46 @@ ResponseContentType[ResponseContentType.Blob] = "Blob";
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_facade_collection__ = __webpack_require__("./node_modules/@angular/http/src/facade/collection.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Headers; });
 /**
- *  Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
-  * specified in the [Fetch Spec](https://fetch.spec.whatwg.org/#headers-class).
-  * *
-  * The only known difference between this `Headers` implementation and the spec is the
-  * lack of an `entries` method.
-  * *
-  * ### Example
-  * *
-  * ```
-  * import {Headers} from '@angular/http';
-  * *
-  * var firstHeaders = new Headers();
-  * firstHeaders.append('Content-Type', 'image/jpeg');
-  * console.log(firstHeaders.get('Content-Type')) //'image/jpeg'
-  * *
-  * // Create headers from Plain Old JavaScript Object
-  * var secondHeaders = new Headers({
-  * 'X-My-Custom-Header': 'Angular'
-  * });
-  * console.log(secondHeaders.get('X-My-Custom-Header')); //'Angular'
-  * *
-  * var thirdHeaders = new Headers(secondHeaders);
-  * console.log(thirdHeaders.get('X-My-Custom-Header')); //'Angular'
-  * ```
-  * *
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * Polyfill for [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers/Headers), as
+ * specified in the [Fetch Spec](https://fetch.spec.whatwg.org/#headers-class).
+ *
+ * The only known difference between this `Headers` implementation and the spec is the
+ * lack of an `entries` method.
+ *
+ * ### Example
+ *
+ * ```
+ * import {Headers} from '@angular/http';
+ *
+ * var firstHeaders = new Headers();
+ * firstHeaders.append('Content-Type', 'image/jpeg');
+ * console.log(firstHeaders.get('Content-Type')) //'image/jpeg'
+ *
+ * // Create headers from Plain Old JavaScript Object
+ * var secondHeaders = new Headers({
+ *   'X-My-Custom-Header': 'Angular'
+ * });
+ * console.log(secondHeaders.get('X-My-Custom-Header')); //'Angular'
+ *
+ * var thirdHeaders = new Headers(secondHeaders);
+ * console.log(thirdHeaders.get('X-My-Custom-Header')); //'Angular'
+ * ```
+ *
+ * @experimental
  */
 var Headers = (function () {
-    /**
-     * @param {?=} headers
-     */
+    // TODO(vicb): any -> string|string[]
     function Headers(headers) {
         var _this = this;
         /** @internal header names are lower case */
@@ -1684,156 +2231,116 @@ var Headers = (function () {
             return;
         }
         if (headers instanceof Headers) {
-            headers.forEach(function (values, name) {
-                values.forEach(function (value) { return _this.append(name, value); });
+            headers._headers.forEach(function (value, name) {
+                var lcName = name.toLowerCase();
+                _this._headers.set(lcName, value);
+                _this.mayBeSetNormalizedName(name);
             });
             return;
         }
         Object.keys(headers).forEach(function (name) {
-            var values = Array.isArray(headers[name]) ? headers[name] : [headers[name]];
-            _this.delete(name);
-            values.forEach(function (value) { return _this.append(name, value); });
+            var value = headers[name];
+            var lcName = name.toLowerCase();
+            _this._headers.set(lcName, Array.isArray(value) ? value : [value]);
+            _this.mayBeSetNormalizedName(name);
         });
     }
     /**
-     *  Returns a new Headers instance from the given DOMString of Response Headers
-     * @param {?} headersString
-     * @return {?}
+     * Returns a new Headers instance from the given DOMString of Response Headers
      */
     Headers.fromResponseHeaderString = function (headersString) {
-        var /** @type {?} */ headers = new Headers();
+        var headers = new Headers();
         headersString.split('\n').forEach(function (line) {
-            var /** @type {?} */ index = line.indexOf(':');
+            var index = line.indexOf(':');
             if (index > 0) {
-                var /** @type {?} */ name_1 = line.slice(0, index);
-                var /** @type {?} */ value = line.slice(index + 1).trim();
+                var name_1 = line.slice(0, index);
+                var value = line.slice(index + 1).trim();
                 headers.set(name_1, value);
             }
         });
         return headers;
     };
     /**
-     *  Appends a header to existing list of header values for a given header name.
-     * @param {?} name
-     * @param {?} value
-     * @return {?}
+     * Appends a header to existing list of header values for a given header name.
      */
     Headers.prototype.append = function (name, value) {
-        var /** @type {?} */ values = this.getAll(name);
-        if (values === null) {
-            this.set(name, value);
-        }
-        else {
-            values.push(value);
-        }
+        var values = this.getAll(name);
+        this.set(name, values === null ? [value] : values.concat([value]));
     };
     /**
-     *  Deletes all header values for the given name.
-     * @param {?} name
-     * @return {?}
+     * Deletes all header values for the given name.
      */
     Headers.prototype.delete = function (name) {
-        var /** @type {?} */ lcName = name.toLowerCase();
+        var lcName = name.toLowerCase();
         this._normalizedNames.delete(lcName);
         this._headers.delete(lcName);
     };
-    /**
-     * @param {?} fn
-     * @return {?}
-     */
     Headers.prototype.forEach = function (fn) {
         var _this = this;
         this._headers.forEach(function (values, lcName) { return fn(values, _this._normalizedNames.get(lcName), _this._headers); });
     };
     /**
-     *  Returns first header that matches given name.
-     * @param {?} name
-     * @return {?}
+     * Returns first header that matches given name.
      */
     Headers.prototype.get = function (name) {
-        var /** @type {?} */ values = this.getAll(name);
+        var values = this.getAll(name);
         if (values === null) {
             return null;
         }
         return values.length > 0 ? values[0] : null;
     };
     /**
-     *  Checks for existence of header by given name.
-     * @param {?} name
-     * @return {?}
+     * Checks for existence of header by given name.
      */
     Headers.prototype.has = function (name) { return this._headers.has(name.toLowerCase()); };
     /**
-     *  Returns the names of the headers
-     * @return {?}
+     * Returns the names of the headers
      */
-    Headers.prototype.keys = function () { return Array.from(this._normalizedNames.values()); };
+    Headers.prototype.keys = function () { return __WEBPACK_IMPORTED_MODULE_0__src_facade_collection__["a" /* MapWrapper */].values(this._normalizedNames); };
     /**
-     *  Sets or overrides header value for given name.
-     * @param {?} name
-     * @param {?} value
-     * @return {?}
+     * Sets or overrides header value for given name.
      */
     Headers.prototype.set = function (name, value) {
-        if (Array.isArray(value)) {
-            if (value.length) {
-                this._headers.set(name.toLowerCase(), [value.join(',')]);
-            }
-        }
-        else {
-            this._headers.set(name.toLowerCase(), [value]);
-        }
+        var strValue = Array.isArray(value) ? value.join(',') : value;
+        this._headers.set(name.toLowerCase(), [strValue]);
         this.mayBeSetNormalizedName(name);
     };
     /**
-     *  Returns values of all headers.
-     * @return {?}
+     * Returns values of all headers.
      */
-    Headers.prototype.values = function () { return Array.from(this._headers.values()); };
+    Headers.prototype.values = function () { return __WEBPACK_IMPORTED_MODULE_0__src_facade_collection__["a" /* MapWrapper */].values(this._headers); };
     /**
-     * @return {?}
+     * Returns string of all headers.
      */
+    // TODO(vicb): returns {[name: string]: string[]}
     Headers.prototype.toJSON = function () {
         var _this = this;
-        var /** @type {?} */ serialized = {};
+        var serialized = {};
         this._headers.forEach(function (values, name) {
-            var /** @type {?} */ split = [];
+            var split = [];
             values.forEach(function (v) { return split.push.apply(split, v.split(',')); });
             serialized[_this._normalizedNames.get(name)] = split;
         });
         return serialized;
     };
     /**
-     *  Returns list of header values for a given name.
-     * @param {?} name
-     * @return {?}
+     * Returns list of header values for a given name.
      */
     Headers.prototype.getAll = function (name) {
         return this.has(name) ? this._headers.get(name.toLowerCase()) : null;
     };
     /**
-     *  This method is not implemented.
-     * @return {?}
+     * This method is not implemented.
      */
     Headers.prototype.entries = function () { throw new Error('"entries" method is not implemented on Headers class'); };
-    /**
-     * @param {?} name
-     * @return {?}
-     */
     Headers.prototype.mayBeSetNormalizedName = function (name) {
-        var /** @type {?} */ lcName = name.toLowerCase();
+        var lcName = name.toLowerCase();
         if (!this._normalizedNames.has(lcName)) {
             this._normalizedNames.set(lcName, name);
         }
     };
     return Headers;
 }());
-function Headers_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Headers.prototype._headers;
-    /** @type {?} */
-    Headers.prototype._normalizedNames;
-}
 //# sourceMappingURL=headers.js.map
 
 /***/ },
@@ -1844,12 +2351,13 @@ function Headers_tsickle_Closure_declarations() {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__static_request__ = __webpack_require__("./node_modules/@angular/http/src/static_request.js");
-/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return Http; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Jsonp; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__interfaces__ = __webpack_require__("./node_modules/@angular/http/src/interfaces.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__static_request__ = __webpack_require__("./node_modules/@angular/http/src/static_request.js");
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Http; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return Jsonp; });
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -1867,26 +2375,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
-/**
- * @param {?} backend
- * @param {?} request
- * @return {?}
- */
+
 function httpRequest(backend, request) {
     return backend.createConnection(request).response;
 }
-/**
- * @param {?} defaultOpts
- * @param {?} providedOpts
- * @param {?} method
- * @param {?} url
- * @return {?}
- */
 function mergeOptions(defaultOpts, providedOpts, method, url) {
-    var /** @type {?} */ newOptions = defaultOpts;
-    if (providedOpts) {
+    var newOptions = defaultOpts;
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(providedOpts)) {
         // Hack so Dart can used named parameters
-        return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({
+        return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({
             method: providedOpts.method || method,
             url: providedOpts.url || url,
             search: providedOpts.search,
@@ -1896,90 +2393,90 @@ function mergeOptions(defaultOpts, providedOpts, method, url) {
             responseType: providedOpts.responseType
         }));
     }
-    return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ method: method, url: url }));
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["d" /* isPresent */])(method)) {
+        return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({ method: method, url: url }));
+    }
+    else {
+        return newOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({ url: url }));
+    }
 }
 /**
- *  Performs http requests using `XMLHttpRequest` as the default backend.
-  * *
-  * `Http` is available as an injectable class, with methods to perform http requests. Calling
-  * `request` returns an `Observable` which will emit a single {@link Response} when a
-  * response is received.
-  * *
-  * ### Example
-  * *
-  * ```typescript
-  * import {Http, HTTP_PROVIDERS} from '@angular/http';
-  * import 'rxjs/add/operator/map'
-  * selector: 'http-app',
-  * viewProviders: [HTTP_PROVIDERS],
-  * templateUrl: 'people.html'
-  * })
-  * class PeopleComponent {
-  * constructor(http: Http) {
-  * http.get('people.json')
-  * // Call map on the response observable to get the parsed people object
-  * .map(res => res.json())
-  * // Subscribe to the observable to get the parsed people object and attach it to the
-  * // component
-  * .subscribe(people => this.people = people);
-  * }
-  * }
-  * ```
-  * *
-  * *
-  * ### Example
-  * *
-  * ```
-  * http.get('people.json').subscribe((res:Response) => this.people = res.json());
-  * ```
-  * *
-  * The default construct used to perform requests, `XMLHttpRequest`, is abstracted as a "Backend" (
-  * {@link XHRBackend} in this case), which could be mocked with dependency injection by replacing
-  * the {@link XHRBackend} provider, as in the following example:
-  * *
-  * ### Example
-  * *
-  * ```typescript
-  * import {BaseRequestOptions, Http} from '@angular/http';
-  * import {MockBackend} from '@angular/http/testing';
-  * var injector = Injector.resolveAndCreate([
-  * BaseRequestOptions,
-  * MockBackend,
-  * {provide: Http, useFactory:
-  * function(backend, defaultOptions) {
-  * return new Http(backend, defaultOptions);
-  * },
-  * deps: [MockBackend, BaseRequestOptions]}
-  * ]);
-  * var http = injector.get(Http);
-  * http.get('request-from-mock-backend.json').subscribe((res:Response) => doSomething(res));
-  * ```
-  * *
+ * Performs http requests using `XMLHttpRequest` as the default backend.
+ *
+ * `Http` is available as an injectable class, with methods to perform http requests. Calling
+ * `request` returns an `Observable` which will emit a single {@link Response} when a
+ * response is received.
+ *
+ * ### Example
+ *
+ * ```typescript
+ * import {Http, HTTP_PROVIDERS} from '@angular/http';
+ * import 'rxjs/add/operator/map'
+ * @Component({
+ *   selector: 'http-app',
+ *   viewProviders: [HTTP_PROVIDERS],
+ *   templateUrl: 'people.html'
+ * })
+ * class PeopleComponent {
+ *   constructor(http: Http) {
+ *     http.get('people.json')
+ *       // Call map on the response observable to get the parsed people object
+ *       .map(res => res.json())
+ *       // Subscribe to the observable to get the parsed people object and attach it to the
+ *       // component
+ *       .subscribe(people => this.people = people);
+ *   }
+ * }
+ * ```
+ *
+ *
+ * ### Example
+ *
+ * ```
+ * http.get('people.json').subscribe((res:Response) => this.people = res.json());
+ * ```
+ *
+ * The default construct used to perform requests, `XMLHttpRequest`, is abstracted as a "Backend" (
+ * {@link XHRBackend} in this case), which could be mocked with dependency injection by replacing
+ * the {@link XHRBackend} provider, as in the following example:
+ *
+ * ### Example
+ *
+ * ```typescript
+ * import {BaseRequestOptions, Http} from '@angular/http';
+ * import {MockBackend} from '@angular/http/testing';
+ * var injector = Injector.resolveAndCreate([
+ *   BaseRequestOptions,
+ *   MockBackend,
+ *   {provide: Http, useFactory:
+ *       function(backend, defaultOptions) {
+ *         return new Http(backend, defaultOptions);
+ *       },
+ *       deps: [MockBackend, BaseRequestOptions]}
+ * ]);
+ * var http = injector.get(Http);
+ * http.get('request-from-mock-backend.json').subscribe((res:Response) => doSomething(res));
+ * ```
+ *
+ * @experimental
  */
 var Http = (function () {
-    /**
-     * @param {?} _backend
-     * @param {?} _defaultOptions
-     */
     function Http(_backend, _defaultOptions) {
         this._backend = _backend;
         this._defaultOptions = _defaultOptions;
     }
     /**
-     *  Performs any type of http request. First argument is required, and can either be a url or
-      * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
-      * object can be provided as the 2nd argument. The options object will be merged with the values
-      * of {@link BaseRequestOptions} before performing the request.
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs any type of http request. First argument is required, and can either be a url or
+     * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+     * object can be provided as the 2nd argument. The options object will be merged with the values
+     * of {@link BaseRequestOptions} before performing the request.
      */
     Http.prototype.request = function (url, options) {
-        var /** @type {?} */ responseObservable;
-        if (typeof url === 'string') {
-            responseObservable = httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, /** @type {?} */ (url))));
+        var responseObservable;
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["a" /* isString */])(url)) {
+            responseObservable = httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Get, url)));
         }
-        else if (url instanceof __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */]) {
+        else if (url instanceof __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */]) {
             responseObservable = httpRequest(this._backend, url);
         }
         else {
@@ -1988,130 +2485,87 @@ var Http = (function () {
         return responseObservable;
     };
     /**
-     *  Performs a request with `get` http method.
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `get` http method.
      */
     Http.prototype.get = function (url, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Get, url)));
     };
     /**
-     *  Performs a request with `post` http method.
-     * @param {?} url
-     * @param {?} body
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `post` http method.
      */
     Http.prototype.post = function (url, body, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Post, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Post, url)));
     };
     /**
-     *  Performs a request with `put` http method.
-     * @param {?} url
-     * @param {?} body
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `put` http method.
      */
     Http.prototype.put = function (url, body, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Put, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Put, url)));
     };
     /**
-     *  Performs a request with `delete` http method.
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `delete` http method.
      */
     Http.prototype.delete = function (url, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Delete, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Delete, url)));
     };
     /**
-     *  Performs a request with `patch` http method.
-     * @param {?} url
-     * @param {?} body
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `patch` http method.
      */
     Http.prototype.patch = function (url, body, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Patch, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions.merge(new __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */]({ body: body })), options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Patch, url)));
     };
     /**
-     *  Performs a request with `head` http method.
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `head` http method.
      */
     Http.prototype.head = function (url, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Head, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Head, url)));
     };
     /**
-     *  Performs a request with `options` http method.
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs a request with `options` http method.
      */
     Http.prototype.options = function (url, options) {
-        return this.request(new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Options, url)));
+        return httpRequest(this._backend, new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Options, url)));
     };
     Http.decorators = [
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    Http.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_3__interfaces__["b" /* ConnectionBackend */], },
-        { type: __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */], },
-    ]; };
+    Http.ctorParameters = [
+        { type: __WEBPACK_IMPORTED_MODULE_4__interfaces__["b" /* ConnectionBackend */], },
+        { type: __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */], },
+    ];
     return Http;
 }());
-function Http_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Http.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    Http.ctorParameters;
-    /** @type {?} */
-    Http.prototype._backend;
-    /** @type {?} */
-    Http.prototype._defaultOptions;
-}
 /**
  * @experimental
  */
 var Jsonp = (function (_super) {
     __extends(Jsonp, _super);
-    /**
-     * @param {?} backend
-     * @param {?} defaultOptions
-     */
     function Jsonp(backend, defaultOptions) {
         _super.call(this, backend, defaultOptions);
     }
     /**
-     *  Performs any type of http request. First argument is required, and can either be a url or
-      * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
-      * object can be provided as the 2nd argument. The options object will be merged with the values
-      * of {@link BaseRequestOptions} before performing the request.
-      * *
-      * supported by all current browsers. Because JSONP creates a `<script>` element with
-      * contents retrieved from a remote source, attacker-controlled data introduced by an untrusted
-      * source could expose your application to XSS risks. Data exposed by JSONP may also be
-      * readable by malicious third-party websites. In addition, JSONP introduces potential risk for
-      * future security issues (e.g. content sniffing).  For more detail, see the
-      * [Security Guide](http://g.co/ng/security).
-     * @param {?} url
-     * @param {?=} options
-     * @return {?}
+     * Performs any type of http request. First argument is required, and can either be a url or
+     * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+     * object can be provided as the 2nd argument. The options object will be merged with the values
+     * of {@link BaseRequestOptions} before performing the request.
+     *
+     * @security Regular XHR is the safest alternative to JSONP for most applications, and is
+     * supported by all current browsers. Because JSONP creates a `<script>` element with
+     * contents retrieved from a remote source, attacker-controlled data introduced by an untrusted
+     * source could expose your application to XSS risks. Data exposed by JSONP may also be
+     * readable by malicious third-party websites. In addition, JSONP introduces potential risk for
+     * future security issues (e.g. content sniffing).  For more detail, see the
+     * [Security Guide](http://g.co/ng/security).
      */
     Jsonp.prototype.request = function (url, options) {
-        var /** @type {?} */ responseObservable;
-        if (typeof url === 'string') {
+        var responseObservable;
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_facade_lang__["a" /* isString */])(url)) {
             url =
-                new __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get, /** @type {?} */ (url)));
+                new __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */](mergeOptions(this._defaultOptions, options, __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Get, url));
         }
-        if (url instanceof __WEBPACK_IMPORTED_MODULE_4__static_request__["a" /* Request */]) {
-            if (url.method !== __WEBPACK_IMPORTED_MODULE_2__enums__["b" /* RequestMethod */].Get) {
+        if (url instanceof __WEBPACK_IMPORTED_MODULE_5__static_request__["a" /* Request */]) {
+            if (url.method !== __WEBPACK_IMPORTED_MODULE_3__enums__["b" /* RequestMethod */].Get) {
                 throw new Error('JSONP requests must use GET request method.');
             }
             responseObservable = httpRequest(this._backend, url);
@@ -2125,21 +2579,12 @@ var Jsonp = (function (_super) {
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
     ];
     /** @nocollapse */
-    Jsonp.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_3__interfaces__["b" /* ConnectionBackend */], },
-        { type: __WEBPACK_IMPORTED_MODULE_1__base_request_options__["b" /* RequestOptions */], },
-    ]; };
+    Jsonp.ctorParameters = [
+        { type: __WEBPACK_IMPORTED_MODULE_4__interfaces__["b" /* ConnectionBackend */], },
+        { type: __WEBPACK_IMPORTED_MODULE_2__base_request_options__["b" /* RequestOptions */], },
+    ];
     return Jsonp;
 }(Http));
-function Jsonp_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Jsonp.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    Jsonp.ctorParameters;
-}
 //# sourceMappingURL=http.js.map
 
 /***/ },
@@ -2179,31 +2624,19 @@ function Jsonp_tsickle_Closure_declarations() {
 
 
 
-/**
- * @return {?}
- */
 function _createDefaultCookieXSRFStrategy() {
     return new __WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["a" /* CookieXSRFStrategy */]();
 }
-/**
- * @param {?} xhrBackend
- * @param {?} requestOptions
- * @return {?}
- */
 function httpFactory(xhrBackend, requestOptions) {
-    return new __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Http */](xhrBackend, requestOptions);
+    return new __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Http */](xhrBackend, requestOptions);
 }
-/**
- * @param {?} jsonpBackend
- * @param {?} requestOptions
- * @return {?}
- */
 function jsonpFactory(jsonpBackend, requestOptions) {
-    return new __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Jsonp */](jsonpBackend, requestOptions);
+    return new __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Jsonp */](jsonpBackend, requestOptions);
 }
 /**
- *  The module that includes http's providers
-  * *
+ * The module that includes http's providers
+ *
+ * @experimental
  */
 var HttpModule = (function () {
     function HttpModule() {
@@ -2213,7 +2646,7 @@ var HttpModule = (function () {
                     providers: [
                         // TODO(pascal): use factory type annotations once supported in DI
                         // issue: https://github.com/angular/angular/issues/3183
-                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Http */], useFactory: httpFactory, deps: [__WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["b" /* XHRBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
+                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Http */], useFactory: httpFactory, deps: [__WEBPACK_IMPORTED_MODULE_4__backends_xhr_backend__["b" /* XHRBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
                         __WEBPACK_IMPORTED_MODULE_2__backends_browser_xhr__["a" /* BrowserXhr */],
                         { provide: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */], useClass: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["a" /* BaseRequestOptions */] },
                         { provide: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["b" /* ResponseOptions */], useClass: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["a" /* BaseResponseOptions */] },
@@ -2223,21 +2656,13 @@ var HttpModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    HttpModule.ctorParameters = function () { return []; };
+    HttpModule.ctorParameters = [];
     return HttpModule;
 }());
-function HttpModule_tsickle_Closure_declarations() {
-    /** @type {?} */
-    HttpModule.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    HttpModule.ctorParameters;
-}
 /**
- *  The module that includes jsonp's providers
-  * *
+ * The module that includes jsonp's providers
+ *
+ * @experimental
  */
 var JsonpModule = (function () {
     function JsonpModule() {
@@ -2247,7 +2672,7 @@ var JsonpModule = (function () {
                     providers: [
                         // TODO(pascal): use factory type annotations once supported in DI
                         // issue: https://github.com/angular/angular/issues/3183
-                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["a" /* Jsonp */], useFactory: jsonpFactory, deps: [__WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__["a" /* JSONPBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
+                        { provide: __WEBPACK_IMPORTED_MODULE_7__http__["b" /* Jsonp */], useFactory: jsonpFactory, deps: [__WEBPACK_IMPORTED_MODULE_3__backends_jsonp_backend__["a" /* JSONPBackend */], __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */]] },
                         __WEBPACK_IMPORTED_MODULE_1__backends_browser_jsonp__["a" /* BrowserJsonp */],
                         { provide: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["b" /* RequestOptions */], useClass: __WEBPACK_IMPORTED_MODULE_5__base_request_options__["a" /* BaseRequestOptions */] },
                         { provide: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["b" /* ResponseOptions */], useClass: __WEBPACK_IMPORTED_MODULE_6__base_response_options__["a" /* BaseResponseOptions */] },
@@ -2256,18 +2681,9 @@ var JsonpModule = (function () {
                 },] },
     ];
     /** @nocollapse */
-    JsonpModule.ctorParameters = function () { return []; };
+    JsonpModule.ctorParameters = [];
     return JsonpModule;
 }());
-function JsonpModule_tsickle_Closure_declarations() {
-    /** @type {?} */
-    JsonpModule.decorators;
-    /**
-     * @nocollapse
-     * @type {?}
-     */
-    JsonpModule.ctorParameters;
-}
 //# sourceMappingURL=http_module.js.map
 
 /***/ },
@@ -2276,11 +2692,13 @@ function JsonpModule_tsickle_Closure_declarations() {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony export (immutable) */ exports["b"] = normalizeMethodName;
-/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return isSuccess; });
-/* harmony export (immutable) */ exports["c"] = getResponseURL;
-/* harmony export (immutable) */ exports["a"] = stringToArrayBuffer;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["c"]; });
+/* harmony export (immutable) */ exports["c"] = normalizeMethodName;
+/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return isSuccess; });
+/* harmony export (immutable) */ exports["d"] = getResponseURL;
+/* harmony export (immutable) */ exports["b"] = stringToArrayBuffer;
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -2289,36 +2707,19 @@ function JsonpModule_tsickle_Closure_declarations() {
  * found in the LICENSE file at https://angular.io/license
  */
 
-/**
- * @param {?} method
- * @return {?}
- */
+
 function normalizeMethodName(method) {
-    if (typeof method !== 'string')
-        return method;
-    switch (method.toUpperCase()) {
-        case 'GET':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Get;
-        case 'POST':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Post;
-        case 'PUT':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Put;
-        case 'DELETE':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Delete;
-        case 'OPTIONS':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Options;
-        case 'HEAD':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Head;
-        case 'PATCH':
-            return __WEBPACK_IMPORTED_MODULE_0__enums__["b" /* RequestMethod */].Patch;
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["a" /* isString */])(method)) {
+        var originalMethod = method;
+        method = method
+            .replace(/(\w)(\w*)/g, function (g0, g1, g2) { return g1.toUpperCase() + g2.toLowerCase(); });
+        method = __WEBPACK_IMPORTED_MODULE_1__enums__["b" /* RequestMethod */][method];
+        if (typeof method !== 'number')
+            throw new Error("Invalid request method. The method \"" + originalMethod + "\" is not supported.");
     }
-    throw new Error("Invalid request method. The method \"" + method + "\" is not supported.");
+    return method;
 }
-var /** @type {?} */ isSuccess = function (status) { return (status >= 200 && status < 300); };
-/**
- * @param {?} xhr
- * @return {?}
- */
+var isSuccess = function (status) { return (status >= 200 && status < 300); };
 function getResponseURL(xhr) {
     if ('responseURL' in xhr) {
         return xhr.responseURL;
@@ -2328,17 +2729,14 @@ function getResponseURL(xhr) {
     }
     return;
 }
-/**
- * @param {?} input
- * @return {?}
- */
 function stringToArrayBuffer(input) {
-    var /** @type {?} */ view = new Uint16Array(input.length);
-    for (var /** @type {?} */ i = 0, /** @type {?} */ strLen = input.length; i < strLen; i++) {
+    var view = new Uint16Array(input.length);
+    for (var i = 0, strLen = input.length; i < strLen; i++) {
         view[i] = input.charCodeAt(i);
     }
     return view.buffer;
 }
+
 //# sourceMappingURL=http_utils.js.map
 
 /***/ },
@@ -2348,30 +2746,30 @@ function stringToArrayBuffer(input) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__backends_browser_xhr__ = __webpack_require__("./node_modules/@angular/http/src/backends/browser_xhr.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__backends_browser_xhr__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__backends_browser_xhr__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/jsonp_backend.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__backends_jsonp_backend__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["c"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__ = __webpack_require__("./node_modules/@angular/http/src/backends/xhr_backend.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__backends_xhr_backend__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "h", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "i", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "g", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "h", function() { return __WEBPACK_IMPORTED_MODULE_3__base_request_options__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_request_options__ = __webpack_require__("./node_modules/@angular/http/src/base_request_options.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__base_response_options__ = __webpack_require__("./node_modules/@angular/http/src/base_response_options.js");
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "i", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "j", function() { return __WEBPACK_IMPORTED_MODULE_4__base_response_options__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "l", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "m", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "k", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "l", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "m", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "n", function() { return __WEBPACK_IMPORTED_MODULE_5__enums__["d"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "o", function() { return __WEBPACK_IMPORTED_MODULE_6__headers__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__http__ = __webpack_require__("./node_modules/@angular/http/src/http.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "q", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "p", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "p", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "q", function() { return __WEBPACK_IMPORTED_MODULE_7__http__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__http_module__ = __webpack_require__("./node_modules/@angular/http/src/http_module.js");
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "r", function() { return __WEBPACK_IMPORTED_MODULE_8__http_module__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "s", function() { return __WEBPACK_IMPORTED_MODULE_8__http_module__["b"]; });
@@ -2386,8 +2784,6 @@ function stringToArrayBuffer(input) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "y", function() { return __WEBPACK_IMPORTED_MODULE_12__url_search_params__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "z", function() { return __WEBPACK_IMPORTED_MODULE_12__url_search_params__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__version__ = __webpack_require__("./node_modules/@angular/http/src/version.js");
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "A", function() { return __WEBPACK_IMPORTED_MODULE_13__version__["a"]; });
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -2395,7 +2791,6 @@ function stringToArrayBuffer(input) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-
 
 
 
@@ -2428,56 +2823,36 @@ function stringToArrayBuffer(input) {
  * found in the LICENSE file at https://angular.io/license
  */
 /**
- *  Abstract class from which real backends are derived.
-  * *
-  * The primary purpose of a `ConnectionBackend` is to create new connections to fulfill a given
-  * {@link Request}.
-  * *
- * @abstract
+ * Abstract class from which real backends are derived.
+ *
+ * The primary purpose of a `ConnectionBackend` is to create new connections to fulfill a given
+ * {@link Request}.
+ *
+ * @experimental
  */
 var ConnectionBackend = (function () {
     function ConnectionBackend() {
     }
-    /**
-     * @abstract
-     * @param {?} request
-     * @return {?}
-     */
-    ConnectionBackend.prototype.createConnection = function (request) { };
     return ConnectionBackend;
 }());
 /**
- *  Abstract class from which real connections are derived.
-  * *
- * @abstract
+ * Abstract class from which real connections are derived.
+ *
+ * @experimental
  */
 var Connection = (function () {
     function Connection() {
     }
     return Connection;
 }());
-function Connection_tsickle_Closure_declarations() {
-    /** @type {?} */
-    Connection.prototype.readyState;
-    /** @type {?} */
-    Connection.prototype.request;
-    /** @type {?} */
-    Connection.prototype.response;
-}
 /**
- *  An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
-  * *
- * @abstract
+ * An XSRFStrategy configures XSRF protection (e.g. via headers) on an HTTP request.
+ *
+ * @experimental
  */
 var XSRFStrategy = (function () {
     function XSRFStrategy() {
     }
-    /**
-     * @abstract
-     * @param {?} req
-     * @return {?}
-     */
-    XSRFStrategy.prototype.configureRequest = function (req) { };
     return XSRFStrategy;
 }());
 //# sourceMappingURL=interfaces.js.map
@@ -2488,11 +2863,12 @@ var XSRFStrategy = (function () {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__body__ = __webpack_require__("./node_modules/@angular/http/src/body.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_facade_lang__ = __webpack_require__("./node_modules/@angular/http/src/facade/lang.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__body__ = __webpack_require__("./node_modules/@angular/http/src/body.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__enums__ = __webpack_require__("./node_modules/@angular/http/src/enums.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__headers__ = __webpack_require__("./node_modules/@angular/http/src/headers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__http_utils__ = __webpack_require__("./node_modules/@angular/http/src/http_utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__url_search_params__ = __webpack_require__("./node_modules/@angular/http/src/url_search_params.js");
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return Request; });
 /**
  * @license
@@ -2511,58 +2887,59 @@ var __extends = (this && this.__extends) || function (d, b) {
 
 
 
+
+// TODO(jeffbcross): properly implement body accessors
 /**
- *  Creates `Request` instances from provided values.
-  * *
-  * The Request's interface is inspired by the Request constructor defined in the [Fetch
-  * Spec](https://fetch.spec.whatwg.org/#request-class),
-  * but is considered a static value whose body can be accessed many times. There are other
-  * differences in the implementation, but this is the most significant.
-  * *
-  * `Request` instances are typically created by higher-level classes, like {@link Http} and
-  * {@link Jsonp}, but it may occasionally be useful to explicitly create `Request` instances.
-  * One such example is when creating services that wrap higher-level services, like {@link Http},
-  * where it may be useful to generate a `Request` with arbitrary headers and search params.
-  * *
-  * ```typescript
-  * import {Injectable, Injector} from '@angular/core';
-  * import {HTTP_PROVIDERS, Http, Request, RequestMethod} from '@angular/http';
-  * *
-  * class AutoAuthenticator {
-  * constructor(public http:Http) {}
-  * request(url:string) {
-  * return this.http.request(new Request({
-  * method: RequestMethod.Get,
-  * url: url,
-  * search: 'password=123'
-  * }));
-  * }
-  * }
-  * *
-  * var injector = Injector.resolveAndCreate([HTTP_PROVIDERS, AutoAuthenticator]);
-  * var authenticator = injector.get(AutoAuthenticator);
-  * authenticator.request('people.json').subscribe(res => {
-  * //URL should have included '?password=123'
-  * console.log('people', res.json());
-  * });
-  * ```
-  * *
+ * Creates `Request` instances from provided values.
+ *
+ * The Request's interface is inspired by the Request constructor defined in the [Fetch
+ * Spec](https://fetch.spec.whatwg.org/#request-class),
+ * but is considered a static value whose body can be accessed many times. There are other
+ * differences in the implementation, but this is the most significant.
+ *
+ * `Request` instances are typically created by higher-level classes, like {@link Http} and
+ * {@link Jsonp}, but it may occasionally be useful to explicitly create `Request` instances.
+ * One such example is when creating services that wrap higher-level services, like {@link Http},
+ * where it may be useful to generate a `Request` with arbitrary headers and search params.
+ *
+ * ```typescript
+ * import {Injectable, Injector} from '@angular/core';
+ * import {HTTP_PROVIDERS, Http, Request, RequestMethod} from '@angular/http';
+ *
+ * @Injectable()
+ * class AutoAuthenticator {
+ *   constructor(public http:Http) {}
+ *   request(url:string) {
+ *     return this.http.request(new Request({
+ *       method: RequestMethod.Get,
+ *       url: url,
+ *       search: 'password=123'
+ *     }));
+ *   }
+ * }
+ *
+ * var injector = Injector.resolveAndCreate([HTTP_PROVIDERS, AutoAuthenticator]);
+ * var authenticator = injector.get(AutoAuthenticator);
+ * authenticator.request('people.json').subscribe(res => {
+ *   //URL should have included '?password=123'
+ *   console.log('people', res.json());
+ * });
+ * ```
+ *
+ * @experimental
  */
 var Request = (function (_super) {
     __extends(Request, _super);
-    /**
-     * @param {?} requestOptions
-     */
     function Request(requestOptions) {
         _super.call(this);
         // TODO: assert that url is present
         var url = requestOptions.url;
         this.url = requestOptions.url;
-        if (requestOptions.search) {
+        if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["d" /* isPresent */])(requestOptions.search)) {
             var search = requestOptions.search.toString();
             if (search.length > 0) {
                 var prefix = '?';
-                if (this.url.indexOf('?') != -1) {
+                if (__WEBPACK_IMPORTED_MODULE_0__src_facade_lang__["e" /* StringWrapper */].contains(this.url, '?')) {
                     prefix = (this.url[this.url.length - 1] == '&') ? '' : '&';
                 }
                 // TODO: just delete search-query-looking string in url?
@@ -2570,124 +2947,90 @@ var Request = (function (_super) {
             }
         }
         this._body = requestOptions.body;
-        this.method = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__http_utils__["b" /* normalizeMethodName */])(requestOptions.method);
+        this.method = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__http_utils__["c" /* normalizeMethodName */])(requestOptions.method);
         // TODO(jeffbcross): implement behavior
         // Defaults to 'omit', consistent with browser
-        this.headers = new __WEBPACK_IMPORTED_MODULE_2__headers__["a" /* Headers */](requestOptions.headers);
+        // TODO(jeffbcross): implement behavior
+        this.headers = new __WEBPACK_IMPORTED_MODULE_3__headers__["a" /* Headers */](requestOptions.headers);
         this.contentType = this.detectContentType();
         this.withCredentials = requestOptions.withCredentials;
         this.responseType = requestOptions.responseType;
     }
     /**
-     *  Returns the content type enum based on header options.
-     * @return {?}
+     * Returns the content type enum based on header options.
      */
     Request.prototype.detectContentType = function () {
         switch (this.headers.get('content-type')) {
             case 'application/json':
-                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON;
+                return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].JSON;
             case 'application/x-www-form-urlencoded':
-                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM;
+                return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM;
             case 'multipart/form-data':
-                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA;
+                return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM_DATA;
             case 'text/plain':
             case 'text/html':
-                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT;
+                return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].TEXT;
             case 'application/octet-stream':
-                return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB;
+                return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].BLOB;
             default:
                 return this.detectContentTypeFromBody();
         }
     };
     /**
-     *  Returns the content type of request's body based on its type.
-     * @return {?}
+     * Returns the content type of request's body based on its type.
      */
     Request.prototype.detectContentTypeFromBody = function () {
         if (this._body == null) {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].NONE;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].NONE;
         }
-        else if (this._body instanceof __WEBPACK_IMPORTED_MODULE_4__url_search_params__["b" /* URLSearchParams */]) {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM;
+        else if (this._body instanceof __WEBPACK_IMPORTED_MODULE_5__url_search_params__["b" /* URLSearchParams */]) {
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM;
         }
         else if (this._body instanceof FormData) {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM_DATA;
         }
         else if (this._body instanceof Blob) {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].BLOB;
         }
         else if (this._body instanceof ArrayBuffer) {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].ARRAY_BUFFER;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].ARRAY_BUFFER;
         }
         else if (this._body && typeof this._body == 'object') {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].JSON;
         }
         else {
-            return __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT;
+            return __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].TEXT;
         }
     };
     /**
-     *  Returns the request's body according to its type. If body is undefined, return
-      * null.
-     * @return {?}
+     * Returns the request's body according to its type. If body is undefined, return
+     * null.
      */
     Request.prototype.getBody = function () {
         switch (this.contentType) {
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].JSON:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].JSON:
                 return this.text();
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM:
                 return this.text();
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].FORM_DATA:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].FORM_DATA:
                 return this._body;
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].TEXT:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].TEXT:
                 return this.text();
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].BLOB:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].BLOB:
                 return this.blob();
-            case __WEBPACK_IMPORTED_MODULE_1__enums__["e" /* ContentType */].ARRAY_BUFFER:
+            case __WEBPACK_IMPORTED_MODULE_2__enums__["e" /* ContentType */].ARRAY_BUFFER:
                 return this.arrayBuffer();
             default:
                 return null;
         }
     };
     return Request;
-}(__WEBPACK_IMPORTED_MODULE_0__body__["a" /* Body */]));
-function Request_tsickle_Closure_declarations() {
-    /**
-     * Http method with which to perform the request.
-     * @type {?}
-     */
-    Request.prototype.method;
-    /**
-     * {@link Headers} instance
-     * @type {?}
-     */
-    Request.prototype.headers;
-    /**
-     * Url of the remote resource
-     * @type {?}
-     */
-    Request.prototype.url;
-    /**
-     * Type of the request body *
-     * @type {?}
-     */
-    Request.prototype.contentType;
-    /**
-     * Enable use credentials
-     * @type {?}
-     */
-    Request.prototype.withCredentials;
-    /**
-     * Buffer to store the response
-     * @type {?}
-     */
-    Request.prototype.responseType;
-}
-var /** @type {?} */ noop = function () { };
-var /** @type {?} */ w = typeof window == 'object' ? window : noop;
-var /** @type {?} */ FormData = ((w) /** TODO #9100 */)['FormData'] || noop;
-var /** @type {?} */ Blob = ((w) /** TODO #9100 */)['Blob'] || noop;
-var /** @type {?} */ ArrayBuffer = ((w) /** TODO #9100 */)['ArrayBuffer'] || noop;
+}(__WEBPACK_IMPORTED_MODULE_1__body__["a" /* Body */]));
+var noop = function () { };
+var w = typeof window == 'object' ? window : noop;
+var FormData = w['FormData'] || noop;
+var Blob = w['Blob'] || noop;
+var ArrayBuffer = w['ArrayBuffer'] || noop;
 //# sourceMappingURL=static_request.js.map
 
 /***/ },
@@ -2712,29 +3055,27 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 
 /**
- *  Creates `Response` instances from provided values.
-  * *
-  * Though this object isn't
-  * usually instantiated by end-users, it is the primary object interacted with when it comes time to
-  * add data to a view.
-  * *
-  * ### Example
-  * *
-  * ```
-  * http.request('my-friends.txt').subscribe(response => this.friends = response.text());
-  * ```
-  * *
-  * The Response's interface is inspired by the Response constructor defined in the [Fetch
-  * Spec](https://fetch.spec.whatwg.org/#response-class), but is considered a static value whose body
-  * can be accessed many times. There are other differences in the implementation, but this is the
-  * most significant.
-  * *
+ * Creates `Response` instances from provided values.
+ *
+ * Though this object isn't
+ * usually instantiated by end-users, it is the primary object interacted with when it comes time to
+ * add data to a view.
+ *
+ * ### Example
+ *
+ * ```
+ * http.request('my-friends.txt').subscribe(response => this.friends = response.text());
+ * ```
+ *
+ * The Response's interface is inspired by the Response constructor defined in the [Fetch
+ * Spec](https://fetch.spec.whatwg.org/#response-class), but is considered a static value whose body
+ * can be accessed many times. There are other differences in the implementation, but this is the
+ * most significant.
+ *
+ * @experimental
  */
 var Response = (function (_super) {
     __extends(Response, _super);
-    /**
-     * @param {?} responseOptions
-     */
     function Response(responseOptions) {
         _super.call(this);
         this._body = responseOptions.body;
@@ -2745,71 +3086,11 @@ var Response = (function (_super) {
         this.type = responseOptions.type;
         this.url = responseOptions.url;
     }
-    /**
-     * @return {?}
-     */
     Response.prototype.toString = function () {
         return "Response with status: " + this.status + " " + this.statusText + " for URL: " + this.url;
     };
     return Response;
 }(__WEBPACK_IMPORTED_MODULE_0__body__["a" /* Body */]));
-function Response_tsickle_Closure_declarations() {
-    /**
-     * One of "basic", "cors", "default", "error, or "opaque".
-     * *
-     * Defaults to "default".
-     * @type {?}
-     */
-    Response.prototype.type;
-    /**
-     * True if the response's status is within 200-299
-     * @type {?}
-     */
-    Response.prototype.ok;
-    /**
-     * URL of response.
-     * *
-     * Defaults to empty string.
-     * @type {?}
-     */
-    Response.prototype.url;
-    /**
-     * Status code returned by server.
-     * *
-     * Defaults to 200.
-     * @type {?}
-     */
-    Response.prototype.status;
-    /**
-     * Text representing the corresponding reason phrase to the `status`, as defined in [ietf rfc 2616
-     * section 6.1.1](https://tools.ietf.org/html/rfc2616#section-6.1.1)
-     * *
-     * Defaults to "OK"
-     * @type {?}
-     */
-    Response.prototype.statusText;
-    /**
-     * Non-standard property
-     * *
-     * Denotes how many of the response body's bytes have been loaded, for example if the response is
-     * the result of a progress event.
-     * @type {?}
-     */
-    Response.prototype.bytesLoaded;
-    /**
-     * Non-standard property
-     * *
-     * Denotes how many bytes are expected in the final response body.
-     * @type {?}
-     */
-    Response.prototype.totalBytes;
-    /**
-     * Headers object based on the `Headers` class in the [Fetch
-     * Spec](https://fetch.spec.whatwg.org/#headers-class).
-     * @type {?}
-     */
-    Response.prototype.headers;
-}
 //# sourceMappingURL=static_response.js.map
 
 /***/ },
@@ -2821,23 +3102,21 @@ function Response_tsickle_Closure_declarations() {
 /* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return QueryEncoder; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return URLSearchParams; });
 /**
- * @license undefined
-  * Copyright Google Inc. All Rights Reserved.
-  * *
-  * Use of this source code is governed by an MIT-style license that can be
-  * found in the LICENSE file at https://angular.io/license
- * @param {?=} rawParams
- * @return {?}
+ * @license
+ * Copyright Google Inc. All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
  */
 function paramParser(rawParams) {
     if (rawParams === void 0) { rawParams = ''; }
-    var /** @type {?} */ map = new Map();
+    var map = new Map();
     if (rawParams.length > 0) {
-        var /** @type {?} */ params = rawParams.split('&');
+        var params = rawParams.split('&');
         params.forEach(function (param) {
-            var /** @type {?} */ eqIdx = param.indexOf('=');
+            var eqIdx = param.indexOf('=');
             var _a = eqIdx == -1 ? [param, ''] : [param.slice(0, eqIdx), param.slice(eqIdx + 1)], key = _a[0], val = _a[1];
-            var /** @type {?} */ list = map.get(key) || [];
+            var list = map.get(key) || [];
             list.push(val);
             map.set(key, list);
         });
@@ -2845,27 +3124,15 @@ function paramParser(rawParams) {
     return map;
 }
 /**
- *  *
- */
+ * @experimental
+ **/
 var QueryEncoder = (function () {
     function QueryEncoder() {
     }
-    /**
-     * @param {?} k
-     * @return {?}
-     */
     QueryEncoder.prototype.encodeKey = function (k) { return standardEncoding(k); };
-    /**
-     * @param {?} v
-     * @return {?}
-     */
     QueryEncoder.prototype.encodeValue = function (v) { return standardEncoding(v); };
     return QueryEncoder;
 }());
-/**
- * @param {?} v
- * @return {?}
- */
 function standardEncoding(v) {
     return encodeURIComponent(v)
         .replace(/%40/gi, '@')
@@ -2879,44 +3146,41 @@ function standardEncoding(v) {
         .replace(/%2F/gi, '/');
 }
 /**
- *  Map-like representation of url search parameters, based on
-  * [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) in the url living standard,
-  * with several extensions for merging URLSearchParams objects:
-  * - setAll()
-  * - appendAll()
-  * - replaceAll()
-  * *
-  * This class accepts an optional second parameter of ${@link QueryEncoder},
-  * which is used to serialize parameters before making a request. By default,
-  * `QueryEncoder` encodes keys and values of parameters using `encodeURIComponent`,
-  * and then un-encodes certain characters that are allowed to be part of the query
-  * according to IETF RFC 3986: https://tools.ietf.org/html/rfc3986.
-  * *
-  * These are the characters that are not encoded: `! $ \' ( ) * + , ; A 9 - . _ ~ ? /`
-  * *
-  * If the set of allowed query characters is not acceptable for a particular backend,
-  * `QueryEncoder` can be subclassed and provided as the 2nd argument to URLSearchParams.
-  * *
-  * ```
-  * import {URLSearchParams, QueryEncoder} from '@angular/http';
-  * class MyQueryEncoder extends QueryEncoder {
-  * encodeKey(k: string): string {
-  * return myEncodingFunction(k);
-  * }
-  * *
-  * encodeValue(v: string): string {
-  * return myEncodingFunction(v);
-  * }
-  * }
-  * *
-  * let params = new URLSearchParams('', new MyQueryEncoder());
-  * ```
+ * Map-like representation of url search parameters, based on
+ * [URLSearchParams](https://url.spec.whatwg.org/#urlsearchparams) in the url living standard,
+ * with several extensions for merging URLSearchParams objects:
+ *   - setAll()
+ *   - appendAll()
+ *   - replaceAll()
+ *
+ * This class accepts an optional second parameter of ${@link QueryEncoder},
+ * which is used to serialize parameters before making a request. By default,
+ * `QueryEncoder` encodes keys and values of parameters using `encodeURIComponent`,
+ * and then un-encodes certain characters that are allowed to be part of the query
+ * according to IETF RFC 3986: https://tools.ietf.org/html/rfc3986.
+ *
+ * These are the characters that are not encoded: `! $ \' ( ) * + , ; A 9 - . _ ~ ? /`
+ *
+ * If the set of allowed query characters is not acceptable for a particular backend,
+ * `QueryEncoder` can be subclassed and provided as the 2nd argument to URLSearchParams.
+ *
+ * ```
+ * import {URLSearchParams, QueryEncoder} from '@angular/http';
+ * class MyQueryEncoder extends QueryEncoder {
+ *   encodeKey(k: string): string {
+ *     return myEncodingFunction(k);
+ *   }
+ *
+ *   encodeValue(v: string): string {
+ *     return myEncodingFunction(v);
+ *   }
+ * }
+ *
+ * let params = new URLSearchParams('', new MyQueryEncoder());
+ * ```
+ * @experimental
  */
 var URLSearchParams = (function () {
-    /**
-     * @param {?=} rawParams
-     * @param {?=} queryEncoder
-     */
     function URLSearchParams(rawParams, queryEncoder) {
         if (rawParams === void 0) { rawParams = ''; }
         if (queryEncoder === void 0) { queryEncoder = new QueryEncoder(); }
@@ -2924,151 +3188,96 @@ var URLSearchParams = (function () {
         this.queryEncoder = queryEncoder;
         this.paramsMap = paramParser(rawParams);
     }
-    /**
-     * @return {?}
-     */
     URLSearchParams.prototype.clone = function () {
-        var /** @type {?} */ clone = new URLSearchParams('', this.queryEncoder);
+        var clone = new URLSearchParams('', this.queryEncoder);
         clone.appendAll(this);
         return clone;
     };
-    /**
-     * @param {?} param
-     * @return {?}
-     */
     URLSearchParams.prototype.has = function (param) { return this.paramsMap.has(param); };
-    /**
-     * @param {?} param
-     * @return {?}
-     */
     URLSearchParams.prototype.get = function (param) {
-        var /** @type {?} */ storedParam = this.paramsMap.get(param);
+        var storedParam = this.paramsMap.get(param);
         return Array.isArray(storedParam) ? storedParam[0] : null;
     };
-    /**
-     * @param {?} param
-     * @return {?}
-     */
     URLSearchParams.prototype.getAll = function (param) { return this.paramsMap.get(param) || []; };
-    /**
-     * @param {?} param
-     * @param {?} val
-     * @return {?}
-     */
     URLSearchParams.prototype.set = function (param, val) {
         if (val === void 0 || val === null) {
             this.delete(param);
             return;
         }
-        var /** @type {?} */ list = this.paramsMap.get(param) || [];
+        var list = this.paramsMap.get(param) || [];
         list.length = 0;
         list.push(val);
         this.paramsMap.set(param, list);
     };
-    /**
-     * @param {?} searchParams
-     * @return {?}
-     */
+    // A merge operation
+    // For each name-values pair in `searchParams`, perform `set(name, values[0])`
+    //
+    // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4], c=[8], b=[7]"
+    //
+    // TODO(@caitp): document this better
     URLSearchParams.prototype.setAll = function (searchParams) {
         var _this = this;
         searchParams.paramsMap.forEach(function (value, param) {
-            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
+            var list = _this.paramsMap.get(param) || [];
             list.length = 0;
             list.push(value[0]);
             _this.paramsMap.set(param, list);
         });
     };
-    /**
-     * @param {?} param
-     * @param {?} val
-     * @return {?}
-     */
     URLSearchParams.prototype.append = function (param, val) {
         if (val === void 0 || val === null)
             return;
-        var /** @type {?} */ list = this.paramsMap.get(param) || [];
+        var list = this.paramsMap.get(param) || [];
         list.push(val);
         this.paramsMap.set(param, list);
     };
-    /**
-     * @param {?} searchParams
-     * @return {?}
-     */
+    // A merge operation
+    // For each name-values pair in `searchParams`, perform `append(name, value)`
+    // for each value in `values`.
+    //
+    // E.g: "a=[1,2], c=[8]" + "a=[3,4], b=[7]" = "a=[1,2,3,4], c=[8], b=[7]"
+    //
+    // TODO(@caitp): document this better
     URLSearchParams.prototype.appendAll = function (searchParams) {
         var _this = this;
         searchParams.paramsMap.forEach(function (value, param) {
-            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
-            for (var /** @type {?} */ i = 0; i < value.length; ++i) {
+            var list = _this.paramsMap.get(param) || [];
+            for (var i = 0; i < value.length; ++i) {
                 list.push(value[i]);
             }
             _this.paramsMap.set(param, list);
         });
     };
-    /**
-     * @param {?} searchParams
-     * @return {?}
-     */
+    // A merge operation
+    // For each name-values pair in `searchParams`, perform `delete(name)`,
+    // followed by `set(name, values)`
+    //
+    // E.g: "a=[1,2,3], c=[8]" + "a=[4,5,6], b=[7]" = "a=[4,5,6], c=[8], b=[7]"
+    //
+    // TODO(@caitp): document this better
     URLSearchParams.prototype.replaceAll = function (searchParams) {
         var _this = this;
         searchParams.paramsMap.forEach(function (value, param) {
-            var /** @type {?} */ list = _this.paramsMap.get(param) || [];
+            var list = _this.paramsMap.get(param) || [];
             list.length = 0;
-            for (var /** @type {?} */ i = 0; i < value.length; ++i) {
+            for (var i = 0; i < value.length; ++i) {
                 list.push(value[i]);
             }
             _this.paramsMap.set(param, list);
         });
     };
-    /**
-     * @return {?}
-     */
     URLSearchParams.prototype.toString = function () {
         var _this = this;
-        var /** @type {?} */ paramsList = [];
+        var paramsList = [];
         this.paramsMap.forEach(function (values, k) {
             values.forEach(function (v) { return paramsList.push(_this.queryEncoder.encodeKey(k) + '=' + _this.queryEncoder.encodeValue(v)); });
         });
         return paramsList.join('&');
     };
-    /**
-     * @param {?} param
-     * @return {?}
-     */
     URLSearchParams.prototype.delete = function (param) { this.paramsMap.delete(param); };
     return URLSearchParams;
 }());
-function URLSearchParams_tsickle_Closure_declarations() {
-    /** @type {?} */
-    URLSearchParams.prototype.paramsMap;
-    /** @type {?} */
-    URLSearchParams.prototype.rawParams;
-    /** @type {?} */
-    URLSearchParams.prototype.queryEncoder;
-}
 //# sourceMappingURL=url_search_params.js.map
-
-/***/ },
-
-/***/ "./node_modules/@angular/http/src/version.js":
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__angular_core__);
-/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return VERSION; });
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-
-/**
- * @stable
- */
-var /** @type {?} */ VERSION = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["Version"]('2.4.1');
-//# sourceMappingURL=version.js.map
 
 /***/ },
 
