@@ -4958,7 +4958,7 @@ exports.RowHeightCache = RowHeightCache;
 "use strict";
 
 /**
- * Gets the width of the scrollbar.  Nesc for windows
+ *
  * http://stackoverflow.com/a/13382873/888165
  * @return {int} width
  */
@@ -5234,7 +5234,7 @@ var transform = prefixes_1.getVendorPrefixedName('transform');
 var backfaceVisibility = prefixes_1.getVendorPrefixedName('backfaceVisibility');
 var hasCSSTransforms = !!prefixes_1.getVendorPrefixedName('transform');
 var hasCSS3DTransforms = !!prefixes_1.getVendorPrefixedName('perspective');
-var ua = window.navigator.userAgent;
+var ua = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36";
 var isSafari = (/Safari\//).test(ua) && !(/Chrome\//).test(ua);
 function translateXY(styles, x, y) {
     if (hasCSSTransforms) {
